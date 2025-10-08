@@ -61,3 +61,6 @@ def get_titulo():
 
 def get_justificativa():
     return 'MPRJ não é órgão SISG'
+
+def get_data_inicial():
+    return (30, 9, 2025)
