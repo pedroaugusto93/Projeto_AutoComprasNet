@@ -25,6 +25,7 @@ def open_fresh_tab(driver, url):
     driver.switch_to.window(driver.window_handles[-1])
     driver.get(url)
 
+
 def main():
     driver = get_driver()
     driver.switch_to.window(driver.window_handles[0])
@@ -36,10 +37,6 @@ def main():
     )
 
     # Inicia e executa as etapas
-    import step_a
-    print(">>> step_a carregado de:", getattr(step_a, "__file__", "sem __file__"))
-    print(">>> atributos encontrados:", [n for n in dir(step_a) if not n.startswith("_")])
-
     step_a.run(driver)
     #step_b.run(driver)
     #step_c.run(driver)
