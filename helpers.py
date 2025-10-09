@@ -28,14 +28,14 @@ def load_all_cfgs(path=PLANILHA_PATH, sheet=SHEET_NAME):
     for cfg in cfg_list:
         # Campos do projeto (planilha)
         #cfg.setdefault('titulo', "")
-        #cfg.setdefault('justificativa_nao_planejada', "")
+        #cfg.setdefault('justificativa', "")
         cfg.setdefault('num_processo', "")
         cfg.setdefault('tipo_contratacao', "")
         cfg.setdefault('fundamento_legal', "")
         cfg.setdefault('categoria', "")
         cfg.setdefault('moeda_compra', "")
         cfg.setdefault('compra_srp', "")
-        cfg.setdefault('descricao_objeto', "")
+        #cfg.setdefault('descricao_objeto', "")
         cfg.setdefault('info_complementares', "")
         cfg.setdefault('item', "")
         cfg.setdefault('fornecedor_id', "")
@@ -56,11 +56,23 @@ def load_all_cfgs(path=PLANILHA_PATH, sheet=SHEET_NAME):
         
 
 
-def get_titulo():
+def titulo():
     return 'Pós-graduação Lato Sensu “Crianças, Adolescentes e Famílias"'
 
-def get_justificativa():
+def justificativa():
     return 'MPRJ não é órgão SISG'
 
-def get_data_inicial():
+def data_inicial():
+    return (1, 9, 2025)
+
+def data_final():
     return (30, 9, 2025)
+
+def descricao_objeto():
+    return (
+        "Contratação de instituição de ensino superior para realização do curso "
+        "de pós-graduação lato sensu “Crianças, Adolescentes e Famílias, com "
+        "carga horária de 360 horas/aula, a ser ministrado na cidade do Rio de "
+        "Janeiro, conforme especificações e condições constantes no Termo de "
+        "Referência que integra este edital."
+    )

@@ -10,6 +10,20 @@ import step_d as step_d
 
 TARGET_URL = "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao"
 
+def open_fresh_tab(driver, url):
+    # Garante que existe ao menos uma janela
+    if not driver.window_handles:
+        raise RuntimeError("Chrome conectado, mas sem janelas abertas.")
+    # Se o handle atual estiver inválido, pega o último válido
+    try:
+        _ = driver.current_url  # força acesso para detectar NoSuchWindow
+    except Exception:
+        driver.switch_to.window(driver.window_handles[-1])
+
+    # Sempre usa uma aba nova (evita tabs “sistêmicas” ou já controladas)
+    driver.execute_script("window.open('about:blank','_blank');")
+    driver.switch_to.window(driver.window_handles[-1])
+    driver.get(url)
 
 def main():
     driver = get_driver()
