@@ -2,7 +2,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from helpers import titulo, justificativa, data_inicial, data_final
+from helpers import titulo, justificativa, data_inicial, data_final, num_processo
 from selenium.webdriver.common.keys import Keys
 
 import time
@@ -12,114 +12,123 @@ import unicodedata
 # Pré-cadastro
 
 # Clicar no "Criar" nova contratação
-def abrir_popup(driver, timeout: int = 30):
-    w = WebDriverWait(driver, timeout)
-    btn = w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.br-button.is-primary, .br-button.is-primary")))
-    try:
-        btn.click()
-    except Exception:
-        driver.execute_script("arguments[0].click();", btn)
-    time.sleep(1)  # tempo curto pro modal abrir
+# def abrir_popup(driver, timeout: int = 30):
+#     w = WebDriverWait(driver, timeout)
+#     btn = w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.br-button.is-primary, .br-button.is-primary")))
+#     try:
+#         btn.click()
+#     except Exception:
+#         driver.execute_script("arguments[0].click();", btn)
+#     time.sleep(1)  # tempo curto pro modal abrir
 
-# Registrar o título do curso
-    # Título
-    title_input = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#titulo-contratacao")))
-    driver.execute_script("""
-      const el = arguments[0], val = arguments[1];
-      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
-      setter.call(el, val ?? '');
-      el.dispatchEvent(new Event('input',  { bubbles:true }));
-      el.dispatchEvent(new Event('change', { bubbles:true }));
-      el.dispatchEvent(new Event('blur',   { bubbles:true }));
-    """, title_input, titulo())
-    time.sleep(0.3)  # curto para o campo processar o input
+# # Registrar o título do curso
+#     # Título
+#     title_input = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#titulo-contratacao")))
+#     driver.execute_script("""
+#       const el = arguments[0], val = arguments[1];
+#       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+#       setter.call(el, val ?? '');
+#       el.dispatchEvent(new Event('input',  { bubbles:true }));
+#       el.dispatchEvent(new Event('change', { bubbles:true }));
+#       el.dispatchEvent(new Event('blur',   { bubbles:true }));
+#     """, title_input, titulo())
+#     time.sleep(0.3)  # curto para o campo processar o input
 
-#Categoria
-    w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#categoria-contratacao > span"))).click()
-    time.sleep(0.3)  # curto para render da lista
-    w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#categoria-contratacao_1 > span"))).click()
-    time.sleep(0.3)  # curto para o campo processar o input
+# #Categoria
+#     w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#categoria-contratacao > span"))).click()
+#     time.sleep(0.3)  # curto para render da lista
+#     w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#categoria-contratacao_1 > span"))).click()
+#     time.sleep(0.3)  # curto para o campo processar o input
 
-#Data estimada de início (não ha na planilha)
-    dt_inicio = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#data-data-inicio-contratacao")))
-    di = data_inicial()
+# #Data estimada de início (não ha na planilha)
+#     dt_inicio = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#data-data-inicio-contratacao")))
+#     di = data_inicial()
 
-    # extrai dia, mês, ano
-    dd, mm, yyyy = (di if isinstance(di, tuple) else tuple(int(x) for x in str(di).replace("-", "/").split("/")[:3]))
+#     # extrai dia, mês, ano
+#     dd, mm, yyyy = (di if isinstance(di, tuple) else tuple(int(x) for x in str(di).replace("-", "/").split("/")[:3]))
 
-    # decide formato pelo idioma do navegador (en → mm/dd/yyyy, default → dd/mm/yyyy)
-    lang = (driver.execute_script("return navigator.language || navigator.userLanguage || 'pt-BR';") or "pt-BR").lower()
-    use_mmdd = lang.startswith("en")
+#     # decide formato pelo idioma do navegador (en → mm/dd/yyyy, default → dd/mm/yyyy)
+#     lang = (driver.execute_script("return navigator.language || navigator.userLanguage || 'pt-BR';") or "pt-BR").lower()
+#     use_mmdd = lang.startswith("en")
 
-    # monta valor
-    val = f"{mm:02d}/{dd:02d}/{yyyy:04d}" if use_mmdd else f"{dd:02d}/{mm:02d}/{yyyy:04d}"
+#     # monta valor
+#     val = f"{mm:02d}/{dd:02d}/{yyyy:04d}" if use_mmdd else f"{dd:02d}/{mm:02d}/{yyyy:04d}"
 
-    # preenche direto
-    dt_inicio.click()
-    dt_inicio.send_keys(Keys.CONTROL, "a")
-    dt_inicio.send_keys(Keys.DELETE)
-    dt_inicio.send_keys(val)
-    dt_inicio.send_keys(Keys.ENTER)
-    dt_inicio.send_keys(Keys.TAB)
-    time.sleep(0.3)  # curto para o campo processar o input
+#     # preenche direto
+#     dt_inicio.click()
+#     dt_inicio.send_keys(Keys.CONTROL, "a")
+#     dt_inicio.send_keys(Keys.DELETE)
+#     dt_inicio.send_keys(val)
+#     dt_inicio.send_keys(Keys.ENTER)
+#     dt_inicio.send_keys(Keys.TAB)
+#     time.sleep(0.3)  # curto para o campo processar o input
 
-#Data estimada de término (não ha na planilha)
-    dt_fim = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#data-data-fim-contratacao")))
-    df = data_final()
-    dd, mm, yyyy = (df if isinstance(df, tuple) else tuple(int(x) for x in str(df).replace("-", "/").split("/")[:3]))
-    val_fim = f"{mm:02d}/{dd:02d}/{yyyy:04d}" if use_mmdd else f"{dd:02d}/{mm:02d}/{yyyy:04d}"
-    dt_fim.click()
-    dt_fim.send_keys(Keys.CONTROL, "a")
-    dt_fim.send_keys(Keys.DELETE)
-    dt_fim.send_keys(val_fim)
-    dt_fim.send_keys(Keys.ENTER)
-    dt_fim.send_keys(Keys.TAB)
-
-
-#Objeto
-    campo_desc = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#descricao-contratacao")))
-    from helpers import descricao_objeto
-
-    driver.execute_script("""
-      const el = arguments[0], val = arguments[1];
-      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
-      setter.call(el, val ?? '');
-      el.dispatchEvent(new Event('input',  { bubbles:true }));
-      el.dispatchEvent(new Event('change', { bubbles:true }));
-      el.dispatchEvent(new Event('blur',   { bubbles:true }));
-    """, campo_desc, descricao_objeto())
+# #Data estimada de término (não ha na planilha)
+#     dt_fim = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#data-data-fim-contratacao")))
+#     df = data_final()
+#     dd, mm, yyyy = (df if isinstance(df, tuple) else tuple(int(x) for x in str(df).replace("-", "/").split("/")[:3]))
+#     val_fim = f"{mm:02d}/{dd:02d}/{yyyy:04d}" if use_mmdd else f"{dd:02d}/{mm:02d}/{yyyy:04d}"
+#     dt_fim.click()
+#     dt_fim.send_keys(Keys.CONTROL, "a")
+#     dt_fim.send_keys(Keys.DELETE)
+#     dt_fim.send_keys(val_fim)
+#     dt_fim.send_keys(Keys.ENTER)
+#     dt_fim.send_keys(Keys.TAB)
 
 
-# Preencher Justificativa (textarea)
-    inserir_jus = w.until(EC.visibility_of_element_located(
-        (By.CSS_SELECTOR, "#justificativa-contratacao, textarea[name='justificativa']"))
-    )
-    driver.execute_script("""
-      const el = arguments[0], val = arguments[1];
-      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
-      setter.call(el, val ?? '');
-      el.dispatchEvent(new Event('input',  { bubbles:true }));
-      el.dispatchEvent(new Event('change', { bubbles:true }));
-      el.dispatchEvent(new Event('blur',   { bubbles:true }));
-    """, inserir_jus, justificativa())
-    time.sleep(0.3)  # curto para o campo processar o input
+# #Objeto
+#     campo_desc = w.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#descricao-contratacao")))
+#     from helpers import descricao_objeto
+
+#     driver.execute_script("""
+#       const el = arguments[0], val = arguments[1];
+#       const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+#       setter.call(el, val ?? '');
+#       el.dispatchEvent(new Event('input',  { bubbles:true }));
+#       el.dispatchEvent(new Event('change', { bubbles:true }));
+#       el.dispatchEvent(new Event('blur',   { bubbles:true }));
+#     """, campo_desc, descricao_objeto())
+
+
+# # Preencher Justificativa (textarea)
+#     inserir_jus = w.until(EC.visibility_of_element_located(
+#         (By.CSS_SELECTOR, "#justificativa-contratacao, textarea[name='justificativa']"))
+#     )
+#     driver.execute_script("""
+#       const el = arguments[0], val = arguments[1];
+#       const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+#       setter.call(el, val ?? '');
+#       el.dispatchEvent(new Event('input',  { bubbles:true }));
+#       el.dispatchEvent(new Event('change', { bubbles:true }));
+#       el.dispatchEvent(new Event('blur',   { bubbles:true }));
+#     """, inserir_jus, justificativa())
+#     time.sleep(0.3)  # curto para o campo processar o input
     
-    # Botão Concluir
-    # Clica no botão "Concluir" e aguarda o modal fechar
-    botao = w.until(EC.element_to_be_clickable((
-        By.CSS_SELECTOR,
-        "#modal-criacao-contratacao > div.br-modal-footer.justify-content-end.pt-3 > div > button.br-button.is-secondary"
-    )))
-    botao.click()
-    w.until(EC.invisibility_of_element_located(
-        (By.CSS_SELECTOR, "#modal-criacao-contratacao")
-    ))
-    time.sleep(0.5)  # curto para o modal fechar
+#     # Botão Concluir
+#     # Clica no botão "Concluir" e aguarda o modal fechar
+#     botao = w.until(EC.element_to_be_clickable((
+#         By.CSS_SELECTOR,
+#         "#modal-criacao-contratacao > div.br-modal-footer.justify-content-end.pt-3 > div > button.br-button.is-secondary"
+#     )))
+#     botao.click()
+#     w.until(EC.invisibility_of_element_located(
+#         (By.CSS_SELECTOR, "#modal-criacao-contratacao")
+#     ))
+#     time.sleep(0.5)  # curto para o modal fechar
 # Localizar o curso na lista e clicar em "Editar"
 WAIT = 20
 
 # Normaliza strings para comparação
 def localizar_contratacao(driver):
+
+    # garante que a grid está presente antes de buscar
+    WebDriverWait(driver, WAIT).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']")
+        )
+    )
+
+    # (normalização e varredura vêm em seguida...)
     """
     Normaliza o título ALVO primeiro e, em seguida, percorre a tabela para localizar
     a linha correspondente (coluna 4) e clicar no botão 'Editar'.
@@ -132,7 +141,6 @@ def localizar_contratacao(driver):
     )
 
     # 2) Normaliza o ALVO (antes de qualquer busca)
-    from helpers import titulo
     alvo = titulo() or ""
     alvo = unicodedata.normalize("NFD", str(alvo))
     alvo = "".join(c for c in alvo if unicodedata.category(c) != "Mn")
@@ -161,22 +169,117 @@ def localizar_contratacao(driver):
 
     raise TimeoutError(f"Título não localizado na coluna 4: {alvo}")
 
-def run(driver, timeout: int = 30):
-    # 1) abre e preenche o popup
-    abrir_popup(driver, timeout)
+def preencher_dados_basicos(driver, timeout: int = 30):
+    w = WebDriverWait(driver, timeout)
 
-    # 2) espera a grid aparecer (a tal pausa)
-    WebDriverWait(driver, timeout).until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']")
-        )
+    # Número do Processo
+    campo_processo = w.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "#processo-contratacao"))
+    )
+    valor = str(num_processo() or "").strip()
+
+    driver.execute_script("""
+      const el = arguments[0], val = arguments[1];
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(el, val);
+      el.dispatchEvent(new Event('input',  { bubbles:true }));
+      el.dispatchEvent(new Event('change', { bubbles:true }));
+      el.dispatchEvent(new Event('blur',   { bubbles:true }));
+    """, campo_processo, valor)
+
+    # valida pós-preenchimento (idempotente)
+    w.until(lambda d: (campo_processo.get_attribute("value") or "").strip() == valor)
+
+    # Tipo de Contratação
+    w = WebDriverWait(driver, timeout)
+
+    # 1) Abre o dropdown
+    '''combo = w.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "#modalidade[role='combobox']"))
+    )
+    combo.click()
+
+    # 2) Espera a lista abrir (geralmente uma <ul> renderizada logo após)
+    # PrimeNG usa id gerado, mas todas opções ficam dentro de ul[role='listbox']
+    lista = w.until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "ul[role='listbox']"))
     )
 
-    # 3 executa a localização (ação), NÃO retorna o valor dela
+    # 3) Acha a opção cujo texto contém 'Dispensa de licitação' e clica
+    opcoes = lista.find_elements(By.CSS_SELECTOR, "li[role='option']")
+    for op in opcoes:
+        texto = (op.text or "").strip().lower()
+        if "dispensa de licitação" in texto:
+            op.click()
+            break
+            
+    # 4) Valida que o valor foi aplicado (leitura via atributo ou texto)
+    w.until(lambda d: "dispensa" in (combo.text or "").lower())
+
+# Fundamento Legal
+    w = WebDriverWait(driver, timeout)
+    icone_editar = w.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "#edicao-fundamento-contratacao > em"))
+    )
+    icone_editar.click()
+
+    w = WebDriverWait(driver, timeout)
+
+    def click(sel: str):
+        w.until(EC.element_to_be_clickable((By.CSS_SELECTOR, sel))).click()
+
+    # 1º nível (LEI 14.133/2021)
+    click("#arvore-fundamentos > div > div.p-tree-wrapper.ng-star-inserted > ul > p-treenode:nth-child(6) > li > div > span > span > span")
+    # 2º nível (Art. 75)
+    click("#arvore-fundamentos > div > div.p-tree-wrapper.ng-star-inserted > ul > p-treenode:nth-child(6) > li > ul > p-treenode > li > div > span > span > span")
+    # 3º nível (Inciso II)
+    click("#arvore-fundamentos > div > div.p-tree-wrapper.ng-star-inserted > ul > p-treenode:nth-child(6) > li > ul > p-treenode > li > ul > p-treenode:nth-child(2) > li > div > span > span > span")
+    # Salvar
+    click("#salvar-fundamento")'''
+# Modo de disputa
+
+# Moeda da Compra
+
+# Compra SRP (checkbox)
+
+# Informações Complementares
+
+# 2️⃣ Aba: Itens
+def preencher_itens(driver, timeout: int = 30):
+    """Preenche a aba 2 — Itens da contratação."""
+    WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button[id^='adicionar-item']"))
+    )
+    # Aqui entra a lógica de inserir o item, descrição, valor, etc.
+    print("✅ Aba 2 — Itens preenchida.")
+
+
+# 3️⃣ Aba: Anexos
+def preencher_anexos(driver, timeout: int = 30):
+    """Anexa arquivos e preenche a aba 3 — Anexos."""
+    WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button[id^='upload-anexo']"))
+    )
+    # Código para fazer upload dos arquivos
+    print("✅ Aba 3 — Anexos enviados.")
+
+
+# 4️⃣ Aba: Responsáveis
+def preencher_responsaveis(driver, timeout: int = 30):
+    """Preenche a aba 4 — Responsáveis."""
+    WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button[id^='adicionar-responsavel']"))
+    )
+    # Código para preencher CPF, nome, cargo, e-mail etc.
+    print("✅ Aba 4 — Responsáveis preenchida.")
+
+def run(driver, timeout: int = 30):
+    # 1) abre e preenche o popup
+    # abrir_popup(driver, timeout)
+
+    # 2) executa a localização (ação), NÃO retorna o valor dela
     localizar_contratacao(driver)
-
-
-
-
-# page_dados_basicos.py
-
+    preencher_dados_basicos(driver, timeout)
+    #preencher_itens(driver, timeout)
+    #preencher_anexos(driver, timeout)
+    #preencher_responsaveis(driver, timeout)

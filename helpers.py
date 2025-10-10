@@ -29,7 +29,7 @@ def load_all_cfgs(path=PLANILHA_PATH, sheet=SHEET_NAME):
         # Campos do projeto (planilha)
         #cfg.setdefault('titulo', "")
         #cfg.setdefault('justificativa', "")
-        cfg.setdefault('num_processo', "")
+        #cfg.setdefault('num_processo', "")
         cfg.setdefault('tipo_contratacao', "")
         cfg.setdefault('fundamento_legal', "")
         cfg.setdefault('categoria', "")
@@ -76,3 +76,5 @@ def descricao_objeto():
         "Janeiro, conforme especificações e condições constantes no Termo de "
         "Referência que integra este edital."
     )
+def num_processo():
+    return "20.22.0001.0010000.2025-10"
