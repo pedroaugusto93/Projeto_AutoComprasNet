@@ -237,12 +237,16 @@ def preencher_dados_basicos(driver, timeout: int = 30):
     # Salvar
     click("#salvar-fundamento")'''
 # Modo de disputa
-
+    #pre-preenchido = ignorar
+    
 # Moeda da Compra
+    #pre-preenchido = ignorar
 
 # Compra SRP (checkbox)
+    #bloqueado = ignorar
 
 # Informações Complementares
+    # opcional = ignorar
 
 # 2️⃣ Aba: Itens
 def preencher_itens(driver, timeout: int = 30):
