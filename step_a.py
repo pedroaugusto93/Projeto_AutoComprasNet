@@ -9,7 +9,7 @@ import time
 import unicodedata
 
 
-# # Pré-cadastro
+# Pré-cadastro
 
 # Clicar no "Criar" nova contratação
 def abrir_popup(driver, timeout: int = 30):
@@ -104,17 +104,23 @@ def abrir_popup(driver, timeout: int = 30):
     """, inserir_jus, justificativa())
     time.sleep(0.3)  # curto para o campo processar o input
     
-def run(driver, timeout: int = 30):
-    abrir_popup(driver, timeout)
-    localizar_contratacao(driver) 
-
-# Botão Concluir
-
+    # Botão Concluir
+    # Clica no botão "Concluir" e aguarda o modal fechar
+    botao = w.until(EC.element_to_be_clickable((
+        By.CSS_SELECTOR,
+        "#modal-criacao-contratacao > div.br-modal-footer.justify-content-end.pt-3 > div > button.br-button.is-secondary"
+    )))
+    botao.click()
+    w.until(EC.invisibility_of_element_located(
+        (By.CSS_SELECTOR, "#modal-criacao-contratacao")
+    ))
+    time.sleep(0.5)  # curto para o modal fechar
 # Localizar o curso na lista e clicar em "Editar"
 # page_dados_basicos.py
 WAIT = 20
 
-def _norm(s: str) -> str:
+# Normaliza strings para comparação
+def norm(s: str) -> str:
     s = "" if s is None else str(s)
     s = unicodedata.normalize("NFD", s)
     s = "".join(c for c in s if unicodedata.category(c) != "Mn")
@@ -122,17 +128,18 @@ def _norm(s: str) -> str:
     s = s.replace('"', "").replace("'", "")
     return " ".join(s.split()).lower().strip()
 
+# Localizar o curso na lista e clicar em "Editar"
 def localizar_contratacao(driver):
     WebDriverWait(driver, WAIT).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']"))
     )
 
     from helpers import titulo
-    alvo = _norm(titulo())
+    alvo = norm(titulo())
 
     for tr in driver.find_elements(By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']"):
         td = tr.find_element(By.CSS_SELECTOR, "td:nth-child(4)")
-        n = _norm(td.text or td.get_attribute("innerText") or "")
+        n = norm(td.text or td.get_attribute("innerText") or "")
         if alvo == n or alvo in n or n in alvo:
             tr_id = tr.get_attribute("id") or ""  # <-- capture ANTES do clique
             btn = tr.find_element(By.CSS_SELECTOR, "button[id^='editar-contratacao-']")
@@ -141,3 +148,25 @@ def localizar_contratacao(driver):
             return {"tr_id": tr_id, "clicked_edit": True}
 
     raise TimeoutError(f"Título não localizado na coluna 4: {alvo}")
+
+
+def run(driver, timeout: int = 30):
+    # 1) abre e preenche o popup
+    abrir_popup(driver, timeout)
+
+    
+    # 2) prepara a entrada normalizada (continua sendo ENTRADA)
+    alvo_norm = norm(titulo())
+
+    # 3) espera a grid aparecer (a tal pausa)
+    WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']")
+        )
+    )
+
+    # 4) executa a localização (ação), NÃO retorna o valor dela
+    localizar_contratacao(driver)
+
+    # 5) se quiser, pode só sinalizar sucesso genérico
+    # return True
