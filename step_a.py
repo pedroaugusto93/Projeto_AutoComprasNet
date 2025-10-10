@@ -116,32 +116,44 @@ def abrir_popup(driver, timeout: int = 30):
     ))
     time.sleep(0.5)  # curto para o modal fechar
 # Localizar o curso na lista e clicar em "Editar"
-# page_dados_basicos.py
 WAIT = 20
 
 # Normaliza strings para comparação
-def norm(s: str) -> str:
-    s = "" if s is None else str(s)
-    s = unicodedata.normalize("NFD", s)
-    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    s = s.replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
-    s = s.replace('"', "").replace("'", "")
-    return " ".join(s.split()).lower().strip()
-
-# Localizar o curso na lista e clicar em "Editar"
 def localizar_contratacao(driver):
+    """
+    Normaliza o título ALVO primeiro e, em seguida, percorre a tabela para localizar
+    a linha correspondente (coluna 4) e clicar no botão 'Editar'.
+    """
+    # 1) Espera a grid estar presente
     WebDriverWait(driver, WAIT).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']"))
+        EC.presence_of_element_located(
+            (By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']")
+        )
     )
 
+    # 2) Normaliza o ALVO (antes de qualquer busca)
     from helpers import titulo
-    alvo = norm(titulo())
+    alvo = titulo() or ""
+    alvo = unicodedata.normalize("NFD", str(alvo))
+    alvo = "".join(c for c in alvo if unicodedata.category(c) != "Mn")
+    alvo = alvo.replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
+    alvo = alvo.replace('"', "").replace("'", "")
+    alvo = " ".join(alvo.split()).lower().strip()
 
+    # 3) Percorre as linhas e compara com o alvo já normalizado
     for tr in driver.find_elements(By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']"):
-        td = tr.find_element(By.CSS_SELECTOR, "td:nth-child(4)")
-        n = norm(td.text or td.get_attribute("innerText") or "")
+        td4 = tr.find_element(By.CSS_SELECTOR, "td:nth-child(4)")
+        texto = td4.text or td4.get_attribute("innerText") or ""
+
+        # normaliza o texto da célula
+        n = unicodedata.normalize("NFD", texto)
+        n = "".join(c for c in n if unicodedata.category(c) != "Mn")
+        n = n.replace("“", '"').replace("”", '"').replace("’", "'").replace("‘", "'")
+        n = n.replace('"', "").replace("'", "")
+        n = " ".join(n.split()).lower().strip()
+
         if alvo == n or alvo in n or n in alvo:
-            tr_id = tr.get_attribute("id") or ""  # <-- capture ANTES do clique
+            tr_id = tr.get_attribute("id") or ""
             btn = tr.find_element(By.CSS_SELECTOR, "button[id^='editar-contratacao-']")
             driver.execute_script("arguments[0].scrollIntoView({block:'center'});", btn)
             btn.click()
@@ -149,24 +161,22 @@ def localizar_contratacao(driver):
 
     raise TimeoutError(f"Título não localizado na coluna 4: {alvo}")
 
-
 def run(driver, timeout: int = 30):
     # 1) abre e preenche o popup
     abrir_popup(driver, timeout)
 
-    
-    # 2) prepara a entrada normalizada (continua sendo ENTRADA)
-    alvo_norm = norm(titulo())
-
-    # 3) espera a grid aparecer (a tal pausa)
+    # 2) espera a grid aparecer (a tal pausa)
     WebDriverWait(driver, timeout).until(
         EC.presence_of_element_located(
             (By.CSS_SELECTOR, "table[id$='-table'] tbody tr[id^='contratacao-']")
         )
     )
 
-    # 4) executa a localização (ação), NÃO retorna o valor dela
+    # 3 executa a localização (ação), NÃO retorna o valor dela
     localizar_contratacao(driver)
 
-    # 5) se quiser, pode só sinalizar sucesso genérico
-    # return True
+
+
+
+# page_dados_basicos.py
+
