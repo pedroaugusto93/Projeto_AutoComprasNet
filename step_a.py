@@ -169,7 +169,7 @@ def localizar_contratacao(driver):
 
     raise TimeoutError(f"Título não localizado na coluna 4: {alvo}")
 
-def preencher_dados_basicos(driver, timeout: int = 30):
+'''def preencher_dados_basicos(driver, timeout: int = 30):
     w = WebDriverWait(driver, timeout)
 
     # Número do Processo
@@ -194,7 +194,7 @@ def preencher_dados_basicos(driver, timeout: int = 30):
     w = WebDriverWait(driver, timeout)
 
     # 1) Abre o dropdown
-    '''combo = w.until(
+    combo = w.until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "#modalidade[role='combobox']"))
     )
     combo.click()
@@ -235,10 +235,10 @@ def preencher_dados_basicos(driver, timeout: int = 30):
     # 3º nível (Inciso II)
     click("#arvore-fundamentos > div > div.p-tree-wrapper.ng-star-inserted > ul > p-treenode:nth-child(6) > li > ul > p-treenode > li > ul > p-treenode:nth-child(2) > li > div > span > span > span")
     # Salvar
-    click("#salvar-fundamento")'''
+    click("#salvar-fundamento")
 # Modo de disputa
     #pre-preenchido = ignorar
-    
+
 # Moeda da Compra
     #pre-preenchido = ignorar
 
@@ -247,7 +247,7 @@ def preencher_dados_basicos(driver, timeout: int = 30):
 
 # Informações Complementares
     # opcional = ignorar
-
+'''
 # 2️⃣ Aba: Itens
 def preencher_itens(driver, timeout: int = 30):
     """Preenche a aba 2 — Itens da contratação."""
@@ -283,7 +283,7 @@ def run(driver, timeout: int = 30):
 
     # 2) executa a localização (ação), NÃO retorna o valor dela
     localizar_contratacao(driver)
-    preencher_dados_basicos(driver, timeout)
+    #preencher_dados_basicos(driver, timeout)
     #preencher_itens(driver, timeout)
     #preencher_anexos(driver, timeout)
     #preencher_responsaveis(driver, timeout)
