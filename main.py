@@ -1,55 +1,87 @@
 # main.py
-import os
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+"""
+Ponto de entrada do AutoComprasNet.
+
+Conecta no Chrome (debug), navega até a tela de execução, carrega a planilha uma
+única vez e executa as abas em sequência. Ao final, imprime um relatório do que
+foi executado e do que falhou.
+"""
+
+from __future__ import annotations
+
+import time
+
 from selenium.webdriver.support.ui import WebDriverWait
 
-import step_a
-import step_b
+import config
+import page_dados_basicos
+import page_itens
+from driver import get_driver
+from helpers import carregar_itens
+from logger import get_logger
 
-# ---- Config ----
-TARGET_URL = "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao"
-CHROME_DEBUG_HOST = os.getenv("CHROME_DEBUG_HOST", "127.0.0.1")
-CHROME_DEBUG_PORT = os.getenv("CHROME_DEBUG_PORT", "9222")
-DEFAULT_TIMEOUT = int(os.getenv("TIMEOUT_SECONDS", "20"))
+log = get_logger(__name__)
 
-def get_driver():
-    """
-    Conecta no Chrome já aberto em modo Remote Debugging.
-    Abra o Chrome antes com, por exemplo (Windows):
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" ^
-        --remote-debugging-port=9222 ^
-        --user-data-dir="C:\\chrome_debug"
-    """
-    chrome_options = Options()
-    chrome_options.debugger_address = f"{CHROME_DEBUG_HOST}:{CHROME_DEBUG_PORT}"
-    try:
-        driver = webdriver.Chrome(options=chrome_options)
-    except Exception as e:
-        raise RuntimeError(
-            "Falha ao conectar no Chrome via Remote Debugging. "
-            "Confira se o Chrome está aberto com --remote-debugging-port "
-            f"({CHROME_DEBUG_HOST}:{CHROME_DEBUG_PORT})."
-        ) from e
-    driver.set_page_load_timeout(DEFAULT_TIMEOUT)
-    return driver
+# Abas executadas, na ordem. Documentos/Empenhos entram aqui quando prontas.
+#   (rótulo, função que recebe (driver, itens))
+# Dados Básicos usa a 1ª linha como cabeçalho da contratação (fluxo single-process
+# por ora; multi-process = um cabeçalho por bucket, evolução futura).
+ETAPAS = [
+    ("Dados Básicos", lambda d, itens: page_dados_basicos.run(d, itens[0])),
+    ("Itens + DC", lambda d, itens: page_itens.executar(d, itens)),
+    # ("Documentos", lambda d, itens: page_documentos.executar(d, itens)),
+    # ("Empenhos",   lambda d, itens: page_empenhos.executar(d, itens)),
+]
 
-def main():
-    driver = get_driver()
+
+def _navegar(driver) -> None:
+    """Vai para a URL alvo e espera a tela de execução carregar."""
     driver.switch_to.window(driver.window_handles[0])
-    driver.get(TARGET_URL)
-
-    WebDriverWait(driver, DEFAULT_TIMEOUT).until(
-        lambda d: "/comprasnet-artefatos-web/execucao" in d.current_url
+    driver.get(config.TARGET_URL)
+    WebDriverWait(driver, config.TIMEOUT).until(
+        lambda d: config.URL_READY_TOKEN in d.current_url
     )
+    log.info("Tela de execução carregada.")
 
-    # Step A (ok no seu ambiente)
-    step_a.run(driver)
 
-    # Step B (wrapper run dentro do step_b carrega a planilha e executa o fluxo completo)
-    step_b.run(driver)
+def main() -> int:
+    config.garantir_diretorios()
+    inicio = time.time()
+    driver = get_driver()
+    _navegar(driver)
 
-    print("Fluxo completo finalizado ✅")
+    itens = carregar_itens()
+    if not itens:
+        log.error("Planilha vazia — nada a processar.")
+        return 1
+
+    resultados = []
+    for rotulo, executar in ETAPAS:
+        log.info("▶ Etapa: %s", rotulo)
+        try:
+            executar(driver, itens)
+            resultados.append((rotulo, "OK", ""))
+        except Exception as exc:
+            log.exception("Falha na etapa '%s'", rotulo)
+            resultados.append((rotulo, "ERRO", str(exc)))
+            break  # aborta o fluxo na primeira etapa que falhar
+
+    _relatorio(resultados, time.time() - inicio)
+    return 0 if all(status == "OK" for _, status, _ in resultados) else 1
+
+
+def _relatorio(resultados, segundos: float) -> None:
+    """Imprime um resumo final da execução."""
+    log.info("=" * 52)
+    log.info("RELATÓRIO DE EXECUÇÃO")
+    for rotulo, status, detalhe in resultados:
+        marca = "✅" if status == "OK" else "❌"
+        sufixo = f" — {detalhe}" if detalhe else ""
+        log.info("  %s %-16s %s%s", marca, rotulo, status, sufixo)
+    log.info("Tempo total: %.1fs", segundos)
+    log.info("Evidências/Logs: %s", config.LOGS_DIR)
+    log.info("=" * 52)
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
