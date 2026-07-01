@@ -6,8 +6,7 @@ Conecta no Chrome (debug), navega até a tela de execução, carrega a planilha 
 única vez e executa as abas em sequência. Ao final, imprime um relatório do que
 foi executado e do que falhou.
 """
-
-from __future__ import annotations
+#  & "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\ChromeDebugProfile"   
 
 import time
 
