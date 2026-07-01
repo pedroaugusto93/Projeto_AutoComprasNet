@@ -10,7 +10,7 @@ dão acesso limpo aos campos que os page modules realmente usam.
 Estrutura da planilha (32 colunas):
   • 1–21  : bloco SuperFiltro (colagem direta)
   • 22–32 : bloco exclusivo AutoSIGFIS
-  • PNCP  : seção reservada (ainda sem coluna; ver config.Provisorio)
+  • DATA_INICIO: data de início (usada no campo "Data de início")
 """
 
 from __future__ import annotations
@@ -28,7 +28,8 @@ class ItemContratacao:
     NOME_FORNECEDOR: str = ""
     PRAZO_EXECUCAO: str = ""
     ANO_EMPENHO: str = ""
-    DATA_EMPENHO: str = ""
+    DATA_EMPENHO: str = ""          # preenche a "Data de término" (#data-fim-contratacao)
+    DATA_INICIO: str = ""           # NOVA coluna -> "Data de início" (#data-inicio-contratacao)
     NUM_EMPENHO: str = ""
     NOME_CURSO: str = ""
     OBJETO: str = ""
@@ -44,9 +45,13 @@ class ItemContratacao:
     autoridade_despacho: str = ""
     file_path: str = ""
 
-    # --------------- BLOCO EXCLUSIVO AUTOSIGFIS (colunas 22–32) ----------- #
+    # --------------- BLOCO EXCLUSIVO AUTOSIGFIS / CONTROLE --------------- #
     TIPOLOGIA_VALUE: str = ""
     ITEM_LOTE_VALUE: str = ""
+    STATUS: str = ""                 # controle AutoSIGFIS
+    PERC_CONCLUSAO: str = ""         # % de conclusão
+    DISPENSA_SIGFIS: str = ""        # controle AutoSIGFIS
+    # Campos que aparecem em variantes da planilha (mantidos por compatibilidade).
     FUNDAMENTO_VALUE: str = ""
     NUM_ITEM: str = ""
     QTD_ITEM: str = ""
@@ -110,6 +115,16 @@ class ItemContratacao:
     def valor_unitario(self) -> str:
         """Valor unitário do item (VALOR_UNIT); cai para VALOR se vazio."""
         return self.VALOR_UNIT or self.VALOR
+
+    @property
+    def data_inicio(self) -> str:
+        """Data de início da contratação (coluna DATA_INICIO)."""
+        return self.DATA_INICIO
+
+    @property
+    def data_conclusao(self) -> str:
+        """Data de término/conclusão — preenchida com DATA_EMPENHO (regra do MPRJ)."""
+        return self.DATA_EMPENHO
 
     @property
     def apelido(self) -> str:

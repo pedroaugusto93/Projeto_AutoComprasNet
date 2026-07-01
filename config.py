@@ -59,8 +59,18 @@ class Constantes:
 
     # Aba Dados Básicos
     JUSTIFICATIVA = "MPRJ não é órgão SISG"
-    MODALIDADE_CONTEM = "dispensa de licitação"      # texto buscado no combobox
+    CATEGORIA = "Serviços"                            # categoria sempre "Serviços"
+    TIPO_CONTRATACAO = "Dispensa de licitação"        # aria-label exato do dropdown
+    MODO_DISPUTA = "Não se aplica"                    # aria-label exato do dropdown
     FUNDAMENTO_LEGAL = "LEI 14.133/2021 - Art. 75 - Inciso II"
+
+    # Fundamentação legal na árvore: LEI 14.133/2021 > Art. 75 > Inciso II.
+    FUND_LEI = "LEI 14.133/2021"
+    FUND_ARTIGO = "Art. 75"
+    FUND_INCISO_PREFIXO = "Inciso II:"                # aria-label começa com isso
+
+    # PCA (Plano de Contratações Anual) — rótulo montado como "PCA {ano} - {status}"
+    PCA_STATUS = "Em Execução"
 
     # Aba Itens — o catálogo sempre busca o mesmo PDM/serviço
     CODIGO_ITEM = os.getenv("COMPRASNET_CODIGO_ITEM", "21172")
@@ -76,19 +86,12 @@ TEXTO_SERVICO_ITEM = Constantes.TEXTO_SERVICO_ITEM
 
 
 # --------------------------------------------------------------------------- #
-# DADOS PROVISÓRIOS (sem coluna na planilha ainda)
+# DATAS
 # --------------------------------------------------------------------------- #
-class Provisorio:
-    """
-    Campos que o ComprasNet pede mas que a SuperFiltro/cadastro.xlsx ainda NÃO
-    tem coluna (no step_a antigo apareciam como "não há na planilha").
-
-    Quando o PNCP for integrado, estes saem daqui e passam a vir do modelo
-    (ver models.ItemContratacao, seção PNCP). Por ora, ficam como fallback.
-    """
-
-    DATA_INICIAL = (1, 9, 2025)     # data estimada de início (dia, mês, ano)
-    DATA_FINAL = (30, 9, 2025)      # data estimada de término (dia, mês, ano)
+# As datas agora vêm da planilha:
+#   • "Data de início" (campo #data-inicio-contratacao)  <- coluna DATA_INICIO
+#   • "Data de término" (campo #data-fim-contratacao)    <- coluna DATA_EMPENHO
+# Formato de entrada aceito: ISO ("2026-06-17 00:00:00") ou "dd/mm/aaaa".
 
 
 def garantir_diretorios() -> None:

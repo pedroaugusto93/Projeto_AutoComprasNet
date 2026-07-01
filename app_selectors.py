@@ -1,118 +1,158 @@
-# selectors.py
+# app_selectors.py
 """
-Centralização de seletores CSS do projeto ComprasNet (Step B – Aba Itens e DC)
+Centralização de seletores CSS do projeto AutoComprasNet.
 
-Padrões:
-- Somente CSS (evitar XPath; usar apenas se for inevitável).
-- Funções utilitárias para seletores dinâmicos por card_id (p-card id='item-12345').
-- Comentários didáticos para facilitar manutenção.
+Escada de prioridade (do mais estável ao mais frágil):
+  1. #id-semantico            -> #criar-contratacao, #salvar-contratacao
+  2. [ptooltip="Texto"]       -> botões de ícone
+  3. [aria-label="Texto"]     -> opções de dropdown (NÃO usar o pn_id volátil)
+  4. classe do Design System + ancestral estável
+  5. (último recurso) XPath por texto -> ver XPATHS
+
+NUNCA ancorar em: _ngcontent-*, pn_id_NN, ou nth-child do "Copiar seletor".
 """
 
-# Texto-chave do item 21172 (usado em validações na tabela de catálogo)
-TEXTO_SERVICO_21172 = "Treinamento Qualificação Profissional"
+from __future__ import annotations
+
+import config
+
+TEXTO_SERVICO_ITEM = config.TEXTO_SERVICO_ITEM
 
 
 class S:
-    # ========= ABA ITENS =========
-    # Aba/entrada da seção "Itens"
-    ITENS_ABA = "#collapse-1 > div > div.dropdown-item.ng-star-inserted.active > div > div.col-8.pl-5.pt-1 > a > div.pl-2"
+    """Seletores CSS estáveis do fluxo."""
 
-    # Botão para abrir o catálogo (modal ou painel lateral) para adicionar item
+    # ===================== PRÉ-CADASTRO (modal "Criar") =================== #
+    CRIAR_BTN = "#criar-contratacao"                    # id semântico
+    TITULO_INPUT = "#titulo-contratacao"
+
+    # Categoria (p-dropdown) — sempre "Serviços".
+    # Gatilho por id semântico; opção por aria-label (o id vira pn_id_* volátil).
+    # OBS: se a categoria tiver virado p-dropdown PrimeNG (como o PCA), o gatilho
+    # pode ser outro — confirmar. A opção por aria-label é estável de qualquer forma.
+    CATEGORIA_TRIGGER = "#categoria-contratacao"
+    CATEGORIA_OPCAO_SERVICOS = "li[role='option'][aria-label='Serviços']"
+
+    DATA_INICIO_INPUT = "#data-inicio-contratacao"      # corrigido (era data-data-inicio)
+    DATA_FIM_INPUT = "#data-fim-contratacao"            # corrigido (era data-data-fim)
+    DESCRICAO_TEXTAREA = "#descricao-contratacao"
+    JUSTIFICATIVA_TEXTAREA = "#justificativa-contratacao"
+    CONCLUIR_BTN = "#salvar-contratacao"                # fica 'disabled' até validar
+
+    # ============================ PCA (ano) ============================== #
+    # Plano de Contratações Anual — seleciona o plano do ano da contratação.
+    PCA_COMBO = "#input-pca"                            # span[role=combobox] que abre
+
+    # ==================== TAB "Contratações Minhas UASG" ================= #
+    TAB_MINHAS_UASG = "#contratacoes-minhauasg"
+
+    # ======================= GRID DE CONTRATAÇÕES ======================== #
+    # Linhas e botão editar têm id estável (contratacao-#### / editar-contratacao-####).
+    GRID_LINHAS = "tr[id^='contratacao-']"
+    GRID_TITULO_CELULA = "td:nth-child(4)"             # coluna Título
+    GRID_INICIO_CELULA = "td:nth-child(7)"             # coluna Início
+    GRID_CONCLUSAO_CELULA = "td:nth-child(8)"          # coluna Conclusão
+    # Ao casar a linha, clicamos no link da coluna "Contratação" (não no lápis).
+    LINK_CONTRATACAO_CELULA = "td.link-contratacao"
+    EDITAR_BTN_PREFIXO = "button[id^='editar-contratacao-']"  # (fallback, não usado)
+
+    # =============== DADOS BÁSICOS (após "Editar contratação") =========== #
+    PROCESSO_INPUT = "#processo-contratacao"
+
+    # Tipo de contratação (p-dropdown) — sempre "Dispensa de licitação".
+    # Gatilho por id semântico (padrão {campo}-contratacao); opção por aria-label.
+    TIPO_TRIGGER = "#tipo-contratacao"
+    # Modo de disputa (p-dropdown) — sempre "Não se aplica".
+    MODO_DISPUTA_TRIGGER = "#modo-disputa-contratacao"
+
+    # Fundamentação legal: lápis abre a árvore; salvar confirma.
+    FUNDAMENTO_EDITAR_ICON = "#edicao-fundamento-contratacao em.fa-pencil-square-o, em.fa-pencil-square-o"
+    SALVAR_FUNDAMENTO_BTN = "#salvar-fundamento"
+
+    # ============================= ABA ITENS ============================= #
+    ITENS_ABA = (
+        "#collapse-1 > div > div.dropdown-item.ng-star-inserted.active "
+        "> div > div.col-8.pl-5.pt-1 > a > div.pl-2"
+    )
     ADICIONAR_BTN = "#abrir-catalogo"
-
-    # Campo de busca do catálogo (onde digitamos '21172')
     CODIGO_INPUT = "#palavra-pesquisa > div > input"
-
-    # Botão para disparar a pesquisa
     LUPA_BTN = "#pesquisar-palavra"
 
-    # ========= CATÁLOGO (TABELA RESULTADOS) =========
-    # Tabela principal do catálogo – resultados do código pesquisado
-    CATALOGO_TABELA = "#pn_id_119-table"
+    # Tabela do catálogo — ancorar pela classe do DS, não pelo pn_id volátil.
+    CATALOGO_TABELA = "p-table table, table.p-datatable-table"
+    CATALOGO_LINHA_DESCR = "td.p-element.text-truncate"
+    CATALOGO_LINHA_BTN_ADICIONAR = "td:nth-child(3) > button"
 
-    # Célula de descrição dentro da tabela (para validar 'Treinamento Qualificação Profissional')
-    CATALOGO_LINHA_DESCR = "#pn_id_119-table > tbody > tr > td.p-element.text-truncate"
-
-    # Botão "Adicionar" (ícone de +) da linha correspondente na tabela
-    CATALOGO_LINHA_BTN_ADICIONAR = "#pn_id_119-table > tbody > tr > td:nth-child(3) > button"
-
-    # ========= MODAL (FLUXO ANTIGO / FALLBACK) =========
-    # Em alguns fluxos antigos, após escolher o item, pode existir um botão "Adicionar item"
     SALVAR_ITEM_MODAL_BTN = "#adicionar-item"
 
-    # ========= CARRINHO / DC =========
-    # Ícone do carrinho (topo/direita)
+    # ============================ CARRINHO / DC ========================== #
     CARRINHO_BTN = "#ir-carrinho"
-
-    # Botão "Adicionar itens no DC"
     DC_ADD_BTN = "#adicionar-itens"
-
-    # Botão de confirmação (pode aparecer ou não)
     DC_CONFIRMAR_BTN = "#confirmar"
-
-    # Fieldset onde ficam os cards da "Lista de Materiais e/ou Serviços Incluídos"
     DC_FIELDSET = "#area > div > div.mr-2.pt-2 > br-fieldset"
 
-    # Tabela interna (quando renderiza como grid PrimeNG)
-    DC_TABELA = "#pn_id_91-table"
+    # ================= FUNÇÕES DINÂMICAS (por valor/id) ================== #
+    @staticmethod
+    def opcao_por_label(label: str) -> str:
+        """Opção de p-dropdown por aria-label exato (ex.: 'Dispensa de licitação')."""
+        return f"li[role='option'][aria-label='{label}']"
 
-    # ========= FUNÇÕES DINÂMICAS POR CARD =========
-    # Os cards de item seguem o padrão <p-card id="item-1290410">...
-    # Abaixo, funções que devolvem o CSS de campos/espelhos dentro do card a partir do ID numérico do card.
+    @staticmethod
+    def pca_opcao(label: str) -> str:
+        """Opção do PCA por aria-label exato (ex.: 'PCA 2026 - Em Execução')."""
+        return f"li[role='option'][aria-label='{label}']"
+
+    @staticmethod
+    def tree_no(aria_label: str) -> str:
+        """Nó da árvore de fundamentos por aria-label exato (ex.: 'Art. 75')."""
+        return f"li[role='treeitem'][aria-label='{aria_label}']"
+
+    @staticmethod
+    def tree_no_prefixo(prefixo: str) -> str:
+        """Nó da árvore por início do aria-label (ex.: 'Inciso II:')."""
+        return f"li[role='treeitem'][aria-label^='{prefixo}']"
 
     @staticmethod
     def card_root(card_id: str) -> str:
-        """Raiz do card (para buscas relativas, se necessário)."""
         return f"#item-{card_id}"
 
     @staticmethod
     def valor_input(card_id: str) -> str:
-        """Input de valor estimado (unitário) do card."""
         return f"#valor-estimado-item-{card_id}"
 
     @staticmethod
     def valor_espelho(card_id: str) -> str:
-        """Espelho do valor (label 'R$ X,0000') na área de detalhes do card."""
         return f"#detalhe-valor-unitario-item-{card_id}"
 
     @staticmethod
     def apelido_input(card_id: str) -> str:
-        """Input do apelido (até 20 chars) do card."""
         return f"#apelido-item-{card_id}"
 
     @staticmethod
     def salvar_item(card_id: str) -> str:
-        """Botão 'Salvar' do card."""
         return f"#salvar-item-{card_id}"
 
-    # ========= CAMPOS ÚTEIS ADICIONAIS (se quiser validar/usar) =========
     @staticmethod
     def nome_item_label(card_id: str) -> str:
-        """Span com o nome do serviço no topo do card (útil para sanity check)."""
         return f"#nome-item-{card_id}"
 
     @staticmethod
     def codigo_pdm_label(card_id: str) -> str:
-        """Span com o código PDM do item (esperado: 21172)."""
         return f"#codigo-pdm-item-{card_id}"
 
-    @staticmethod
-    def quantidade_total_label(card_id: str) -> str:
-        """Label que indica se a quantidade total está detalhada."""
-        return f"#quantidade-total-item-{card_id}"
+
+class XPATHS:
+    """XPath isolado — só onde o CSS não alcança (match por texto exato)."""
 
     @staticmethod
-    def unidade_fornecimento_label(card_id: str) -> str:
-        """Label de unidade de fornecimento (ex.: UNIDADE)."""
-        return f"#fornecimento-item-{card_id}"
+    def linha_por_titulo(titulo: str) -> str:
+        return f"//tr[starts-with(@id,'contratacao-')][td[normalize-space(.)='{titulo}']]"
 
     @staticmethod
-    def btn_expandir_card(card_id: str) -> str:
-        """Botão/ícone para expandir/colapsar o card (quando necessário)."""
-        return f"#btnExpandirItem{card_id}"
+    def opcao_por_texto(texto: str) -> str:
+        return f"//li[@role='option'][contains(normalize-space(.),'{texto}')]"
 
-    # ========= FALLBACKS / EXTRAS =========
-    # Em caso de mudanças de DOM, vale manter alguns seletores alternativos (comentados) para rápida troca.
-    # Exemplo:
-    # ALTERNATIVE_ITENS_ABA = "a[aria-controls='itens']"
-    # ALTERNATIVE_CATALOGO_TABELA = "table.p-datatable-table"
+    @staticmethod
+    def botao_por_texto(texto: str) -> str:
+        """Botão por texto exato (ex.: 'Editar contratação')."""
+        return f"//button[normalize-space(.)='{texto}']"

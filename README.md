@@ -70,17 +70,28 @@ Sem editar código, é possível sobrescrever via variáveis de ambiente:
 
 ## Notas de manutenção
 
-- **Fundamento Legal** está desativado em `page_dados_basicos._fundamento_legal()`:
-  os seletores eram posicionais (`p-treenode:nth-child`) e frágeis. Reabilitar só
-  após confirmar a estrutura atual da árvore.
+- **Fundamentação legal** implementada via árvore por `aria-label`
+  (LEI 14.133/2021 › Art. 75 › Inciso II) — expande só se colapsado e seleciona
+  o inciso por prefixo do aria-label. Constantes em `config.Constantes.FUND_*`.
+- **Tipo de contratação** e **Modo de disputa** são p-dropdowns escolhidos por
+  aria-label ('Dispensa de licitação' / 'Não se aplica').
+- **Localização na grade** clica no link da coluna Contratação (`td.link-contratacao`)
+  e depois no botão 'Editar contratação' (por texto).
 - **Dados** vêm de `cadastro.xlsx` (a MESMA planilha do AutoSIGFIS — colunas
   do SuperFiltro). O modelo `ItemContratacao` espelha os cabeçalhos, então a
   mesma planilha serve aos dois projetos.
 - **Constantes** (não variam por linha) ficam em `config.Constantes`:
   justificativa ("MPRJ não é órgão SISG"), modalidade (dispensa de licitação),
   fundamento legal, item=1, qtd=1, unidade.
-- **Datas estimadas** ainda não têm coluna na planilha: usam `config.Provisorio`
-  como fallback até virem do PNCP.
+- **Datas** vêm da planilha: `DATA_INICIO` (nova coluna) → campo "Data de início";
+  `DATA_EMPENHO` → campo "Data de término"/Conclusão. Aceita ISO (`2026-06-17 00:00:00`)
+  ou `dd/mm/aaaa`.
+- **PCA**: o ano é derivado da data de início (`PCA {ano} - Em Execução`).
+- **Localização na grade**: casa TÍTULO + INÍCIO + CONCLUSÃO (evita confundir
+  contratações de mesmo título) antes de clicar em Editar.
+- **Seletores**: âncoras estáveis (`#criar-contratacao`, `#salvar-contratacao`,
+  `#input-pca`, `tr[id^='contratacao-']`, `[aria-label='Serviços']`). Nunca
+  `_ngcontent-*` nem `pn_id_*`.
 - **PNCP**: `ItemContratacao` tem uma seção reservada (data_inicio_estimada,
   data_fim_estimada, modo_disputa, moeda, srp). Basta criar a coluna na planilha
   com o mesmo nome que `from_row` preenche sozinho — colunas desconhecidas vão
