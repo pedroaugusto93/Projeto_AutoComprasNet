@@ -6,7 +6,7 @@ Fluxo:
   1. Clica em #concluir-contratacao ("Concluir").
   2. Aguarda a confirmação e clica em "Divulgar a contratação".
   3. Aguarda a tela/modal de recibo.
-  4. Salva a página de recibo em PDF dentro de ./recibos.
+  4. Salva a página de recibo em ./recibos/<numero_processo>.pdf.
   5. Clica em "FECHAR".
   6. Retorna ao main.py, que pode seguir para o próximo processo.
 
@@ -157,24 +157,17 @@ def _nome_seguro(
 def _caminho_recibo(
     processo: str,
 ) -> Path:
+    """
+    Um recibo por processo, usando o próprio número do processo
+    como nome do arquivo.
+    """
     config.RECIBOS_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    base = config.RECIBOS_DIR / (
-        f"recibo_{_nome_seguro(processo)}.pdf"
-    )
-
-    if not base.exists():
-        return base
-
-    timestamp = datetime.now().strftime(
-        "%Y%m%d_%H%M%S"
-    )
-
     return config.RECIBOS_DIR / (
-        f"recibo_{_nome_seguro(processo)}_{timestamp}.pdf"
+        f"{_nome_seguro(processo)}.pdf"
     )
 
 
