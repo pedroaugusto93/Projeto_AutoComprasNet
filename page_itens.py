@@ -48,7 +48,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import config
 from logger import get_logger
 from models import ItemContratacao
-from utils_dom import cur4, wait_dom_stable
+from utils_dom import cur4, wait_dom_stable, wait_spinner_sumir
 
 log = get_logger(__name__)
 TIMEOUT = config.TIMEOUT
@@ -57,10 +57,13 @@ Bucket = Tuple[str, List[ItemContratacao]]
 
 # -------------------------- Seletores reais -------------------------- #
 
+# Não depender de nav#collapse-1: o Angular altera os wrappers/ids
+# entre renderizações. O botão é identificado pela classe funcional e
+# pelo texto visível da etapa.
 ABA_ITENS_XPATH = (
-    "//nav[@id='collapse-1']"
     "//button[contains(@class,'botao-campo-secao-menu-lateral')]"
-    "[.//span[normalize-space(.)='3. Itens/Grupos']]"
+    "[.//span[normalize-space(.)='3. Itens/Grupos'] "
+    "or contains(normalize-space(.), '3. Itens/Grupos')]"
 )
 
 ABRIR_CATALOGO = (By.ID, "abrir-catalogo")
@@ -279,13 +282,60 @@ def _fornecedor_nome(item: ItemContratacao) -> str:
 # ====================== 1) ABRIR ABA ITENS ====================== #
 
 def _abrir_aba_itens(driver) -> None:
+    """
+    Abre a aba 3. Itens/Grupos sem depender da estrutura volátil
+    (collapse/nav) criada pelo Angular.
+    """
     log.info("Abrindo aba '3. Itens/Grupos'...")
+
+    wait_spinner_sumir(
+        driver,
+        TIMEOUT,
+    )
+
+    # Se o conteúdo da aba já está disponível, não clicar novamente.
+    if driver.find_elements(*ABRIR_CATALOGO):
+        visiveis = [
+            el
+            for el in driver.find_elements(*ABRIR_CATALOGO)
+            if el.is_displayed()
+        ]
+
+        if visiveis:
+            log.info("Aba '3. Itens/Grupos' já está aberta.")
+            return
 
     w = _wait(driver)
 
-    botao = w.until(
-        EC.presence_of_element_located((By.XPATH, ABA_ITENS_XPATH))
-    )
+    try:
+        botao = w.until(
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    ABA_ITENS_XPATH,
+                )
+            )
+        )
+    except TimeoutException as exc:
+        # Diagnóstico útil: mostra os textos das etapas laterais encontradas.
+        textos = []
+        for el in driver.find_elements(
+            By.CSS_SELECTOR,
+            "button.botao-campo-secao-menu-lateral",
+        ):
+            try:
+                texto = " ".join(
+                    (el.text or "").split()
+                )
+                if texto:
+                    textos.append(texto)
+            except StaleElementReferenceException:
+                continue
+
+        raise RuntimeError(
+            "Não foi possível localizar a aba '3. Itens/Grupos'. "
+            f"Etapas laterais encontradas: {textos or '(nenhuma)'}"
+        ) from exc
 
     driver.execute_script(
         "arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
@@ -294,22 +344,47 @@ def _abrir_aba_itens(driver) -> None:
 
     try:
         botao = w.until(
-            EC.element_to_be_clickable((By.XPATH, ABA_ITENS_XPATH))
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    ABA_ITENS_XPATH,
+                )
+            )
         )
         botao.click()
+
     except (
         ElementClickInterceptedException,
         StaleElementReferenceException,
     ):
         botao = w.until(
-            EC.presence_of_element_located((By.XPATH, ABA_ITENS_XPATH))
+            EC.presence_of_element_located(
+                (
+                    By.XPATH,
+                    ABA_ITENS_XPATH,
+                )
+            )
         )
-        driver.execute_script("arguments[0].click();", botao)
+        driver.execute_script(
+            "arguments[0].click();",
+            botao,
+        )
 
-    wait_dom_stable(driver)
+    wait_spinner_sumir(
+        driver,
+        TIMEOUT,
+    )
 
-    # A confirmação mais útil é o botão "Adicionar" da tela de itens.
-    w.until(EC.presence_of_element_located(ABRIR_CATALOGO))
+    wait_dom_stable(
+        driver
+    )
+
+    # Confirma que o conteúdo real da aba carregou.
+    w.until(
+        EC.visibility_of_element_located(
+            ABRIR_CATALOGO
+        )
+    )
 
     log.info("Aba '3. Itens/Grupos' aberta.")
 
