@@ -189,12 +189,27 @@ def selecionar_pca(driver, item: ItemContratacao, timeout: int = None) -> None:
 # 3) Aba "Contratações Minhas UASG"
 # ----------------------------------------------------------------------- #
 def abrir_aba_minhas_uasg(driver, timeout: int = None) -> None:
-    """Clica na aba que lista as contratações da própria UASG."""
+    """
+    Garante que estamos na aba 'Contratações Minhas UASG'.
+
+    Se a grid dessa aba já estiver visível, entende que a aba
+    já está aberta e não tenta clicar novamente.
+    """
     timeout = timeout or config.TIMEOUT
+
+    # Se a grid já estiver visível, a aba já está aberta.
+    linhas = driver.find_elements(By.CSS_SELECTOR, S.GRID_LINHAS)
+
+    if any(linha.is_displayed() for linha in linhas):
+        log.info(
+            "Aba 'Contratações Minhas UASG' já está aberta. "
+            "Clique ignorado."
+        )
+        return
+
     log.info("Abrindo aba 'Contratações Minhas UASG'...")
     wclick(driver, S.TAB_MINHAS_UASG, timeout)
     wait_dom_stable(driver)
-
 
 # ----------------------------------------------------------------------- #
 # 4) Localizar na grid (título + início + conclusão) e clicar em Editar
@@ -336,7 +351,9 @@ def _garantir_expandido(driver, no_css: str, timeout: int) -> None:
 def run(driver, item: ItemContratacao, timeout: int = None) -> None:
     """Executa o Step A completo."""
     timeout = timeout or config.TIMEOUT
-    criar_contratacao(driver, item, timeout)
+
+    # criar_contratacao(driver, item, timeout)
+
     selecionar_pca(driver, item, timeout)
     abrir_aba_minhas_uasg(driver, timeout)
     localizar_contratacao(driver, item, timeout)
