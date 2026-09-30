@@ -28,6 +28,7 @@ import page_dados_iniciais
 import page_itens
 import page_anexos
 import page_responsaveis
+import page_publicacao
 import page_localizar_processo
 
 from driver import get_driver
@@ -70,6 +71,7 @@ ETAPAS_ATIVAS: Dict[str, bool] = {
     "itens": False,
     "anexos": False,
     "responsaveis": True,
+    "publicacao": True,
 }
 
 
@@ -226,6 +228,17 @@ def _etapa_responsaveis(
     )
 
 
+def _etapa_publicacao(
+    driver,
+    itens_processo: List[ItemContratacao],
+) -> None:
+
+    page_publicacao.executar_processo(
+        driver,
+        itens_processo,
+    )
+
+
 # =====================================================================
 # ORDEM OFICIAL DO CADASTRO
 # =====================================================================
@@ -245,6 +258,8 @@ def _etapa_responsaveis(
 #   Anexos
 #       ↓
 #   Responsáveis
+#       ↓
+#   Publicação + recibo
 #
 FLUXO: List[Etapa] = [
     (
@@ -274,6 +289,10 @@ FLUXO: List[Etapa] = [
     (
         "responsaveis",
         _etapa_responsaveis,
+    ),
+    (
+        "publicacao",
+        _etapa_publicacao,
     ),
 ]
 
