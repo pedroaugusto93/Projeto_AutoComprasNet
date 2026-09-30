@@ -308,6 +308,23 @@ def executar_processo(
     itens_processo: List[ItemContratacao],
 ) -> None:
 
+    # Segunda trava de segurança: consulta o Excel imediatamente antes
+    # de qualquer interação com o ComprasNet. Mesmo que o filtro do main
+    # seja alterado/removido, processo já marcado não pode ser recadastrado.
+    valores_perc_atuais = pncp_status.valores_percentuais_processo_planilha(
+        numero_processo
+    )
+
+    if valores_perc_atuais:
+        log.warning(
+            "🛑 BLOQUEIO ANTI-DUPLICIDADE | %s | PNCP_PERC_Conclusao=%s | nenhuma etapa será executada",
+            numero_processo,
+            ", ".join(
+                valores_perc_atuais
+            ),
+        )
+        return
+
     log.info(
         "=" * 72
     )
@@ -460,8 +477,10 @@ def main() -> int:
 
     for processo, linhas in grupos:
 
-        valores_perc = pncp_status.valores_percentuais_grupo(
-            linhas
+        # Consulta diretamente a planilha atual. Isso evita depender
+        # somente dos objetos carregados em memória.
+        valores_perc = pncp_status.valores_percentuais_processo_planilha(
+            processo
         )
 
         if valores_perc:
