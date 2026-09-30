@@ -1,11 +1,12 @@
 # page_itens.py
 """
-Aba "Itens" do ComprasNet (antigo step_b).
+Aba "Itens/Grupos" do ComprasNet (antigo step_b).
 
 Fluxo:
-  1. abrir_itens_e_bucketizar() -> abre a aba Itens e agrupa linhas consecutivas por num_processo.
+  1. abrir_itens_e_bucketizar() -> abre "3. Itens/Grupos" e agrupa linhas
+     consecutivas por num_processo.
   2. Para cada bucket (processo):
-       - cadastrar_itens()       -> busca o código no catálogo, preenche valor/apelido.
+       - cadastrar_itens()        -> busca o código no catálogo, preenche valor/apelido.
        - localizar_e_casar_no_dc()-> envia ao DC e casa cada item por apelido + valor.
 """
 
@@ -13,8 +14,13 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import (
+    ElementClickInterceptedException,
+    StaleElementReferenceException,
+    TimeoutException,
+)
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import config
@@ -43,65 +49,108 @@ TIMEOUT = config.TIMEOUT
 Bucket = Tuple[str, List[ItemContratacao]]
 
 
-# ====================== ABRIR ABA ITENS ====================== #
+# ====================== ABRIR ABA ITENS/GRUPOS ====================== #
 def _abrir_aba_itens(driver) -> None:
     """
-    Localiza e abre a aba 'Itens' pelo texto visível.
+    Abre o item lateral:
 
-    Não depende da estrutura interna do menu nem de classes voláteis
-    como ng-star-inserted, active, col-8, pl-5 etc.
+        3. Itens/Grupos
+
+    Estrutura esperada:
+        <nav id="collapse-1">
+            ...
+            <button class="botao-campo-secao-menu-lateral">
+                <span> 3. Itens/Grupos </span>
+            </button>
+            ...
+        </nav>
+
+    O clique é feito no BUTTON, e não no SPAN.
     """
-    log.info("Abrindo aba Itens...")
 
-    def localizar_link_itens(d):
-        candidatos = d.find_elements(By.CSS_SELECTOR, "a")
+    log.info("Abrindo aba '3. Itens/Grupos'...")
 
-        for elemento in candidatos:
-            try:
-                texto = " ".join((elemento.text or "").split())
+    xpath = (
+        "//nav[@id='collapse-1']"
+        "//button[contains(@class,'botao-campo-secao-menu-lateral')]"
+        "[.//span[normalize-space(.)='3. Itens/Grupos']]"
+    )
 
-                if (
-                    texto.casefold() == "itens"
-                    and elemento.is_displayed()
-                    and elemento.is_enabled()
-                ):
-                    return elemento
-            except Exception:
-                continue
-
-        return False
+    wait = WebDriverWait(driver, TIMEOUT)
 
     try:
-        elemento = WebDriverWait(driver, TIMEOUT).until(localizar_link_itens)
-
-        driver.execute_script(
-            "arguments[0].scrollIntoView({block: 'center'});",
-            elemento,
+        botao = wait.until(
+            EC.presence_of_element_located((By.XPATH, xpath))
         )
 
+        # Garante que o item esteja na área visível.
+        driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
+            botao,
+        )
         wait_dom_stable(driver, 0.3)
 
+        # Reobtém após scroll para evitar referência stale em SPA Angular.
+        botao = wait.until(
+            EC.element_to_be_clickable((By.XPATH, xpath))
+        )
+
         try:
-            elemento.click()
-        except Exception:
+            botao.click()
+
+        except (ElementClickInterceptedException, StaleElementReferenceException):
             log.debug(
-                "Clique normal na aba Itens falhou; tentando clique via JavaScript."
+                "Clique Selenium em '3. Itens/Grupos' falhou; "
+                "tentando clique via JavaScript."
             )
-            driver.execute_script("arguments[0].click();", elemento)
+
+            botao = wait.until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            driver.execute_script("arguments[0].click();", botao)
 
         wait_dom_stable(driver)
 
-        log.info("Aba Itens aberta.")
+        # Confirma que o próprio item de menu ficou ativo.
+        def aba_esta_ativa(d):
+            try:
+                el = d.find_element(By.XPATH, xpath)
+
+                aria_current = (el.get_attribute("aria-current") or "").lower()
+
+                parent = el.find_element(By.XPATH, "./parent::li")
+                classes_parent = (parent.get_attribute("class") or "").split()
+
+                return aria_current == "true" or "active" in classes_parent
+            except Exception:
+                return False
+
+        try:
+            WebDriverWait(driver, min(TIMEOUT, 10)).until(aba_esta_ativa)
+        except TimeoutException:
+            # Alguns renders podem mudar a tela sem atualizar imediatamente
+            # aria-current/class. O clique já ocorreu; seguimos registrando aviso.
+            log.warning(
+                "Clique em '3. Itens/Grupos' realizado, mas o estado ativo "
+                "não pôde ser confirmado pelo menu."
+            )
+
+        log.info("Aba '3. Itens/Grupos' aberta.")
 
     except TimeoutException as exc:
         raise TimeoutException(
-            "Não foi possível localizar um link visível com o texto 'Itens'."
+            "Não foi possível localizar/clicar no botão "
+            "'3. Itens/Grupos' dentro de nav#collapse-1."
         ) from exc
 
 
 # ============ 1) ABRIR ITENS E CRIAR BUCKETS POR PROCESSO ============ #
-def abrir_itens_e_bucketizar(driver, itens: List[ItemContratacao]) -> List[Bucket]:
-    """Abre a aba Itens e cria buckets sequenciais por num_processo."""
+def abrir_itens_e_bucketizar(
+    driver,
+    itens: List[ItemContratacao],
+) -> List[Bucket]:
+    """Abre a aba Itens/Grupos e cria buckets sequenciais por num_processo."""
+
     _abrir_aba_itens(driver)
 
     buckets: List[Bucket] = []
@@ -110,6 +159,7 @@ def abrir_itens_e_bucketizar(driver, itens: List[ItemContratacao]) -> List[Bucke
 
     for item in itens:
         proc = (item.num_processo or "").strip()
+
         if atual_proc is None or proc == atual_proc:
             atual_proc = proc
             atual_linhas.append(item)
@@ -121,7 +171,11 @@ def abrir_itens_e_bucketizar(driver, itens: List[ItemContratacao]) -> List[Bucke
     if atual_linhas:
         buckets.append((atual_proc or "", atual_linhas))
 
-    log.info("Buckets formados: %d processo(s) distinto(s).", len(buckets))
+    log.info(
+        "Buckets formados: %d processo(s) distinto(s).",
+        len(buckets),
+    )
+
     return buckets
 
 
@@ -129,69 +183,149 @@ def abrir_itens_e_bucketizar(driver, itens: List[ItemContratacao]) -> List[Bucke
 @retry_once
 def cadastrar_itens(driver, bucket: Bucket) -> None:
     """Para cada linha do bucket: busca o código, adiciona e preenche valor/apelido."""
+
     num_processo, linhas = bucket
-    log.info("Cadastrando itens do processo %s...", num_processo)
+
+    log.info(
+        "Cadastrando itens do processo %s...",
+        num_processo,
+    )
 
     for idx, item in enumerate(linhas, start=1):
         valor_fmt = cur4(item.valor_unitario or "0")
         apelido = item.apelido
-        log.info("  Item %d: apelido='%s' valor='%s'", idx, apelido, valor_fmt)
 
-        wclick(driver, S.ADICIONAR_BTN, TIMEOUT)                  # abrir catálogo
-        wtype(driver, S.CODIGO_INPUT, config.CODIGO_ITEM, clear=True)
-        wclick(driver, S.LUPA_BTN, TIMEOUT)                       # pesquisar
+        log.info(
+            "  Item %d: apelido='%s' valor='%s'",
+            idx,
+            apelido,
+            valor_fmt,
+        )
 
+        # Abre catálogo.
+        wclick(driver, S.ADICIONAR_BTN, TIMEOUT)
+
+        # Pesquisa código do item.
+        wtype(
+            driver,
+            S.CODIGO_INPUT,
+            config.CODIGO_ITEM,
+            clear=True,
+        )
+
+        wclick(driver, S.LUPA_BTN, TIMEOUT)
+
+        # Seleciona resultado.
         _selecionar_item_na_tabela(driver)
+
+        # Descobre o card recém-criado.
         card_id = get_last_item_card_id(driver)
-        _setar_valor_e_apelido(driver, card_id, valor_fmt, apelido)
-        _salvar_card(driver, card_id, valor_fmt)
 
-        shot(driver, f"proc_{num_processo}_item_{card_id}_{apelido}.png")
+        # Preenche valor e apelido.
+        _setar_valor_e_apelido(
+            driver,
+            card_id,
+            valor_fmt,
+            apelido,
+        )
 
-    log.info("%d item(ns) cadastrado(s) no processo %s.", len(linhas), num_processo)
+        # Salva item.
+        _salvar_card(
+            driver,
+            card_id,
+            valor_fmt,
+        )
+
+        shot(
+            driver,
+            f"proc_{num_processo}_item_{card_id}_{apelido}.png",
+        )
+
+    log.info(
+        "%d item(ns) cadastrado(s) no processo %s.",
+        len(linhas),
+        num_processo,
+    )
 
 
 # ================= 3) LOCALIZAR E CASAR NO DC ================= #
 @retry_once
 def localizar_e_casar_no_dc(driver, bucket: Bucket) -> None:
     """Envia itens ao DC e casa cada um por apelido + valor."""
+
     num_processo, linhas = bucket
-    log.info("Enviando itens do processo %s ao DC...", num_processo)
+
+    log.info(
+        "Enviando itens do processo %s ao DC...",
+        num_processo,
+    )
 
     wclick(driver, S.CARRINHO_BTN, TIMEOUT)
     wclick(driver, S.DC_ADD_BTN, TIMEOUT)
+
     if is_visible(driver, S.DC_CONFIRMAR_BTN, 2):
         wclick(driver, S.DC_CONFIRMAR_BTN, TIMEOUT)
+
     wait_dom_stable(driver)
-    shot(driver, f"proc_{num_processo}_dc_entrada.png")
+
+    shot(
+        driver,
+        f"proc_{num_processo}_dc_entrada.png",
+    )
 
     if not is_visible(driver, S.DC_FIELDSET, TIMEOUT):
-        raise RuntimeError("Fieldset do DC não ficou visível.")
+        raise RuntimeError(
+            "Fieldset do DC não ficou visível."
+        )
 
     log.info("Casando cada item no DC...")
+
     for item in linhas:
         valor_fmt = cur4(item.valor_unitario or "0")
         apelido = item.apelido
 
         card_root = find_dc_card_by_value_and_apelido(
-            driver, valor_fmt, apelido, scope_css=S.DC_FIELDSET
+            driver,
+            valor_fmt,
+            apelido,
+            scope_css=S.DC_FIELDSET,
         )
+
         if card_root is None:
             raise RuntimeError(
-                f"Item não encontrado no DC (apelido='{apelido}', valor='{valor_fmt}')."
+                "Item não encontrado no DC "
+                f"(apelido='{apelido}', valor='{valor_fmt}')."
             )
 
-        _complementar_dc(driver, card_root, item)
-        shot(driver, f"proc_{num_processo}_dc_casado_{apelido}.png")
+        _complementar_dc(
+            driver,
+            card_root,
+            item,
+        )
 
-    log.info("Itens do processo %s casados no DC.", num_processo)
+        shot(
+            driver,
+            f"proc_{num_processo}_dc_casado_{apelido}.png",
+        )
+
+    log.info(
+        "Itens do processo %s casados no DC.",
+        num_processo,
+    )
 
 
 # -------------------- AUXILIARES DO STEP -------------------- #
 def _selecionar_item_na_tabela(driver) -> None:
     """Encontra a linha do serviço no catálogo e clica em Adicionar."""
-    if not is_visible(driver, S.CATALOGO_TABELA, TIMEOUT):
-        raise RuntimeError("Tabela do catálogo não visível.")
+
+    if not is_visible(
+        driver,
+        S.CATALOGO_TABELA,
+        TIMEOUT,
+    ):
+        raise RuntimeError(
+            "Tabela do catálogo não visível."
+        )
 
     rows = find_rows_by_text(
         driver,
@@ -201,9 +335,16 @@ def _selecionar_item_na_tabela(driver) -> None:
     )
 
     if not rows:
-        raise RuntimeError(f"Item {config.CODIGO_ITEM} não encontrado no catálogo.")
+        raise RuntimeError(
+            f"Item {config.CODIGO_ITEM} não encontrado no catálogo."
+        )
 
-    wclick(driver, S.CATALOGO_LINHA_BTN_ADICIONAR, TIMEOUT)
+    wclick(
+        driver,
+        S.CATALOGO_LINHA_BTN_ADICIONAR,
+        TIMEOUT,
+    )
+
     wait_dom_stable(driver)
 
 
@@ -213,38 +354,97 @@ def _setar_valor_e_apelido(
     valor_fmt: str,
     apelido: str,
 ) -> None:
-    """Preenche valor e apelido do card (idempotente, via JS setter)."""
-    js_set_value(driver, S.valor_input(card_id), valor_fmt, fire=True)
-    wait_text(driver, S.valor_espelho(card_id), f"R$ {valor_fmt}", TIMEOUT)
-    js_set_value(driver, S.apelido_input(card_id), apelido, fire=True)
+    """Preenche valor e apelido do card via setter JavaScript."""
+
+    js_set_value(
+        driver,
+        S.valor_input(card_id),
+        valor_fmt,
+        fire=True,
+    )
+
+    wait_text(
+        driver,
+        S.valor_espelho(card_id),
+        f"R$ {valor_fmt}",
+        TIMEOUT,
+    )
+
+    js_set_value(
+        driver,
+        S.apelido_input(card_id),
+        apelido,
+        fire=True,
+    )
 
 
-def _salvar_card(driver, card_id: str, valor_fmt: str) -> None:
+def _salvar_card(
+    driver,
+    card_id: str,
+    valor_fmt: str,
+) -> None:
     """Salva o card e valida o espelho do valor."""
-    wclick(driver, S.salvar_item(card_id), TIMEOUT)
+
+    wclick(
+        driver,
+        S.salvar_item(card_id),
+        TIMEOUT,
+    )
+
     wait_dom_stable(driver)
-    wait_text(driver, S.valor_espelho(card_id), f"R$ {valor_fmt}", TIMEOUT)
+
+    wait_text(
+        driver,
+        S.valor_espelho(card_id),
+        f"R$ {valor_fmt}",
+        TIMEOUT,
+    )
 
 
-def _complementar_dc(driver, card_root, item: ItemContratacao) -> None:
+def _complementar_dc(
+    driver,
+    card_root,
+    item: ItemContratacao,
+) -> None:
     """
-    Hook para campos complementares no DC (fornecedor, local de entrega, NBS...).
-    A implementar com os seletores do DC.
+    Hook para campos complementares no DC
+    (fornecedor, local de entrega, NBS etc.).
     """
+
     # TODO: implementar complemento do DC.
     return
 
 
 # ======================= ORQUESTRAÇÃO ======================= #
-def executar(driver, itens: List[ItemContratacao]) -> None:
+def executar(
+    driver,
+    itens: List[ItemContratacao],
+) -> None:
     """Orquestra o Step B completo (Itens + DC)."""
-    for bucket in abrir_itens_e_bucketizar(driver, itens):
-        cadastrar_itens(driver, bucket)
-        localizar_e_casar_no_dc(driver, bucket)
 
-    log.info("Aba Itens concluída para todos os processos.")
+    for bucket in abrir_itens_e_bucketizar(
+        driver,
+        itens,
+    ):
+        cadastrar_itens(
+            driver,
+            bucket,
+        )
+
+        localizar_e_casar_no_dc(
+            driver,
+            bucket,
+        )
+
+    log.info(
+        "Aba Itens concluída para todos os processos."
+    )
 
 
 def run(driver) -> None:
-    """Wrapper chamado pelo main.py: carrega a planilha e executa a aba Itens."""
-    executar(driver, carregar_itens())
+    """Wrapper chamado pelo main.py."""
+
+    executar(
+        driver,
+        carregar_itens(),
+    )

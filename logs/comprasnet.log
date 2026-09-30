@@ -335,3 +335,128 @@ selenium.common.exceptions.TimeoutException: Message: Elemento não clicável: #
 13:51:02 | INFO    | comprasnet.page_dados_basicos | Dados Básicos preenchidos.
 13:51:02 | INFO    | comprasnet.main | ▶ Etapa: Itens + DC
 13:51:02 | INFO    | comprasnet.page_itens | Abrindo aba Itens...
+13:54:30 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+13:54:31 | INFO    | comprasnet.main | Tela de execução carregada.
+13:54:31 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+13:54:31 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+13:54:31 | INFO    | comprasnet.main | ▶ Etapa: Dados Básicos
+13:54:31 | INFO    | comprasnet.page_dados_basicos | Selecionando PCA: PCA 2026 - Em Execução
+13:54:33 | INFO    | comprasnet.page_dados_basicos | Aba 'Contratações Minhas UASG' já está aberta. Clique ignorado.
+13:54:33 | INFO    | comprasnet.page_dados_basicos | Localizando: título='Modalidade Lotérica de Apostas de Quota Fixa – Bets' | início=14/08/2026 | conclusão=17/08/2026
+13:54:33 | INFO    | comprasnet.page_dados_basicos | Contratação localizada (contratacao-597616); abrindo pelo link.
+13:54:33 | INFO    | comprasnet.page_dados_basicos | Abrindo edição da contratação...
+13:54:34 | INFO    | comprasnet.page_dados_basicos | Preenchendo Dados Básicos (processo 20.22.0001.0056698.2026-15)...
+13:54:35 | INFO    | comprasnet.page_dados_basicos | Selecionando fundamentação legal...
+13:54:52 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+13:54:53 | INFO    | comprasnet.main | Tela de execução carregada.
+13:54:53 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+13:54:53 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+13:54:53 | INFO    | comprasnet.main | ▶ Etapa: Dados Básicos
+13:54:53 | INFO    | comprasnet.page_dados_basicos | Selecionando PCA: PCA 2026 - Em Execução
+13:54:54 | INFO    | comprasnet.page_dados_basicos | Aba 'Contratações Minhas UASG' já está aberta. Clique ignorado.
+13:54:54 | INFO    | comprasnet.page_dados_basicos | Localizando: título='Modalidade Lotérica de Apostas de Quota Fixa – Bets' | início=14/08/2026 | conclusão=17/08/2026
+13:54:54 | INFO    | comprasnet.page_dados_basicos | Contratação localizada (contratacao-597616); abrindo pelo link.
+13:54:54 | INFO    | comprasnet.page_dados_basicos | Abrindo edição da contratação...
+13:54:55 | INFO    | comprasnet.page_dados_basicos | Preenchendo Dados Básicos (processo 20.22.0001.0056698.2026-15)...
+13:54:57 | INFO    | comprasnet.page_dados_basicos | Selecionando fundamentação legal...
+13:59:28 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+13:59:30 | INFO    | comprasnet.main | Tela de execução carregada.
+13:59:30 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+13:59:30 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+13:59:30 | INFO    | comprasnet.main | ▶ Etapa: Dados Básicos
+13:59:30 | INFO    | comprasnet.page_dados_basicos | Selecionando PCA: PCA 2026 - Em Execução
+13:59:31 | INFO    | comprasnet.page_dados_basicos | Aba 'Contratações Minhas UASG' já está aberta. Clique ignorado.
+13:59:31 | INFO    | comprasnet.page_dados_basicos | Localizando: título='Modalidade Lotérica de Apostas de Quota Fixa – Bets' | início=14/08/2026 | conclusão=17/08/2026
+13:59:31 | INFO    | comprasnet.page_dados_basicos | Contratação localizada (contratacao-597616); abrindo pelo link.
+13:59:31 | INFO    | comprasnet.page_dados_basicos | Abrindo edição da contratação...
+13:59:33 | INFO    | comprasnet.page_dados_basicos | Preenchendo Dados Básicos (processo 20.22.0001.0056698.2026-15)...
+13:59:34 | INFO    | comprasnet.page_dados_basicos | Selecionando fundamentação legal...
+14:05:45 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+14:05:45 | INFO    | comprasnet.main | Tela atual preservada.
+14:05:45 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+14:05:45 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+14:05:46 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+14:05:46 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+14:05:46 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+14:05:47 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+14:05:47 | INFO    | comprasnet.page_itens | Buckets formados: 10 processo(s) distinto(s).
+14:05:47 | INFO    | comprasnet.page_itens | Cadastrando itens do processo 20.22.0001.0056698.2026-15...
+14:05:47 | INFO    | comprasnet.page_itens |   Item 1: apelido='Emerson Luiz Gazzoli' valor='616,1800'
+14:05:57 | ERROR   | comprasnet.main | Falha na etapa 'Itens + DC'
+Traceback (most recent call last):
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\main.py", line 50, in main
+    page_itens.executar(driver, itens)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 429, in executar
+    cadastrar_itens(
+    ~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        bucket,
+        ^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\utils_dom.py", line 154, in wrapper
+    return fn(*args, **kwargs)
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 219, in cadastrar_itens
+    _selecionar_item_na_tabela(driver)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 338, in _selecionar_item_na_tabela
+    raise RuntimeError(
+        f"Item {config.CODIGO_ITEM} não encontrado no catálogo."
+    )
+RuntimeError: Item 21172 não encontrado no catálogo.
+14:05:57 | INFO    | comprasnet.main | ====================================================
+14:05:57 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+14:05:57 | INFO    | comprasnet.main |   ❌ Itens + DC       ERRO — Item 21172 não encontrado no catálogo.
+14:05:57 | INFO    | comprasnet.main | Tempo total: 12.1s
+14:05:57 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+14:05:57 | INFO    | comprasnet.main | ====================================================
+14:06:04 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+14:06:04 | INFO    | comprasnet.main | Tela atual preservada.
+14:06:04 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/list
+14:06:04 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+14:06:04 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+14:06:04 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+14:06:04 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+14:06:27 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+14:06:27 | INFO    | comprasnet.main | Tela atual preservada.
+14:06:27 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+14:06:27 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+14:06:27 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+14:06:27 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+14:06:27 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+14:06:28 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+14:06:28 | INFO    | comprasnet.page_itens | Buckets formados: 10 processo(s) distinto(s).
+14:06:28 | INFO    | comprasnet.page_itens | Cadastrando itens do processo 20.22.0001.0056698.2026-15...
+14:06:28 | INFO    | comprasnet.page_itens |   Item 1: apelido='Emerson Luiz Gazzoli' valor='616,1800'
+14:06:59 | ERROR   | comprasnet.main | Falha na etapa 'Itens + DC'
+Traceback (most recent call last):
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\main.py", line 50, in main
+    page_itens.executar(driver, itens)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 429, in executar
+    cadastrar_itens(
+    ~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        bucket,
+        ^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\utils_dom.py", line 154, in wrapper
+    return fn(*args, **kwargs)
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 219, in cadastrar_itens
+    _selecionar_item_na_tabela(driver)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 326, in _selecionar_item_na_tabela
+    raise RuntimeError(
+        "Tabela do catálogo não visível."
+    )
+RuntimeError: Tabela do catálogo não visível.
+14:06:59 | INFO    | comprasnet.main | ====================================================
+14:06:59 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+14:06:59 | INFO    | comprasnet.main |   ❌ Itens + DC       ERRO — Tabela do catálogo não visível.
+14:06:59 | INFO    | comprasnet.main | Tempo total: 32.5s
+14:06:59 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+14:06:59 | INFO    | comprasnet.main | ====================================================
