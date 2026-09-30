@@ -48,7 +48,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import config
 from logger import get_logger
 from models import ItemContratacao
-from utils_dom import cur4, wait_dom_stable, wait_spinner_sumir
+from utils_dom import cur4, wait_dom_stable
 
 log = get_logger(__name__)
 TIMEOUT = config.TIMEOUT
@@ -283,108 +283,145 @@ def _fornecedor_nome(item: ItemContratacao) -> str:
 
 def _abrir_aba_itens(driver) -> None:
     """
-    Abre a aba 3. Itens/Grupos sem depender da estrutura volátil
-    (collapse/nav) criada pelo Angular.
+    Abre a etapa de Itens sem depender da estrutura interna volátil
+    do menu lateral do Angular.
+
+    Aceita tanto o rótulo atual "3. Itens/Grupos" quanto versões da
+    interface que exibem apenas "Itens".
     """
     log.info("Abrindo aba '3. Itens/Grupos'...")
 
-    wait_spinner_sumir(
-        driver,
-        TIMEOUT,
-    )
-
-    # Se o conteúdo da aba já está disponível, não clicar novamente.
-    if driver.find_elements(*ABRIR_CATALOGO):
-        visiveis = [
-            el
-            for el in driver.find_elements(*ABRIR_CATALOGO)
-            if el.is_displayed()
-        ]
-
-        if visiveis:
-            log.info("Aba '3. Itens/Grupos' já está aberta.")
-            return
-
     w = _wait(driver)
 
-    try:
-        botao = w.until(
-            EC.presence_of_element_located(
-                (
-                    By.XPATH,
-                    ABA_ITENS_XPATH,
-                )
-            )
-        )
-    except TimeoutException as exc:
-        # Diagnóstico útil: mostra os textos das etapas laterais encontradas.
-        textos = []
-        for el in driver.find_elements(
+    # Se a aba já estiver aberta, o botão Adicionar estará visível.
+    for existente in driver.find_elements(*ABRIR_CATALOGO):
+        try:
+            if existente.is_displayed():
+                log.info("Aba de Itens já está aberta.")
+                return
+        except StaleElementReferenceException:
+            pass
+
+    def localizar_controle_itens(d):
+        # 1) Botões do menu lateral — caminho preferencial.
+        for el in d.find_elements(
             By.CSS_SELECTOR,
             "button.botao-campo-secao-menu-lateral",
         ):
             try:
+                if not el.is_displayed():
+                    continue
+
                 texto = " ".join(
-                    (el.text or "").split()
-                )
-                if texto:
-                    textos.append(texto)
+                    (el.text or el.get_attribute("innerText") or "").split()
+                ).casefold()
+
+                if (
+                    "itens/grupos" in texto
+                    or texto == "itens"
+                    or texto.endswith(" itens")
+                ):
+                    return el
+            except StaleElementReferenceException:
+                continue
+
+        # 2) Fallback histórico: algumas versões renderizam a etapa como <a>.
+        for el in d.find_elements(
+            By.CSS_SELECTOR,
+            "a",
+        ):
+            try:
+                if not el.is_displayed():
+                    continue
+
+                texto = " ".join(
+                    (el.text or el.get_attribute("innerText") or "").split()
+                ).casefold()
+
+                if (
+                    texto == "itens"
+                    or "itens/grupos" in texto
+                ):
+                    return el
+            except StaleElementReferenceException:
+                continue
+
+        return False
+
+    try:
+        controle = w.until(
+            localizar_controle_itens
+        )
+    except TimeoutException as exc:
+        laterais = []
+        for el in driver.find_elements(
+            By.CSS_SELECTOR,
+            "button.botao-campo-secao-menu-lateral, a",
+        ):
+            try:
+                if el.is_displayed():
+                    texto = " ".join(
+                        (el.text or el.get_attribute("innerText") or "").split()
+                    )
+                    if texto:
+                        laterais.append(texto)
             except StaleElementReferenceException:
                 continue
 
         raise RuntimeError(
-            "Não foi possível localizar a aba '3. Itens/Grupos'. "
-            f"Etapas laterais encontradas: {textos or '(nenhuma)'}"
+            "Não encontrei o controle da etapa Itens. "
+            f"Controles visíveis encontrados: {laterais[:30]}"
         ) from exc
+
+    texto_controle = " ".join(
+        (controle.text or controle.get_attribute("innerText") or "").split()
+    )
+
+    log.info(
+        "Controle da aba Itens localizado: %r",
+        texto_controle,
+    )
 
     driver.execute_script(
         "arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
-        botao,
+        controle,
+    )
+
+    wait_dom_stable(
+        driver,
+        0.3,
     )
 
     try:
-        botao = w.until(
-            EC.element_to_be_clickable(
-                (
-                    By.XPATH,
-                    ABA_ITENS_XPATH,
-                )
-            )
-        )
-        botao.click()
-
+        controle.click()
     except (
         ElementClickInterceptedException,
         StaleElementReferenceException,
     ):
-        botao = w.until(
-            EC.presence_of_element_located(
-                (
-                    By.XPATH,
-                    ABA_ITENS_XPATH,
-                )
-            )
+        # Reobtém, pois o scroll pode provocar rerender no Angular.
+        controle = w.until(
+            localizar_controle_itens
         )
         driver.execute_script(
             "arguments[0].click();",
-            botao,
+            controle,
         )
-
-    wait_spinner_sumir(
-        driver,
-        TIMEOUT,
-    )
 
     wait_dom_stable(
         driver
     )
 
-    # Confirma que o conteúdo real da aba carregou.
-    w.until(
-        EC.visibility_of_element_located(
-            ABRIR_CATALOGO
+    try:
+        w.until(
+            EC.visibility_of_element_located(
+                ABRIR_CATALOGO
+            )
         )
-    )
+    except TimeoutException as exc:
+        raise RuntimeError(
+            "O controle de Itens foi clicado, mas a tela de Itens "
+            "não carregou o botão 'Adicionar' (#abrir-catalogo)."
+        ) from exc
 
     log.info("Aba '3. Itens/Grupos' aberta.")
 
