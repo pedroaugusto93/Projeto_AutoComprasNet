@@ -34,7 +34,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import config
 from logger import get_logger
 from models import ItemContratacao
-from utils_dom import wait_dom_stable
+from utils_dom import wait_dom_stable, wait_spinner_sumir
 
 
 log = get_logger(__name__)
@@ -88,6 +88,11 @@ def _click_visivel(
     Clica uma única vez no elemento visível.
     Não possui retry de gravação para evitar publicação duplicada.
     """
+    wait_spinner_sumir(
+        driver,
+        timeout or TIMEOUT,
+    )
+
     elemento = _wait(
         driver,
         timeout,
