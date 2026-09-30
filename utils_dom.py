@@ -13,7 +13,11 @@ import re
 import time
 from typing import List, Optional
 
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from selenium.common.exceptions import (
+    ElementClickInterceptedException,
+    StaleElementReferenceException,
+    TimeoutException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -41,6 +45,29 @@ def wait_dom_stable(driver, delay: Optional[float] = None) -> None:
     time.sleep(config.DOM_SETTLE if delay is None else delay)
 
 
+def wait_spinner_sumir(
+    driver,
+    timeout: Optional[int] = None,
+) -> None:
+    """
+    Aguarda o backdrop/spinner global do ComprasNet desaparecer.
+
+    O Angular pode manter o botão tecnicamente "clicável" enquanto o
+    #spinner ainda intercepta o clique. Esta espera evita essa condição.
+    """
+    WebDriverWait(
+        driver,
+        timeout or config.TIMEOUT,
+    ).until(
+        EC.invisibility_of_element_located(
+            (
+                By.CSS_SELECTOR,
+                "#spinner",
+            )
+        )
+    )
+
+
 def is_visible(driver, css_selector: str, timeout: int = 5) -> bool:
     """True se o elemento ficar visível dentro do timeout."""
     try:
@@ -61,17 +88,61 @@ def wait_text(driver, css_selector: str, expected_text: str, timeout: int = 10) 
 
 # -------------------------- CLICK / TYPE WRAPPERS ------------------------- #
 def wclick(driver, css_selector: str, timeout: int = 10) -> None:
-    """Clique seguro com 1 retry para stale/timeout."""
-    wait = WebDriverWait(driver, timeout)
-    for tentativa in range(2):
+    """
+    Clique seguro para SPA/Angular.
+
+    Antes do clique, aguarda o spinner global desaparecer. Faz até 3
+    tentativas para stale, timeout ou clique interceptado.
+    """
+    wait = WebDriverWait(
+        driver,
+        timeout,
+    )
+
+    ultimo_erro = None
+
+    for tentativa in range(
+        1,
+        4,
+    ):
         try:
-            el = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, css_selector)))
+            wait_spinner_sumir(
+                driver,
+                timeout,
+            )
+
+            el = wait.until(
+                EC.element_to_be_clickable(
+                    (
+                        By.CSS_SELECTOR,
+                        css_selector,
+                    )
+                )
+            )
+
             el.click()
             return
-        except (TimeoutException, StaleElementReferenceException):
-            log.debug("Retentando clique em %s (tentativa %d)", css_selector, tentativa + 1)
-            time.sleep(0.5)
-    raise TimeoutException(f"Elemento não clicável: {css_selector}")
+
+        except (
+            TimeoutException,
+            StaleElementReferenceException,
+            ElementClickInterceptedException,
+        ) as exc:
+            ultimo_erro = exc
+
+            log.debug(
+                "Retentando clique em %s (tentativa %d/3)",
+                css_selector,
+                tentativa,
+            )
+
+            time.sleep(
+                0.6
+            )
+
+    raise TimeoutException(
+        f"Elemento não clicável após aguardar spinner: {css_selector}"
+    ) from ultimo_erro
 
 
 def wtype(driver, css_selector: str, texto: str, clear: bool = True, timeout: int = 10) -> None:
