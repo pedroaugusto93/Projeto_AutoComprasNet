@@ -460,3 +460,700 @@ RuntimeError: Tabela do catálogo não visível.
 14:06:59 | INFO    | comprasnet.main | Tempo total: 32.5s
 14:06:59 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
 14:06:59 | INFO    | comprasnet.main | ====================================================
+14:31:08 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+14:31:08 | INFO    | comprasnet.main | Tela atual preservada.
+14:31:08 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+14:31:08 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+14:31:08 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+14:31:08 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+14:31:08 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+14:31:09 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+14:31:09 | INFO    | comprasnet.page_itens | Buckets formados: 10 processo(s) distinto(s).
+14:31:09 | INFO    | comprasnet.page_itens | Cadastrando 8 item(ns) do processo 20.22.0001.0056698.2026-15...
+14:31:09 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:31:10 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:41:40 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+14:41:40 | INFO    | comprasnet.main | Tela atual preservada.
+14:41:40 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+14:41:40 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+14:41:41 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+14:41:41 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+14:41:41 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+14:41:41 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+14:41:41 | INFO    | comprasnet.page_itens | Buckets formados: 10 processo(s) distinto(s).
+14:41:41 | INFO    | comprasnet.page_itens | Cadastrando 8 item(ns) do processo 20.22.0001.0056698.2026-15...
+14:41:41 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:41:42 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:41:42 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:41:43 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:41:43 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:41:43 | INFO    | comprasnet.page_itens | Item 1/8 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+14:41:45 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+14:41:45 | INFO    | comprasnet.page_itens | Item 1/8 salvo.
+14:41:45 | INFO    | comprasnet.page_itens | Item 2/8 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+14:41:46 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+14:41:47 | INFO    | comprasnet.page_itens | Item 2/8 salvo.
+14:41:47 | INFO    | comprasnet.page_itens | Item 3/8 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+14:41:47 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+14:41:48 | INFO    | comprasnet.page_itens | Item 3/8 salvo.
+14:41:48 | INFO    | comprasnet.page_itens | Item 4/8 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+14:41:49 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+14:41:49 | INFO    | comprasnet.page_itens | Item 4/8 salvo.
+14:41:49 | INFO    | comprasnet.page_itens | Item 5/8 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+14:41:50 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+14:41:51 | INFO    | comprasnet.page_itens | Item 5/8 salvo.
+14:41:51 | INFO    | comprasnet.page_itens | Item 6/8 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+14:41:52 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+14:41:52 | INFO    | comprasnet.page_itens | Item 6/8 salvo.
+14:41:52 | INFO    | comprasnet.page_itens | Item 7/8 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+14:41:53 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+14:41:54 | INFO    | comprasnet.page_itens | Item 7/8 salvo.
+14:41:54 | INFO    | comprasnet.page_itens | Item 8/8 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+14:41:54 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+14:41:55 | INFO    | comprasnet.page_itens | Item 8/8 salvo.
+14:41:55 | INFO    | comprasnet.page_itens | Todos os 8 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+14:41:55 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+14:41:58 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+14:41:58 | INFO    | comprasnet.page_itens | Cadastrando 1 item(ns) do processo 20.22.0001.0061423.2026-92...
+14:41:58 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:41:59 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:41:59 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:41:59 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:42:00 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:42:00 | INFO    | comprasnet.page_itens | Item 1/1 | processo=20.22.0001.0061423.2026-92 | valor=1.305,1800
+14:42:01 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.305,1800 | tela=1.305,1800
+14:42:01 | INFO    | comprasnet.page_itens | Item 1/1 salvo.
+14:42:01 | INFO    | comprasnet.page_itens | Todos os 1 item(ns) foram cadastrados no processo 20.22.0001.0061423.2026-92.
+14:42:01 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0061423.2026-92: carrinho -> DC -> confirmar...
+14:42:05 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0061423.2026-92 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+14:42:05 | INFO    | comprasnet.page_itens | Cadastrando 1 item(ns) do processo 20.22.0001.0056698.2026-15...
+14:42:05 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:42:05 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:42:05 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:42:05 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:42:06 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:42:06 | INFO    | comprasnet.page_itens | Item 1/1 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+14:42:07 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+14:42:07 | INFO    | comprasnet.page_itens | Item 1/1 salvo.
+14:42:07 | INFO    | comprasnet.page_itens | Todos os 1 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+14:42:07 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+14:42:11 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+14:42:11 | INFO    | comprasnet.page_itens | Cadastrando 2 item(ns) do processo 20.22.0001.0063114.2026-25...
+14:42:11 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:42:12 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:42:12 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:42:12 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:42:12 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:42:12 | INFO    | comprasnet.page_itens | Item 1/2 | processo=20.22.0001.0063114.2026-25 | valor=227,2900
+14:42:13 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=227,2900 | tela=227,2900
+14:42:14 | INFO    | comprasnet.page_itens | Item 1/2 salvo.
+14:42:14 | INFO    | comprasnet.page_itens | Item 2/2 | processo=20.22.0001.0063114.2026-25 | valor=308,0900
+14:42:14 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=308,0900 | tela=308,0900
+14:42:15 | INFO    | comprasnet.page_itens | Item 2/2 salvo.
+14:42:15 | INFO    | comprasnet.page_itens | Todos os 2 item(ns) foram cadastrados no processo 20.22.0001.0063114.2026-25.
+14:42:15 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0063114.2026-25: carrinho -> DC -> confirmar...
+14:42:18 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0063114.2026-25 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+14:42:18 | INFO    | comprasnet.page_itens | Cadastrando 1 item(ns) do processo 20.22.0001.0063449.2026-98...
+14:42:18 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:42:19 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:42:19 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:42:19 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:42:20 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:42:20 | INFO    | comprasnet.page_itens | Item 1/1 | processo=20.22.0001.0063449.2026-98 | valor=2.609,8600
+14:42:21 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=2.609,8600 | tela=2.609,8600
+14:42:21 | INFO    | comprasnet.page_itens | Item 1/1 salvo.
+14:42:21 | INFO    | comprasnet.page_itens | Todos os 1 item(ns) foram cadastrados no processo 20.22.0001.0063449.2026-98.
+14:42:21 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0063449.2026-98: carrinho -> DC -> confirmar...
+14:42:25 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0063449.2026-98 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+14:42:25 | INFO    | comprasnet.page_itens | Cadastrando 1 item(ns) do processo 20.22.0001.0063481.2026-10...
+14:42:25 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+14:42:25 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+14:42:25 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+14:42:25 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+14:42:26 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+14:42:26 | INFO    | comprasnet.page_itens | Item 1/1 | processo=20.22.0001.0063481.2026-10 | valor=2.609,8600
+14:42:27 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=2.609,8600 | tela=2.609,8600
+14:42:28 | INFO    | comprasnet.page_itens | Item 1/1 salvo.
+14:42:28 | INFO    | comprasnet.page_itens | Todos os 1 item(ns) foram cadastrados no processo 20.22.0001.0063481.2026-10.
+14:42:28 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0063481.2026-10: carrinho -> DC -> confirmar...
+15:00:23 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:00:23 | INFO    | comprasnet.main | Tela atual preservada.
+15:00:23 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:00:23 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:00:23 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:00:23 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:00:23 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:00:24 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:00:24 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:00:24 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:00:24 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:00:24 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:00:24 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:00:24 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:00:26 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:00:26 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:00:26 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:00:27 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:00:27 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:00:29 | ERROR   | comprasnet.main | Falha na etapa 'Itens + DC'
+Traceback (most recent call last):
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\main.py", line 50, in main
+    page_itens.executar(driver, itens)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 670, in executar
+    executar_processo(
+    ~~~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        linhas,
+        ^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 278, in executar_processo
+    cadastrar_itens(
+    ~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        bucket,
+        ^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 561, in cadastrar_itens
+    _preencher_valor_unitario(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        valor_fmt,
+        ^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 447, in _preencher_valor_unitario
+    campo.click()
+    ~~~~~~~~~~~^^
+  File "C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 112, in click
+    self._execute(Command.CLICK_ELEMENT)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\venv\Lib\site-packages\selenium\webdriver\remote\webelement.py", line 504, in _execute
+    return self._parent.execute(command, params)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 506, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 232, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementClickInterceptedException: Message: element click intercepted: Element <input _ngcontent-ng-c3612891804="" id="valor-unitario" currencymask="" formcontrolname="valor" maxlength="15" autocomplete="off" class="ng-untouched ng-pristine ng-invalid" style="text-align: right;"> is not clickable at point (495, 157). Other element would receive the click: <span role="combobox" pautofocus="" class="p-element p-dropdown-label p-inputtext ng-star-inserted" aria-disabled="false" aria-label="UNIDADE" aria-labelledby="label-unidade-fornecimento" aria-haspopup="listbox" aria-expanded="false" tabindex="0">...</span>
+  (Session info: chrome=154.0.8037.58); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff7ae7b9d55+5a55]
+	chromedriver!(No symbol) [0x7ff7ae6df540]
+	chromedriver!(No symbol) [0x7ff7ae5045fd]
+	chromedriver!(No symbol) [0x7ff7ae567a73]
+	chromedriver!(No symbol) [0x7ff7ae56567a]
+	chromedriver!(No symbol) [0x7ff7ae5629b7]
+	chromedriver!(No symbol) [0x7ff7ae561880]
+	chromedriver!(No symbol) [0x7ff7ae553828]
+	chromedriver!(No symbol) [0x7ff7ae5890ea]
+	chromedriver!(No symbol) [0x7ff7ae5530a6]
+	chromedriver!(No symbol) [0x7ff7ae5afcd9]
+	chromedriver!(No symbol) [0x7ff7ae551a12]
+	chromedriver!(No symbol) [0x7ff7ae552823]
+	chromedriver!GetHandleVerifier [0x7ff7aebd04b1+41c1b1]
+	chromedriver!GetHandleVerifier [0x7ff7aebfe26b+449f6b]
+	chromedriver!GetHandleVerifier [0x7ff7aebf274e+43e44e]
+	chromedriver!GetHandleVerifier [0x7ff7ae8b32fe+feffe]
+	chromedriver!(No symbol) [0x7ff7ae6ecb55]
+	chromedriver!(No symbol) [0x7ff7ae6e7f64]
+	chromedriver!(No symbol) [0x7ff7ae6e80f4]
+	chromedriver!(No symbol) [0x7ff7ae6d2e4c]
+	KERNEL32!BaseThreadInitThunk [0x7ffe8357e957+17]
+	ntdll!RtlUserThreadStart [0x7ffe84fead6c+2c]
+
+15:00:29 | INFO    | comprasnet.main | ====================================================
+15:00:29 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+15:00:29 | INFO    | comprasnet.main |   ❌ Itens + DC       ERRO — Message: element click intercepted: Element <input _ngcontent-ng-c3612891804="" id="valor-unitario" currencymask="" formcontrolname="valor" maxlength="15" autocomplete="off" class="ng-untouched ng-pristine ng-invalid" style="text-align: right;"> is not clickable at point (495, 157). Other element would receive the click: <span role="combobox" pautofocus="" class="p-element p-dropdown-label p-inputtext ng-star-inserted" aria-disabled="false" aria-label="UNIDADE" aria-labelledby="label-unidade-fornecimento" aria-haspopup="listbox" aria-expanded="false" tabindex="0">...</span>
+  (Session info: chrome=154.0.8037.58); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff7ae7b9d55+5a55]
+	chromedriver!(No symbol) [0x7ff7ae6df540]
+	chromedriver!(No symbol) [0x7ff7ae5045fd]
+	chromedriver!(No symbol) [0x7ff7ae567a73]
+	chromedriver!(No symbol) [0x7ff7ae56567a]
+	chromedriver!(No symbol) [0x7ff7ae5629b7]
+	chromedriver!(No symbol) [0x7ff7ae561880]
+	chromedriver!(No symbol) [0x7ff7ae553828]
+	chromedriver!(No symbol) [0x7ff7ae5890ea]
+	chromedriver!(No symbol) [0x7ff7ae5530a6]
+	chromedriver!(No symbol) [0x7ff7ae5afcd9]
+	chromedriver!(No symbol) [0x7ff7ae551a12]
+	chromedriver!(No symbol) [0x7ff7ae552823]
+	chromedriver!GetHandleVerifier [0x7ff7aebd04b1+41c1b1]
+	chromedriver!GetHandleVerifier [0x7ff7aebfe26b+449f6b]
+	chromedriver!GetHandleVerifier [0x7ff7aebf274e+43e44e]
+	chromedriver!GetHandleVerifier [0x7ff7ae8b32fe+feffe]
+	chromedriver!(No symbol) [0x7ff7ae6ecb55]
+	chromedriver!(No symbol) [0x7ff7ae6e7f64]
+	chromedriver!(No symbol) [0x7ff7ae6e80f4]
+	chromedriver!(No symbol) [0x7ff7ae6d2e4c]
+	KERNEL32!BaseThreadInitThunk [0x7ffe8357e957+17]
+	ntdll!RtlUserThreadStart [0x7ffe84fead6c+2c]
+
+15:00:29 | INFO    | comprasnet.main | Tempo total: 9.5s
+15:00:29 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+15:00:29 | INFO    | comprasnet.main | ====================================================
+15:00:49 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:00:49 | INFO    | comprasnet.main | Tela atual preservada.
+15:00:49 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:00:49 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:00:49 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:00:49 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:00:49 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:00:49 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:00:49 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:00:50 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:00:50 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:00:50 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:00:50 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:00:50 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:00:50 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:00:50 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:00:50 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:00:51 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:00:51 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:00:52 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:00:52 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+15:00:52 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:00:53 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:00:54 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+15:00:54 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:00:55 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:00:55 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+15:00:55 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:00:56 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:00:57 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+15:00:57 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+15:00:58 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+15:00:58 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+15:00:58 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+15:00:59 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+15:01:00 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+15:01:00 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:01:01 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:01:01 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+15:01:01 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+15:01:02 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+15:01:03 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+15:01:03 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:01:04 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:01:04 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+15:01:04 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+15:01:04 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+15:01:08 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+15:01:08 | INFO    | comprasnet.page_itens | ✓ Etapa Itens + DC concluída para o processo 20.22.0001.0056698.2026-15.
+15:01:08 | INFO    | comprasnet.page_itens | Execução interrompida intencionalmente após o processo 20.22.0001.0056698.2026-15. O próximo processo só poderá ser iniciado pelo fluxo principal depois da conclusão total do processo atual.
+15:01:08 | INFO    | comprasnet.main | ====================================================
+15:01:08 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+15:01:08 | INFO    | comprasnet.main |   ✅ Itens + DC       OK
+15:01:08 | INFO    | comprasnet.main | Tempo total: 19.5s
+15:01:08 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+15:01:08 | INFO    | comprasnet.main | ====================================================
+15:11:53 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:11:53 | INFO    | comprasnet.main | Tela atual preservada.
+15:11:53 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:11:53 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:12:01 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:12:01 | INFO    | comprasnet.main | Tela atual preservada.
+15:12:01 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:12:01 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:12:02 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:12:02 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:12:02 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:12:02 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:12:02 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:12:02 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:12:02 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:12:02 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:12:02 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:12:02 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:12:03 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:12:03 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:12:03 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:12:04 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:12:04 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:12:05 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:12:05 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+15:12:05 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:12:06 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:12:07 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+15:12:07 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:12:08 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:12:08 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+15:12:08 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:12:09 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:12:10 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+15:12:10 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+15:12:11 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+15:12:11 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+15:12:11 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+15:12:12 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+15:12:13 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+15:12:13 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:12:14 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:12:14 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+15:12:14 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+15:12:15 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+15:12:16 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+15:12:16 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:12:17 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:12:17 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+15:12:17 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+15:12:17 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+15:12:21 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+15:12:21 | INFO    | comprasnet.page_itens | ✓ Etapa Itens + DC concluída para o processo 20.22.0001.0056698.2026-15.
+15:12:21 | INFO    | comprasnet.page_itens | Execução interrompida intencionalmente após o processo 20.22.0001.0056698.2026-15. O próximo processo só poderá ser iniciado pelo fluxo principal depois da conclusão total do processo atual.
+15:12:21 | INFO    | comprasnet.main | ====================================================
+15:12:21 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+15:12:21 | INFO    | comprasnet.main |   ✅ Itens + DC       OK
+15:12:21 | INFO    | comprasnet.main | Tempo total: 19.7s
+15:12:21 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+15:12:21 | INFO    | comprasnet.main | ====================================================
+15:41:56 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:41:56 | INFO    | comprasnet.main | Tela atual preservada.
+15:41:56 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:41:56 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:42:09 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:42:09 | INFO    | comprasnet.main | Tela atual preservada.
+15:42:09 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:42:09 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:42:11 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:42:11 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:42:11 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:42:11 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:42:11 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:42:11 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:42:11 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:42:11 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:42:11 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:42:11 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:42:12 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:42:12 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:42:12 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:42:13 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:42:13 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:42:14 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:42:15 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+15:42:15 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:42:16 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:42:16 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+15:42:16 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:42:17 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:42:18 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+15:42:18 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:42:19 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:42:19 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+15:42:19 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+15:42:20 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+15:42:21 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+15:42:21 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+15:42:22 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+15:42:22 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+15:42:22 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:42:23 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:42:24 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+15:42:24 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+15:42:25 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+15:42:25 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+15:42:25 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:42:26 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:42:27 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+15:42:27 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+15:42:27 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+15:42:30 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+15:42:31 | INFO    | comprasnet.page_itens | Adicionando local de entrega em lote para 9 item(ns)...
+15:42:32 | INFO    | comprasnet.page_itens | Local de entrega 1/9 -> quantidade=1
+15:42:32 | INFO    | comprasnet.page_itens | Local de entrega 2/9 -> quantidade=1
+15:42:32 | INFO    | comprasnet.page_itens | Local de entrega 3/9 -> quantidade=1
+15:42:32 | INFO    | comprasnet.page_itens | Local de entrega 4/9 -> quantidade=1
+15:42:33 | INFO    | comprasnet.page_itens | Local de entrega 5/9 -> quantidade=1
+15:42:33 | INFO    | comprasnet.page_itens | Local de entrega 6/9 -> quantidade=1
+15:42:33 | INFO    | comprasnet.page_itens | Local de entrega 7/9 -> quantidade=1
+15:42:33 | INFO    | comprasnet.page_itens | Local de entrega 8/9 -> quantidade=1
+15:42:33 | INFO    | comprasnet.page_itens | Local de entrega 9/9 -> quantidade=1
+15:42:35 | INFO    | comprasnet.page_itens | Local de entrega salvo com quantidade 1 para 9 item(ns).
+15:42:35 | INFO    | comprasnet.page_itens | Preenchendo Resultado individual de 9 item(ns)...
+15:43:06 | ERROR   | comprasnet.main | Falha na etapa 'Itens + DC'
+Traceback (most recent call last):
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\main.py", line 50, in main
+    page_itens.executar(driver, itens)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 1317, in executar
+    executar_processo(
+    ~~~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        linhas,
+        ^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 462, in executar_processo
+    preencher_resultados(
+    ~~~~~~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+        card_ids,
+        ^^^^^^^^^
+        itens_processo,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 1262, in preencher_resultados
+    _preencher_resultado_item(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        driver,
+        ^^^^^^^
+    ...<3 lines>...
+        len(linhas),
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 1151, in _preencher_resultado_item
+    painel = _abrir_tab_resultado(
+        driver,
+        card_id,
+    )
+  File "c:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\page_itens.py", line 1106, in _abrir_tab_resultado
+    tab = _wait(driver).until(tab_habilitada)
+  File "C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 121, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+15:43:06 | INFO    | comprasnet.main | ====================================================
+15:43:06 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+15:43:06 | INFO    | comprasnet.main |   ❌ Itens + DC       ERRO — Message: 
+
+15:43:06 | INFO    | comprasnet.main | Tempo total: 56.7s
+15:43:06 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+15:43:06 | INFO    | comprasnet.main | ====================================================
+15:50:16 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:50:16 | INFO    | comprasnet.main | Tela atual preservada.
+15:50:16 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:50:16 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:50:17 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:50:17 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:50:17 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:50:17 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:50:17 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:50:17 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:50:17 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:50:17 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:50:23 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:50:23 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:50:24 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:50:24 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:50:24 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:50:25 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:50:25 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:50:26 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:50:26 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+15:50:26 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:50:27 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:50:28 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+15:50:28 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:50:29 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:50:30 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+15:50:30 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:50:31 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:50:31 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+15:50:31 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+15:50:32 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+15:50:33 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+15:50:33 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+15:50:34 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+15:50:34 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+15:50:34 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:50:35 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:50:36 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+15:50:36 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+15:50:37 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+15:50:38 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+15:50:38 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:50:38 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:50:39 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+15:50:39 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+15:50:39 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+15:50:42 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+15:50:43 | INFO    | comprasnet.page_itens | Adicionando local de entrega em lote para 9 item(ns)...
+15:50:44 | INFO    | comprasnet.page_itens | Local de entrega 1/9 -> quantidade=1
+15:50:44 | INFO    | comprasnet.page_itens | Local de entrega 2/9 -> quantidade=1
+15:50:45 | INFO    | comprasnet.page_itens | Local de entrega 3/9 -> quantidade=1
+15:50:45 | INFO    | comprasnet.page_itens | Local de entrega 4/9 -> quantidade=1
+15:50:45 | INFO    | comprasnet.page_itens | Local de entrega 5/9 -> quantidade=1
+15:50:45 | INFO    | comprasnet.page_itens | Local de entrega 6/9 -> quantidade=1
+15:50:46 | INFO    | comprasnet.page_itens | Local de entrega 7/9 -> quantidade=1
+15:50:46 | INFO    | comprasnet.page_itens | Local de entrega 8/9 -> quantidade=1
+15:50:46 | INFO    | comprasnet.page_itens | Local de entrega 9/9 -> quantidade=1
+15:50:48 | INFO    | comprasnet.page_itens | Local de entrega salvo com quantidade 1 para 9 item(ns).
+15:50:48 | INFO    | comprasnet.page_itens | Preenchendo Resultado individual de 9 item(ns)...
+15:50:48 | INFO    | comprasnet.page_itens | Resultado 1/9 | card=3444313 | preparando fornecedor=Emerson Luiz Gazzoli | doc=*******5845 | valor=616,1800
+15:50:49 | INFO    | comprasnet.page_itens | Item 3444313: abrindo 'Locais de Entrega' para liberar a aba Resultado...
+15:54:42 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+15:54:42 | INFO    | comprasnet.main | Tela atual preservada.
+15:54:42 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+15:54:42 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+15:54:42 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+15:54:42 | INFO    | comprasnet.main | ▶ TESTE ISOLADO: Itens + DC
+15:54:42 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+15:54:43 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+15:54:43 | INFO    | comprasnet.page_itens | Processos únicos encontrados na planilha: 9.
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0056698.2026-15 -> 9 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0061423.2026-92 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063114.2026-25 -> 2 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063449.2026-98 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063481.2026-10 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0063482.2026-80 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062700.2026-48 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062847.2026-56 -> 1 registro(s).
+15:54:43 | INFO    | comprasnet.page_itens |   Processo 20.22.0001.0062856.2026-07 -> 1 registro(s).
+15:54:43 | WARNING | comprasnet.page_itens | MODO SEGURO: existem 9 processos na planilha, mas somente o processo atual 20.22.0001.0056698.2026-15 será executado agora. Os outros 8 processo(s) NÃO serão tocados.
+15:54:43 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+15:54:48 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+15:54:48 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+15:54:49 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+15:54:49 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+15:54:49 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+15:54:50 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+15:54:50 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:54:51 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:54:51 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+15:54:51 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:54:52 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:54:53 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+15:54:53 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+15:54:54 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+15:54:54 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+15:54:54 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:54:55 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:54:56 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+15:54:56 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+15:54:57 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+15:54:58 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+15:54:58 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+15:54:59 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+15:54:59 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+15:54:59 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:55:00 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:55:01 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+15:55:01 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+15:55:02 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+15:55:03 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+15:55:03 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+15:55:04 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+15:55:04 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+15:55:04 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+15:55:04 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+15:55:08 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+15:55:08 | INFO    | comprasnet.page_itens | Adicionando local de entrega em lote para 9 item(ns)...
+15:55:09 | INFO    | comprasnet.page_itens | Local de entrega 1/9 -> quantidade=1
+15:55:09 | INFO    | comprasnet.page_itens | Local de entrega 2/9 -> quantidade=1
+15:55:09 | INFO    | comprasnet.page_itens | Local de entrega 3/9 -> quantidade=1
+15:55:10 | INFO    | comprasnet.page_itens | Local de entrega 4/9 -> quantidade=1
+15:55:10 | INFO    | comprasnet.page_itens | Local de entrega 5/9 -> quantidade=1
+15:55:10 | INFO    | comprasnet.page_itens | Local de entrega 6/9 -> quantidade=1
+15:55:10 | INFO    | comprasnet.page_itens | Local de entrega 7/9 -> quantidade=1
+15:55:11 | INFO    | comprasnet.page_itens | Local de entrega 8/9 -> quantidade=1
+15:55:11 | INFO    | comprasnet.page_itens | Local de entrega 9/9 -> quantidade=1
+15:55:13 | INFO    | comprasnet.page_itens | Local de entrega salvo com quantidade 1 para 9 item(ns).
+15:55:13 | INFO    | comprasnet.page_itens | Preenchendo Resultado individual de 9 item(ns)...
+15:55:13 | INFO    | comprasnet.page_itens | Resultado 1/9 | card=3444443 | preparando fornecedor=Emerson Luiz Gazzoli | doc=*******5845 | valor=616,1800
+15:55:14 | INFO    | comprasnet.page_itens | Item 3444443: clicando diretamente na aba Resultado...
+15:55:14 | INFO    | comprasnet.page_itens | Item 3444443: aba Resultado aberta.
+15:55:16 | INFO    | comprasnet.page_itens | Resultado 1/9 | fornecedor=Emerson Luiz Gazzoli | doc=*******5845 | valor=616,1800 | qtd=1
+15:55:17 | INFO    | comprasnet.page_itens | Resultado 1/9 salvo.
+15:55:17 | INFO    | comprasnet.page_itens | Resultado 2/9 | card=3444444 | preparando fornecedor=Fernanda Vilela Oliveira | doc=*******0187 | valor=616,1800
+15:55:17 | INFO    | comprasnet.page_itens | Item 3444444: clicando diretamente na aba Resultado...
+15:55:17 | INFO    | comprasnet.page_itens | Item 3444444: aba Resultado aberta.
+15:55:21 | INFO    | comprasnet.page_itens | Resultado 2/9 | fornecedor=Fernanda Vilela Oliveira | doc=*******0187 | valor=616,1800 | qtd=1
+15:55:22 | INFO    | comprasnet.page_itens | Resultado 2/9 salvo.
+15:55:22 | INFO    | comprasnet.page_itens | Resultado 3/9 | card=3444445 | preparando fornecedor=ANDRÉ LUIZ GONÇALVES GARCIA | doc=*******0125 | valor=616,1800
+15:55:22 | INFO    | comprasnet.page_itens | Item 3444445: clicando diretamente na aba Resultado...
+15:55:22 | INFO    | comprasnet.page_itens | Item 3444445: aba Resultado aberta.
+15:55:24 | INFO    | comprasnet.page_itens | Resultado 3/9 | fornecedor=ANDRÉ LUIZ GONÇALVES GARCIA | doc=*******0125 | valor=616,1800 | qtd=1
+15:55:25 | INFO    | comprasnet.page_itens | Resultado 3/9 salvo.
+15:55:25 | INFO    | comprasnet.page_itens | Resultado 4/9 | card=3444446 | preparando fornecedor=Carlos Renato Xavier de Resende | doc=*******7153 | valor=554,5700
+15:55:25 | INFO    | comprasnet.page_itens | Item 3444446: clicando diretamente na aba Resultado...
+15:55:25 | INFO    | comprasnet.page_itens | Item 3444446: aba Resultado aberta.
+15:55:27 | INFO    | comprasnet.page_itens | Resultado 4/9 | fornecedor=Carlos Renato Xavier de Resende | doc=*******7153 | valor=554,5700 | qtd=1
+15:55:28 | INFO    | comprasnet.page_itens | Resultado 4/9 salvo.
+15:55:28 | INFO    | comprasnet.page_itens | Resultado 5/9 | card=3444447 | preparando fornecedor=Chantal Correia de Castro | doc=*******3950 | valor=924,2700
+15:55:29 | INFO    | comprasnet.page_itens | Item 3444447: clicando diretamente na aba Resultado...
+15:55:29 | INFO    | comprasnet.page_itens | Item 3444447: aba Resultado aberta.
+15:55:31 | INFO    | comprasnet.page_itens | Resultado 5/9 | fornecedor=Chantal Correia de Castro | doc=*******3950 | valor=924,2700 | qtd=1
+15:55:32 | INFO    | comprasnet.page_itens | Resultado 5/9 salvo.
+15:55:32 | INFO    | comprasnet.page_itens | Resultado 6/9 | card=3444448 | preparando fornecedor=ANDIARA MARIA BRAGA MARANHÃO | doc=*******6172 | valor=831,8600
+15:55:32 | INFO    | comprasnet.page_itens | Item 3444448: clicando diretamente na aba Resultado...
+15:55:32 | INFO    | comprasnet.page_itens | Item 3444448: aba Resultado aberta.
+15:55:34 | INFO    | comprasnet.page_itens | Resultado 6/9 | fornecedor=ANDIARA MARIA BRAGA MARANHÃO | doc=*******6172 | valor=831,8600 | qtd=1
+15:55:35 | INFO    | comprasnet.page_itens | Resultado 6/9 salvo.
+15:55:35 | INFO    | comprasnet.page_itens | Resultado 7/9 | card=3444449 | preparando fornecedor=Renato Perez Pucci | doc=*******5110 | valor=554,5700
+15:55:35 | INFO    | comprasnet.page_itens | Item 3444449: clicando diretamente na aba Resultado...
+15:55:36 | INFO    | comprasnet.page_itens | Item 3444449: aba Resultado aberta.
+15:55:38 | INFO    | comprasnet.page_itens | Resultado 7/9 | fornecedor=Renato Perez Pucci | doc=*******5110 | valor=554,5700 | qtd=1
+15:55:39 | INFO    | comprasnet.page_itens | Resultado 7/9 salvo.
+15:55:39 | INFO    | comprasnet.page_itens | Resultado 8/9 | card=3444450 | preparando fornecedor=465 - FR2J CENTRO DE ESTUDOS LTDA | doc=**********0118 | valor=1.016,7000
+15:55:39 | INFO    | comprasnet.page_itens | Item 3444450: clicando diretamente na aba Resultado...
+15:55:39 | INFO    | comprasnet.page_itens | Item 3444450: aba Resultado aberta.
+15:55:41 | INFO    | comprasnet.page_itens | Resultado 8/9 | fornecedor=465 - FR2J CENTRO DE ESTUDOS LTDA | doc=**********0118 | valor=1.016,7000 | qtd=1
+15:55:43 | INFO    | comprasnet.page_itens | Resultado 8/9 salvo.
+15:55:43 | INFO    | comprasnet.page_itens | Resultado 9/9 | card=3444451 | preparando fornecedor=Kelma Helane Amorim de Souza | doc=*******3234 | valor=554,5700
+15:55:43 | INFO    | comprasnet.page_itens | Item 3444451: clicando diretamente na aba Resultado...
+15:55:43 | INFO    | comprasnet.page_itens | Item 3444451: aba Resultado aberta.
+15:55:46 | INFO    | comprasnet.page_itens | Resultado 9/9 | fornecedor=Kelma Helane Amorim de Souza | doc=*******3234 | valor=554,5700 | qtd=1
+15:55:47 | INFO    | comprasnet.page_itens | Resultado 9/9 salvo.
+15:55:47 | INFO    | comprasnet.page_itens | Resultados preenchidos para todos os itens do processo.
+15:55:47 | INFO    | comprasnet.page_itens | ✓ Itens, Local de Entrega e Resultado concluídos para o processo 20.22.0001.0056698.2026-15.
+15:55:47 | INFO    | comprasnet.page_itens | Execução interrompida intencionalmente após o processo 20.22.0001.0056698.2026-15. O próximo processo só poderá ser iniciado pelo fluxo principal depois da conclusão total do processo atual.
+15:55:47 | INFO    | comprasnet.main | ====================================================
+15:55:47 | INFO    | comprasnet.main | RELATÓRIO DE EXECUÇÃO — TESTE ITENS
+15:55:47 | INFO    | comprasnet.main |   ✅ Itens + DC       OK
+15:55:47 | INFO    | comprasnet.main | Tempo total: 65.4s
+15:55:47 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
+15:55:47 | INFO    | comprasnet.main | ====================================================
