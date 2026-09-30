@@ -392,11 +392,23 @@ def executar_processo(
             nome_etapa,
         )
 
+        log.info(
+            "URL antes da etapa %s: %s",
+            nome_etapa,
+            driver.current_url,
+        )
+
         inicio = time.time()
 
         funcao(
             driver,
             itens_processo,
+        )
+
+        log.info(
+            "URL depois da etapa %s: %s",
+            nome_etapa,
+            driver.current_url,
         )
 
         # IMPORTANTE:
