@@ -30,7 +30,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import config
-from app_selectors import S
+from app_selectors import S, XPATHS
 from logger import get_logger
 from models import ItemContratacao
 from utils_dom import js_set_value, wait_dom_stable, wclick
