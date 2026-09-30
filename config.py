@@ -24,6 +24,7 @@ SHEET_NAME = os.getenv("COMPRASNET_SHEET", "Sheet1")
 
 LOGS_DIR = Path(os.getenv("COMPRASNET_LOGS", BASE_DIR / "logs"))
 SHOTS_DIR = LOGS_DIR / "shots"
+RECIBOS_DIR = Path(os.getenv("COMPRASNET_RECIBOS", BASE_DIR / "recibos"))
 
 # --------------------------------------------------------------------------- #
 # NAVEGADOR (Chrome em modo Remote Debugging)
@@ -98,3 +99,4 @@ def garantir_diretorios() -> None:
     """Cria as pastas de saída (logs/shots) se ainda não existirem."""
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     SHOTS_DIR.mkdir(parents=True, exist_ok=True)
+    RECIBOS_DIR.mkdir(parents=True, exist_ok=True)
