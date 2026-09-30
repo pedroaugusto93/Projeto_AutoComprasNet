@@ -422,17 +422,57 @@ def valores_percentuais_processo_planilha(
         wb.close()
 
 
+def percentual_atual_processo_planilha(
+    processo: str,
+) -> int | None:
+    """
+    Retorna o maior percentual numérico registrado para o processo.
+
+    Uso atual:
+      - 100% = processo totalmente concluído; não executar novamente;
+      - 10% = marcador legado TEMPORÁRIO criado durante os testes de
+        pré-cadastro e usado apenas para recuperar esses processos sem
+        recriá-los.
+
+    Nenhum percentual intermediário novo é gravado pelo fluxo atual.
+    """
+    valores = valores_percentuais_processo_planilha(
+        processo
+    )
+
+    numericos = [
+        numero
+        for numero in (
+            _percentual_numerico(
+                valor
+            )
+            for valor in valores
+        )
+        if numero is not None
+    ]
+
+    return (
+        max(
+            numericos
+        )
+        if numericos
+        else None
+    )
+
+
 def processo_ja_marcado_planilha(
     processo: str,
 ) -> bool:
     """
-    Trava forte de anti-duplicidade baseada no arquivo Excel atual.
-    Qualquer percentual preenchido impede execução automática.
+    Trava anti-duplicidade atual: somente 100% bloqueia o processo inteiro.
     """
-    return bool(
-        valores_percentuais_processo_planilha(
-            processo
-        )
+    percentual = percentual_atual_processo_planilha(
+        processo
+    )
+
+    return (
+        percentual is not None
+        and percentual >= 100
     )
 
 
@@ -608,3 +648,25 @@ def registrar_etapa_concluida(
         "O fluxo foi interrompido para evitar cadastrar etapas sem "
         "registrar o progresso."
     ) from ultimo_erro
+
+
+def marcar_processo_concluido(
+    processo: str,
+) -> int:
+    """
+    Marca 100% somente depois que TODAS as etapas do processo terminarem.
+
+    O controle percentual intermediário (10%, 25%, 40%...) está desativado
+    nesta fase do projeto e poderá ser retomado futuramente.
+    """
+    resultado = registrar_etapa_concluida(
+        processo,
+        "publicacao",
+    )
+
+    if resultado != 100:
+        raise RuntimeError(
+            f"Falha ao marcar processo {processo!r} como 100%."
+        )
+
+    return resultado
