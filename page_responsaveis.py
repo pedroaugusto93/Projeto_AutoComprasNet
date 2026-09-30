@@ -7,14 +7,14 @@ Cadastra, em sequência e com salvamento independente:
 1) Responsável pela contratação direta
    - CPF: resp_cpf
    - Email: resp_email
-   - Despacho: resp_despacho
    - Cargo/Função fixo: "Responsável pela contratação direta"
 
 2) Autoridade competente
    - CPF: autoridade_cpf
    - Email: autoridade_email (se existir)
-   - Despacho: autoridade_despacho (se existir)
    - Cargo/Função fixo: "Autoridade competente"
+
+O campo Despacho é opcional e fica sempre em branco.
 
 Sequência obrigatória de cada cadastro:
   #criar-responsavel
@@ -87,11 +87,6 @@ CARGO_FUNCAO_COMBO = (
     "span[role='combobox'][aria-labelledby='label-cargo-funcao-responsavel']",
 )
 
-DESPACHO_RESPONSAVEL = (
-    By.ID,
-    "despacho-responsavel",
-)
-
 BTN_SALVAR_RESPONSAVEL = (
     By.ID,
     "salvar-responsavel",
@@ -102,7 +97,6 @@ BTN_SALVAR_RESPONSAVEL = (
 class DadosResponsavel:
     cpf: str
     email: str
-    despacho: str
     cargo: str
     rotulo: str
 
@@ -294,10 +288,6 @@ def _obter_cadastros(
             itens_processo,
             "resp_email",
         ),
-        despacho=_valor_unico(
-            itens_processo,
-            "resp_despacho",
-        ),
         cargo=CARGO_RESPONSAVEL,
         rotulo="Responsável pela contratação direta",
     )
@@ -314,11 +304,6 @@ def _obter_cadastros(
             "autoridade_email",
             obrigatorio=False,
         ),
-        despacho=_valor_unico(
-            itens_processo,
-            "autoridade_despacho",
-            obrigatorio=False,
-        ),
         cargo=CARGO_AUTORIDADE,
         rotulo="Autoridade competente",
     )
@@ -331,11 +316,6 @@ def _obter_cadastros(
             raise RuntimeError(
                 f"CPF inválido para {dados.rotulo}: {dados.cpf!r}. "
                 "Esperados 11 dígitos."
-            )
-
-        if len(dados.despacho) > 200:
-            raise RuntimeError(
-                f"Despacho de {dados.rotulo} possui mais de 200 caracteres."
             )
 
     return [
@@ -734,18 +714,6 @@ def _cadastrar_um(
         driver,
         dados.cargo,
     )
-
-    if dados.despacho:
-        log.info(
-            "%s | preenchendo despacho...",
-            dados.rotulo,
-        )
-
-        _preencher(
-            driver,
-            DESPACHO_RESPONSAVEL,
-            dados.despacho,
-        )
 
     _salvar(
         driver,
