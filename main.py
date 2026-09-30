@@ -27,6 +27,7 @@ import page_dados_basicos
 import page_dados_iniciais
 import page_itens
 import page_anexos
+import page_responsaveis
 import page_localizar_processo
 
 from driver import get_driver
@@ -67,7 +68,8 @@ ETAPAS_ATIVAS: Dict[str, bool] = {
     "dados_basicos": False,
     "dados_adicionais": False,
     "itens": False,
-    "anexos": True,
+    "anexos": False,
+    "responsaveis": True,
 }
 
 
