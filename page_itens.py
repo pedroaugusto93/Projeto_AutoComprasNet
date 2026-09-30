@@ -3,7 +3,7 @@
 Aba "Itens" do ComprasNet (antigo step_b).
 
 Fluxo:
-  1. abrir_itens_e_bucketizar() -> agrupa linhas consecutivas por num_processo.
+  1. abrir_itens_e_bucketizar() -> abre a aba Itens e agrupa linhas consecutivas por num_processo.
   2. Para cada bucket (processo):
        - cadastrar_itens()       -> busca o código no catálogo, preenche valor/apelido.
        - localizar_e_casar_no_dc()-> envia ao DC e casa cada item por apelido + valor.
@@ -12,6 +12,10 @@ Fluxo:
 from __future__ import annotations
 
 from typing import List, Tuple
+
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 import config
 from helpers import carregar_itens
@@ -39,12 +43,66 @@ TIMEOUT = config.TIMEOUT
 Bucket = Tuple[str, List[ItemContratacao]]
 
 
+# ====================== ABRIR ABA ITENS ====================== #
+def _abrir_aba_itens(driver) -> None:
+    """
+    Localiza e abre a aba 'Itens' pelo texto visível.
+
+    Não depende da estrutura interna do menu nem de classes voláteis
+    como ng-star-inserted, active, col-8, pl-5 etc.
+    """
+    log.info("Abrindo aba Itens...")
+
+    def localizar_link_itens(d):
+        candidatos = d.find_elements(By.CSS_SELECTOR, "a")
+
+        for elemento in candidatos:
+            try:
+                texto = " ".join((elemento.text or "").split())
+
+                if (
+                    texto.casefold() == "itens"
+                    and elemento.is_displayed()
+                    and elemento.is_enabled()
+                ):
+                    return elemento
+            except Exception:
+                continue
+
+        return False
+
+    try:
+        elemento = WebDriverWait(driver, TIMEOUT).until(localizar_link_itens)
+
+        driver.execute_script(
+            "arguments[0].scrollIntoView({block: 'center'});",
+            elemento,
+        )
+
+        wait_dom_stable(driver, 0.3)
+
+        try:
+            elemento.click()
+        except Exception:
+            log.debug(
+                "Clique normal na aba Itens falhou; tentando clique via JavaScript."
+            )
+            driver.execute_script("arguments[0].click();", elemento)
+
+        wait_dom_stable(driver)
+
+        log.info("Aba Itens aberta.")
+
+    except TimeoutException as exc:
+        raise TimeoutException(
+            "Não foi possível localizar um link visível com o texto 'Itens'."
+        ) from exc
+
+
 # ============ 1) ABRIR ITENS E CRIAR BUCKETS POR PROCESSO ============ #
 def abrir_itens_e_bucketizar(driver, itens: List[ItemContratacao]) -> List[Bucket]:
     """Abre a aba Itens e cria buckets sequenciais por num_processo."""
-    log.info("Abrindo aba Itens...")
-    wclick(driver, S.ITENS_ABA, TIMEOUT)
-    wait_dom_stable(driver)
+    _abrir_aba_itens(driver)
 
     buckets: List[Bucket] = []
     atual_proc: str | None = None
@@ -79,9 +137,9 @@ def cadastrar_itens(driver, bucket: Bucket) -> None:
         apelido = item.apelido
         log.info("  Item %d: apelido='%s' valor='%s'", idx, apelido, valor_fmt)
 
-        wclick(driver, S.ADICIONAR_BTN, TIMEOUT)                 # abrir catálogo
+        wclick(driver, S.ADICIONAR_BTN, TIMEOUT)                  # abrir catálogo
         wtype(driver, S.CODIGO_INPUT, config.CODIGO_ITEM, clear=True)
-        wclick(driver, S.LUPA_BTN, TIMEOUT)                      # pesquisar
+        wclick(driver, S.LUPA_BTN, TIMEOUT)                       # pesquisar
 
         _selecionar_item_na_tabela(driver)
         card_id = get_last_item_card_id(driver)
@@ -134,16 +192,27 @@ def _selecionar_item_na_tabela(driver) -> None:
     """Encontra a linha do serviço no catálogo e clica em Adicionar."""
     if not is_visible(driver, S.CATALOGO_TABELA, TIMEOUT):
         raise RuntimeError("Tabela do catálogo não visível.")
+
     rows = find_rows_by_text(
-        driver, S.CATALOGO_TABELA, S.CATALOGO_LINHA_DESCR, config.TEXTO_SERVICO_ITEM
+        driver,
+        S.CATALOGO_TABELA,
+        S.CATALOGO_LINHA_DESCR,
+        config.TEXTO_SERVICO_ITEM,
     )
+
     if not rows:
         raise RuntimeError(f"Item {config.CODIGO_ITEM} não encontrado no catálogo.")
+
     wclick(driver, S.CATALOGO_LINHA_BTN_ADICIONAR, TIMEOUT)
     wait_dom_stable(driver)
 
 
-def _setar_valor_e_apelido(driver, card_id: str, valor_fmt: str, apelido: str) -> None:
+def _setar_valor_e_apelido(
+    driver,
+    card_id: str,
+    valor_fmt: str,
+    apelido: str,
+) -> None:
     """Preenche valor e apelido do card (idempotente, via JS setter)."""
     js_set_value(driver, S.valor_input(card_id), valor_fmt, fire=True)
     wait_text(driver, S.valor_espelho(card_id), f"R$ {valor_fmt}", TIMEOUT)
@@ -172,6 +241,7 @@ def executar(driver, itens: List[ItemContratacao]) -> None:
     for bucket in abrir_itens_e_bucketizar(driver, itens):
         cadastrar_itens(driver, bucket)
         localizar_e_casar_no_dc(driver, bucket)
+
     log.info("Aba Itens concluída para todos os processos.")
 
 
