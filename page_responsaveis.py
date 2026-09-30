@@ -2,26 +2,34 @@
 """
 Aba "5. Responsáveis" do ComprasNet.
 
-Fluxo:
-  1. Abre "5. Responsáveis".
-  2. Clica em "Adicionar".
-  3. Preenche CPF.
-  4. Aguarda o ComprasNet carregar automaticamente o Nome.
-  5. Preenche Email.
-  6. Seleciona Cargo/Função.
-  7. Preenche Despacho.
-  8. Clica em "Adicionar".
+Cadastra, em sequência e com salvamento independente:
 
-Dados esperados na planilha:
-  - resp_cpf
-  - resp_email
-  - resp_cargo
-  - resp_despacho
+1) Responsável pela contratação direta
+   - CPF: resp_cpf
+   - Email: resp_email
+   - Despacho: resp_despacho
+   - Cargo/Função fixo: "Responsável pela contratação direta"
+
+2) Autoridade competente
+   - CPF: autoridade_cpf
+   - Email: autoridade_email (se existir)
+   - Despacho: autoridade_despacho (se existir)
+   - Cargo/Função fixo: "Autoridade competente"
+
+Sequência obrigatória de cada cadastro:
+  #criar-responsavel
+      -> preencher
+      -> #salvar-responsavel
+      -> aguardar modal fechar
+
+Somente depois começa o próximo cadastro, clicando novamente
+em #criar-responsavel.
 """
 
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from typing import List
 
 from selenium.common.exceptions import (
@@ -42,6 +50,9 @@ from utils_dom import wait_dom_stable
 
 log = get_logger(__name__)
 TIMEOUT = config.TIMEOUT
+
+CARGO_RESPONSAVEL = "Responsável pela contratação direta"
+CARGO_AUTORIDADE = "Autoridade competente"
 
 
 ABA_RESPONSAVEIS = (
@@ -87,6 +98,15 @@ BTN_SALVAR_RESPONSAVEL = (
 )
 
 
+@dataclass(frozen=True)
+class DadosResponsavel:
+    cpf: str
+    email: str
+    despacho: str
+    cargo: str
+    rotulo: str
+
+
 def _wait(driver, timeout: int | None = None) -> WebDriverWait:
     return WebDriverWait(
         driver,
@@ -119,7 +139,6 @@ def _click(driver, locator, timeout: int | None = None):
             )
         )
         el.click()
-
     except (
         ElementClickInterceptedException,
         StaleElementReferenceException,
@@ -129,7 +148,6 @@ def _click(driver, locator, timeout: int | None = None):
                 locator
             )
         )
-
         driver.execute_script(
             "arguments[0].click();",
             el,
@@ -161,9 +179,12 @@ def _preencher(driver, locator, valor: str) -> str:
     elemento.send_keys(
         Keys.DELETE
     )
-    elemento.send_keys(
-        str(valor)
-    )
+
+    if valor:
+        elemento.send_keys(
+            str(valor)
+        )
+
     elemento.send_keys(
         Keys.TAB
     )
@@ -219,11 +240,9 @@ def _processo_do_item(item: ItemContratacao) -> str:
 def _valor_unico(
     itens_processo: List[ItemContratacao],
     atributo: str,
+    *,
+    obrigatorio: bool = True,
 ) -> str:
-    """
-    Retorna um único valor do processo e bloqueia dados conflitantes
-    entre linhas da mesma contratação.
-    """
     valores = []
 
     for item in itens_processo:
@@ -242,9 +261,12 @@ def _valor_unico(
             )
 
     if not valores:
-        raise RuntimeError(
-            f"O campo {atributo} está vazio para o processo atual."
-        )
+        if obrigatorio:
+            raise RuntimeError(
+                f"O campo {atributo} está vazio para o processo atual."
+            )
+
+        return ""
 
     if len(valores) > 1:
         raise RuntimeError(
@@ -255,6 +277,71 @@ def _valor_unico(
         )
 
     return valores[0]
+
+
+def _obter_cadastros(
+    itens_processo: List[ItemContratacao],
+) -> List[DadosResponsavel]:
+
+    responsavel = DadosResponsavel(
+        cpf=_somente_digitos(
+            _valor_unico(
+                itens_processo,
+                "resp_cpf",
+            )
+        ),
+        email=_valor_unico(
+            itens_processo,
+            "resp_email",
+        ),
+        despacho=_valor_unico(
+            itens_processo,
+            "resp_despacho",
+        ),
+        cargo=CARGO_RESPONSAVEL,
+        rotulo="Responsável pela contratação direta",
+    )
+
+    autoridade = DadosResponsavel(
+        cpf=_somente_digitos(
+            _valor_unico(
+                itens_processo,
+                "autoridade_cpf",
+            )
+        ),
+        email=_valor_unico(
+            itens_processo,
+            "autoridade_email",
+            obrigatorio=False,
+        ),
+        despacho=_valor_unico(
+            itens_processo,
+            "autoridade_despacho",
+            obrigatorio=False,
+        ),
+        cargo=CARGO_AUTORIDADE,
+        rotulo="Autoridade competente",
+    )
+
+    for dados in (
+        responsavel,
+        autoridade,
+    ):
+        if len(dados.cpf) != 11:
+            raise RuntimeError(
+                f"CPF inválido para {dados.rotulo}: {dados.cpf!r}. "
+                "Esperados 11 dígitos."
+            )
+
+        if len(dados.despacho) > 200:
+            raise RuntimeError(
+                f"Despacho de {dados.rotulo} possui mais de 200 caracteres."
+            )
+
+    return [
+        responsavel,
+        autoridade,
+    ]
 
 
 def _abrir_aba_responsaveis(driver) -> None:
@@ -284,11 +371,7 @@ def _abrir_aba_responsaveis(driver) -> None:
     )
 
 
-def _responsavel_ja_existe(driver, cpf: str) -> bool:
-    """
-    Evita recadastrar o CPF caso a etapa seja executada novamente
-    durante os testes.
-    """
+def _cpf_ja_existe(driver, cpf: str) -> bool:
     cpf_formatado = _formatar_cpf(
         cpf
     )
@@ -307,9 +390,14 @@ def _responsavel_ja_existe(driver, cpf: str) -> bool:
     return cpf_formatado in texto
 
 
-def _abrir_modal(driver) -> None:
+def _abrir_modal(driver, rotulo: str) -> None:
+    """
+    Inicia um cadastro NOVO clicando no botão externo:
+    #criar-responsavel.
+    """
     log.info(
-        "Clicando em 'Adicionar' responsável..."
+        "%s | clicando em #criar-responsavel...",
+        rotulo,
     )
 
     _click(
@@ -330,13 +418,22 @@ def _abrir_modal(driver) -> None:
     )
 
     log.info(
-        "Modal 'Adicionar responsável' aberto."
+        "%s | modal aberto.",
+        rotulo,
     )
 
 
-def _preencher_cpf_e_aguardar_nome(driver, cpf: str) -> str:
+def _preencher_cpf_e_aguardar_nome(
+    driver,
+    cpf: str,
+    rotulo: str,
+) -> str:
     log.info(
-        "Preenchendo CPF do responsável..."
+        "%s | preenchendo CPF %s...",
+        rotulo,
+        _formatar_cpf(
+            cpf
+        ),
     )
 
     _preencher(
@@ -372,12 +469,13 @@ def _preencher_cpf_e_aguardar_nome(driver, cpf: str) -> str:
 
     except TimeoutException as exc:
         raise RuntimeError(
-            "O CPF foi preenchido, mas o ComprasNet não carregou "
-            "automaticamente o Nome do responsável."
+            f"{rotulo}: o CPF foi preenchido, mas o ComprasNet "
+            "não carregou automaticamente o Nome."
         ) from exc
 
     log.info(
-        "Responsável identificado: %s",
+        "%s | nome carregado: %s",
+        rotulo,
         nome,
     )
 
@@ -386,7 +484,10 @@ def _preencher_cpf_e_aguardar_nome(driver, cpf: str) -> str:
     )
 
 
-def _selecionar_cargo(driver, cargo: str) -> None:
+def _selecionar_cargo(
+    driver,
+    cargo: str,
+) -> None:
     log.info(
         "Selecionando Cargo/Função: %s",
         cargo,
@@ -414,6 +515,10 @@ def _selecionar_cargo(driver, cargo: str) -> None:
     ).strip()
 
     if atual == cargo:
+        log.info(
+            "Cargo/Função já selecionado: %s",
+            cargo,
+        )
         return
 
     try:
@@ -470,9 +575,7 @@ def _selecionar_cargo(driver, cargo: str) -> None:
 
     except TimeoutException as exc:
         raise RuntimeError(
-            f"Cargo/Função não encontrado: {cargo!r}. "
-            "O valor de resp_cargo deve ser exatamente igual "
-            "ao texto exibido pelo ComprasNet."
+            f"Cargo/Função não encontrado no ComprasNet: {cargo!r}."
         ) from exc
 
     driver.execute_script(
@@ -487,6 +590,12 @@ def _selecionar_cargo(driver, cargo: str) -> None:
         ElementClickInterceptedException,
         StaleElementReferenceException,
     ):
+        opcao = _wait(
+            driver
+        ).until(
+            localizar_opcao
+        )
+
         driver.execute_script(
             "arguments[0].click();",
             opcao,
@@ -497,17 +606,25 @@ def _selecionar_cargo(driver, cargo: str) -> None:
     )
 
     log.info(
-        "Cargo/Função selecionado."
+        "Cargo/Função selecionado: %s",
+        cargo,
     )
 
 
-def _salvar(driver) -> None:
+def _salvar(
+    driver,
+    rotulo: str,
+) -> None:
     """
-    Operação de gravação: apenas um clique no botão final para evitar
-    duplicidade caso a resposta visual do ComprasNet demore.
+    Salva UMA pessoa clicando exatamente no botão:
+    #salvar-responsavel.
+
+    Só retorna depois de o modal fechar e de o botão externo
+    #criar-responsavel voltar a ficar disponível.
     """
     log.info(
-        "Confirmando inclusão do responsável..."
+        "%s | clicando em #salvar-responsavel...",
+        rotulo,
     )
 
     botao = _wait(
@@ -523,6 +640,7 @@ def _salvar(driver) -> None:
         botao,
     )
 
+    # Sem retry automático: é uma operação de gravação.
     botao.click()
 
     def modal_fechou(d):
@@ -546,16 +664,92 @@ def _salvar(driver) -> None:
 
     except TimeoutException as exc:
         raise RuntimeError(
-            "O botão 'Adicionar' foi acionado, mas o modal permaneceu aberto. "
-            "Verifique se o ComprasNet exibiu alguma validação."
+            f"{rotulo}: #salvar-responsavel foi clicado, "
+            "mas o modal permaneceu aberto."
         ) from exc
 
     wait_dom_stable(
         driver
     )
 
+    _wait(
+        driver
+    ).until(
+        EC.element_to_be_clickable(
+            BTN_CRIAR_RESPONSAVEL
+        )
+    )
+
     log.info(
-        "Responsável incluído."
+        "%s | salvo; pronto para o próximo cadastro.",
+        rotulo,
+    )
+
+
+def _cadastrar_um(
+    driver,
+    dados: DadosResponsavel,
+) -> None:
+    """
+    Ciclo completo e isolado:
+      criar -> preencher -> salvar -> esperar fechar.
+    """
+    if _cpf_ja_existe(
+        driver,
+        dados.cpf,
+    ):
+        log.warning(
+            "%s | CPF %s já aparece na aba. Cadastro ignorado.",
+            dados.rotulo,
+            _formatar_cpf(
+                dados.cpf
+            ),
+        )
+        return
+
+    _abrir_modal(
+        driver,
+        dados.rotulo,
+    )
+
+    _preencher_cpf_e_aguardar_nome(
+        driver,
+        dados.cpf,
+        dados.rotulo,
+    )
+
+    if dados.email:
+        log.info(
+            "%s | preenchendo e-mail...",
+            dados.rotulo,
+        )
+
+        _preencher(
+            driver,
+            EMAIL_RESPONSAVEL,
+            dados.email,
+        )
+
+    _selecionar_cargo(
+        driver,
+        dados.cargo,
+    )
+
+    if dados.despacho:
+        log.info(
+            "%s | preenchendo despacho...",
+            dados.rotulo,
+        )
+
+        _preencher(
+            driver,
+            DESPACHO_RESPONSAVEL,
+            dados.despacho,
+        )
+
+    _salvar(
+        driver,
+        dados.rotulo,
     )
 
 
@@ -564,7 +758,13 @@ def executar_processo(
     itens_processo: List[ItemContratacao],
 ) -> None:
     """
-    Executa a etapa Responsáveis para UM ÚNICO processo.
+    Ordem:
+      1. abre aba 5;
+      2. cadastra Responsável pela contratação direta;
+      3. SALVA;
+      4. clica novamente em Adicionar;
+      5. cadastra Autoridade competente;
+      6. SALVA.
     """
     if not itens_processo:
         raise ValueError(
@@ -597,44 +797,15 @@ def executar_processo(
         )
     )
 
-    cpf = _somente_digitos(
-        _valor_unico(
-            itens_processo,
-            "resp_cpf",
-        )
+    cadastros = _obter_cadastros(
+        itens_processo
     )
-
-    email = _valor_unico(
-        itens_processo,
-        "resp_email",
-    )
-
-    cargo = _valor_unico(
-        itens_processo,
-        "resp_cargo",
-    )
-
-    despacho = _valor_unico(
-        itens_processo,
-        "resp_despacho",
-    )
-
-    if len(cpf) != 11:
-        raise RuntimeError(
-            f"CPF do responsável inválido: {cpf!r}. "
-            "Esperados 11 dígitos."
-        )
-
-    if len(despacho) > 200:
-        raise RuntimeError(
-            "resp_despacho possui mais de 200 caracteres."
-        )
 
     log.info(
-        "▶ RESPONSÁVEIS | processo=%s | cpf=%s",
+        "▶ RESPONSÁVEIS | processo=%s | %d cadastro(s)",
         processo,
-        _formatar_cpf(
-            cpf
+        len(
+            cadastros
         ),
     )
 
@@ -642,57 +813,25 @@ def executar_processo(
         driver
     )
 
-    if _responsavel_ja_existe(
-        driver,
-        cpf,
+    for indice, dados in enumerate(
+        cadastros,
+        start=1,
     ):
-        log.warning(
-            "Responsável %s já aparece na página. Inclusão ignorada.",
-            _formatar_cpf(
-                cpf
+        log.info(
+            "Cadastro %d/%d | %s",
+            indice,
+            len(
+                cadastros
             ),
+            dados.rotulo,
         )
-        return
 
-    _abrir_modal(
-        driver
-    )
-
-    _preencher_cpf_e_aguardar_nome(
-        driver,
-        cpf,
-    )
+        _cadastrar_um(
+            driver,
+            dados,
+        )
 
     log.info(
-        "Preenchendo e-mail..."
-    )
-
-    _preencher(
-        driver,
-        EMAIL_RESPONSAVEL,
-        email,
-    )
-
-    _selecionar_cargo(
-        driver,
-        cargo,
-    )
-
-    log.info(
-        "Preenchendo despacho..."
-    )
-
-    _preencher(
-        driver,
-        DESPACHO_RESPONSAVEL,
-        despacho,
-    )
-
-    _salvar(
-        driver
-    )
-
-    log.info(
-        "✓ Responsável incluído para o processo %s.",
+        "✓ Etapa Responsáveis concluída para o processo %s.",
         processo,
     )
