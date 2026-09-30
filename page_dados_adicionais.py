@@ -575,13 +575,50 @@ def _selecionar_recurso_estadual(
             "Tipo de Recurso 'Estadual' já está selecionado."
         )
 
-    # Fecha o overlay sem alterar a seleção.
+    # Fecha o overlay pelo próprio componente.
+    # NÃO usar ESC no <body>: se o overlay já tiver fechado sozinho,
+    # a tecla pode ser tratada pela tela principal e sair da edição.
     try:
-        driver.find_element(
-            By.TAG_NAME,
-            "body",
-        ).send_keys(Keys.ESCAPE)
+        root_xpath = (
+            "//*[@id='label-tipo-recurso-contratacao']"
+            "/following::div["
+            "contains(concat(' ', normalize-space(@class), ' '), "
+            "' p-multiselect ')"
+            "][1]"
+        )
+
+        root = _wait(driver).until(
+            EC.presence_of_element_located(
+                (By.XPATH, root_xpath)
+            )
+        )
+
+        painel_aberto = (
+            (root.get_attribute("aria-expanded") or "").lower() == "true"
+            or bool(
+                driver.find_elements(
+                    By.CSS_SELECTOR,
+                    ".p-multiselect-panel:not([style*='display: none'])",
+                )
+            )
+        )
+
+        if painel_aberto:
+            try:
+                root.click()
+            except Exception:
+                driver.execute_script(
+                    "arguments[0].click();",
+                    root,
+                )
+
+            wait_dom_stable(
+                driver,
+                0.3,
+            )
+
     except Exception:
+        # Se o overlay já tiver fechado após a seleção, não há nada a fazer.
         pass
 
     wait_dom_stable(driver)
