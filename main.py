@@ -58,26 +58,23 @@ Etapa = Tuple[
 #
 # ALTERE SOMENTE ESTE BLOCO DURANTE OS TESTES.
 #
-# FASE ATUAL:
-#   - criar somente o cadastro inicial das contratações ainda não marcadas;
-#   - NÃO localizar a contratação após a criação nesta execução;
-#   - NÃO preencher as demais abas ainda;
-#   - ao concluir dados_iniciais, registrar 10% como trava anti-duplicidade.
+# FLUXO ATUAL:
+#   - cada PROCESSO deve ser concluído do início ao fim;
+#   - somente depois disso o próximo processo pode começar;
+#   - 100% na planilha = processo já concluído, portanto ignorar;
+#   - 10% existente é apenas marcador legado dos pré-cadastros criados
+#     acidentalmente nos testes e serve para retomar após dados_iniciais;
+#   - não gravar percentuais intermediários nesta fase do projeto.
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
-    # FASE ATUAL: somente o cadastro inicial da contratação.
-    #
-    # Depois que esta etapa conclui, o PNCP_PERC_Conclusao recebe 10%.
-    # Como a regra atual ignora qualquer processo já marcado, uma nova
-    # execução não recria a mesma contratação.
     "dados_iniciais": True,
-    "localizar_processo": False,
-    "dados_basicos": False,
-    "dados_adicionais": False,
-    "itens": False,
-    "anexos": False,
-    "responsaveis": False,
-    "publicacao": False,
+    "localizar_processo": True,
+    "dados_basicos": True,
+    "dados_adicionais": True,
+    "itens": True,
+    "anexos": True,
+    "responsaveis": True,
+    "publicacao": True,
 }
 
 
@@ -313,22 +310,36 @@ def executar_processo(
     itens_processo: List[ItemContratacao],
 ) -> None:
 
-    # Segunda trava de segurança: consulta o Excel imediatamente antes
-    # de qualquer interação com o ComprasNet. Mesmo que o filtro do main
-    # seja alterado/removido, processo já marcado não pode ser recadastrado.
-    valores_perc_atuais = pncp_status.valores_percentuais_processo_planilha(
+    percentual_atual = pncp_status.percentual_atual_processo_planilha(
         numero_processo
     )
 
-    if valores_perc_atuais:
+    if (
+        percentual_atual is not None
+        and percentual_atual >= 100
+    ):
         log.warning(
-            "🛑 BLOQUEIO ANTI-DUPLICIDADE | %s | PNCP_PERC_Conclusao=%s | nenhuma etapa será executada",
+            "🛑 BLOQUEIO ANTI-DUPLICIDADE | %s | 100%% | nenhuma etapa será executada",
             numero_processo,
-            ", ".join(
-                valores_perc_atuais
-            ),
         )
         return
+
+    # Recuperação temporária dos dois pré-cadastros gerados durante os testes.
+    # 10% significa apenas: dados_iniciais já foi executado; NÃO recriar.
+    recuperar_pre_cadastro = (
+        percentual_atual == 10
+    )
+
+    if (
+        percentual_atual is not None
+        and 0 < percentual_atual < 100
+        and not recuperar_pre_cadastro
+    ):
+        raise RuntimeError(
+            "Percentual intermediário não suportado nesta fase: "
+            f"{numero_processo} = {percentual_atual}%. "
+            "Interrompido para evitar duplicidade."
+        )
 
     log.info(
         "=" * 72
@@ -341,6 +352,13 @@ def executar_processo(
             itens_processo
         ),
     )
+
+    if recuperar_pre_cadastro:
+        log.warning(
+            "↻ RECUPERAÇÃO DE PRÉ-CADASTRO | %s | 10%% legado | "
+            "dados_iniciais será ignorado e o fluxo continuará em localizar_processo.",
+            numero_processo,
+        )
 
     log.info(
         "=" * 72
@@ -360,6 +378,15 @@ def executar_processo(
             )
             continue
 
+        if (
+            recuperar_pre_cadastro
+            and nome_etapa == "dados_iniciais"
+        ):
+            log.warning(
+                "⏭ ETAPA IGNORADA POR RECUPERAÇÃO: dados_iniciais"
+            )
+            continue
+
         log.info(
             "▶ ETAPA: %s",
             nome_etapa,
@@ -372,26 +399,22 @@ def executar_processo(
             itens_processo,
         )
 
-        percentual = pncp_status.registrar_etapa_concluida(
-            numero_processo,
-            nome_etapa,
-        )
-
-        if percentual is not None:
-            log.info(
-                "✓ PROGRESSO PNCP: %s -> %d%%",
-                numero_processo,
-                percentual,
-            )
-
+        # IMPORTANTE:
+        # Não registrar 10%, 25%, 40% etc. nesta fase do projeto.
+        # O percentual só é atualizado para 100% depois que TODAS as
+        # etapas concluírem com sucesso.
         log.info(
             "✓ ETAPA CONCLUÍDA: %s | %.1fs",
             nome_etapa,
             time.time() - inicio,
         )
 
+    pncp_status.marcar_processo_concluido(
+        numero_processo
+    )
+
     log.info(
-        "✓ Fim das etapas ativas do processo %s.",
+        "✓ PROCESSO CONCLUÍDO DO INÍCIO AO FIM | %s | PNCP_PERC_Conclusao=100%%",
         numero_processo,
     )
 
@@ -472,31 +495,35 @@ def main() -> int:
     # PROCESSOS COM PNCP_PERC_Conclusao
     # =================================================================
     #
-    # Regra temporária e conservadora:
-    # qualquer percentual preenchido = NÃO executar automaticamente.
-    #
-    # No futuro, este ponto será substituído pela retomada inteligente
-    # conforme o marco registrado.
+    # Regra atual:
+    #   100% -> processo completo: ignorar.
+    #   10%  -> pré-cadastro legado dos testes: manter para recuperação.
+    #   vazio -> fluxo completo desde dados_iniciais.
     #
     grupos_pendentes = []
 
     for processo, linhas in grupos:
 
-        # Consulta diretamente a planilha atual. Isso evita depender
-        # somente dos objetos carregados em memória.
-        valores_perc = pncp_status.valores_percentuais_processo_planilha(
+        percentual = pncp_status.percentual_atual_processo_planilha(
             processo
         )
 
-        if valores_perc:
+        if (
+            percentual is not None
+            and percentual >= 100
+        ):
             log.warning(
-                "⏭ PROCESSO IGNORADO | %s | PNCP_PERC_Conclusao=%s",
+                "⏭ PROCESSO IGNORADO | %s | PNCP_PERC_Conclusao=100%%",
                 processo,
-                ", ".join(
-                    valores_perc
-                ),
             )
             continue
+
+        if percentual == 10:
+            log.warning(
+                "↻ PROCESSO EM RECUPERAÇÃO | %s | 10%% legado | "
+                "retomará após dados_iniciais",
+                processo,
+            )
 
         grupos_pendentes.append(
             (
@@ -529,7 +556,6 @@ def main() -> int:
         )
 
     sucessos = 0
-    falhas = 0
 
     for indice, (
         processo,
@@ -557,31 +583,35 @@ def main() -> int:
             sucessos += 1
 
         except Exception:
-            falhas += 1
-
             log.exception(
-                "✗ PROCESSO COM FALHA | %s | seguindo para o próximo.",
+                "✗ PROCESSO COM FALHA | %s | execução interrompida. "
+                "O próximo processo NÃO será iniciado.",
                 processo,
             )
 
-            continue
+            log.info(
+                "Tempo até a falha: %.1fs",
+                time.time() - inicio_total,
+            )
+
+            return 1
+
 
     log.info(
         "=" * 72
     )
 
     log.info(
-        "✓ EXECUÇÃO FINALIZADA | %.1fs | sucessos=%d | falhas=%d",
+        "✓ EXECUÇÃO FINALIZADA | %.1fs | processos concluídos=%d",
         time.time() - inicio_total,
         sucessos,
-        falhas,
     )
 
     log.info(
         "=" * 72
     )
 
-    return 1 if falhas else 0
+    return 0
 
 
 if __name__ == "__main__":
