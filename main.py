@@ -67,7 +67,7 @@ Etapa = Tuple[
 #   - não gravar percentuais intermediários nesta fase do projeto.
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
-    "dados_iniciais": True,
+    "dados_iniciais": False,
     "localizar_processo": True,
     "dados_basicos": True,
     "dados_adicionais": True,
@@ -568,6 +568,7 @@ def main() -> int:
         )
 
     sucessos = 0
+    nao_localizados = 0
 
     for indice, (
         processo,
@@ -594,9 +595,19 @@ def main() -> int:
 
             sucessos += 1
 
+        except page_localizar_processo.ContratacaoNaoLocalizada:
+            nao_localizados += 1
+
+            log.warning(
+                "↪ NÃO LOCALIZADO | %s | tentando o próximo processo da planilha.",
+                processo,
+            )
+
+            continue
+
         except Exception:
             log.exception(
-                "✗ PROCESSO COM FALHA | %s | execução interrompida. "
+                "✗ PROCESSO COM FALHA APÓS MATCH | %s | execução interrompida. "
                 "O próximo processo NÃO será iniciado.",
                 processo,
             )
@@ -614,9 +625,10 @@ def main() -> int:
     )
 
     log.info(
-        "✓ EXECUÇÃO FINALIZADA | %.1fs | processos concluídos=%d",
+        "✓ VARREDURA FINALIZADA | %.1fs | concluídos=%d | não localizados=%d",
         time.time() - inicio_total,
         sucessos,
+        nao_localizados,
     )
 
     log.info(
