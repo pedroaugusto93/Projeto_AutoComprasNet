@@ -35,7 +35,6 @@ class ItemContratacao:
     ordenador: str = ""
     resp_cpf: str = ""
     resp_email: str = ""
-    resp_cargo: str = ""
     resp_despacho: str = ""
     autoridade_nome: str = ""
     autoridade_email: str = ""
