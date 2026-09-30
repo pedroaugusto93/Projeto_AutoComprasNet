@@ -54,19 +54,19 @@ Etapa = Tuple[
 #
 # ALTERE SOMENTE ESTE BLOCO DURANTE OS TESTES.
 #
-# Estado atual:
+# Estado atual de teste:
 #   - contratação já existe;
-#   - Dados Básicos já estão preenchidos;
-#   - Itens já estão preenchidos;
-#   - queremos testar Dados Adicionais;
-#   - a contratação já está aberta em edição.
+#   - Dados Básicos, Dados Adicionais e Itens já estão preenchidos;
+#   - localizar_processo abre a contratação existente em edição;
+#   - queremos testar somente a nova etapa "4. Anexos".
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
     "dados_iniciais": False,
     "localizar_processo": True,
     "dados_basicos": False,
-    "dados_adicionais": True,
-    "itens": True,
+    "dados_adicionais": False,
+    "itens": False,
+    "anexos": True,
 }
 
 
@@ -201,6 +201,17 @@ def _etapa_itens(
     )
 
 
+def _etapa_anexos(
+    driver,
+    itens_processo: List[ItemContratacao],
+) -> None:
+
+    page_anexos.executar_processo(
+        driver,
+        itens_processo,
+    )
+
+
 # =====================================================================
 # ORDEM OFICIAL DO CADASTRO
 # =====================================================================
@@ -216,6 +227,8 @@ def _etapa_itens(
 #   Dados Adicionais
 #       ↓
 #   Itens
+#       ↓
+#   Anexos
 #
 FLUXO: List[Etapa] = [
     (
@@ -237,6 +250,10 @@ FLUXO: List[Etapa] = [
     (
         "itens",
         _etapa_itens,
+    ),
+    (
+        "anexos",
+        _etapa_anexos,
     ),
 ]
 
