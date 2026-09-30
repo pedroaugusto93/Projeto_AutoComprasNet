@@ -320,6 +320,122 @@ def grupo_ja_marcado(
     )
 
 
+def valores_percentuais_processo_planilha(
+    processo: str,
+) -> List[str]:
+    """
+    Lê a planilha diretamente e retorna os percentuais encontrados
+    para o PROCESSO informado.
+
+    Esta leitura é deliberadamente independente dos objetos já carregados
+    em memória: funciona como segunda trava contra recadastro acidental.
+    """
+    caminho = Path(
+        config.PLANILHA_PATH
+    )
+
+    wb = openpyxl.load_workbook(
+        caminho,
+        data_only=False,
+        read_only=True,
+    )
+
+    try:
+        ws = (
+            wb[
+                config.SHEET_NAME
+            ]
+            if config.SHEET_NAME in wb.sheetnames
+            else wb.active
+        )
+
+        col_processo = _coluna_por_titulo(
+            ws,
+            COLUNA_PROCESSO,
+        )
+
+        if col_processo is None:
+            raise RuntimeError(
+                f"Coluna {COLUNA_PROCESSO!r} não encontrada na planilha."
+            )
+
+        colunas_percentual = []
+
+        for titulo in COLUNAS_PERCENTUAL_ACEITAS:
+            coluna = _coluna_por_titulo(
+                ws,
+                titulo,
+            )
+
+            if (
+                coluna is not None
+                and coluna not in colunas_percentual
+            ):
+                colunas_percentual.append(
+                    coluna
+                )
+
+        if not colunas_percentual:
+            return []
+
+        alvo = str(
+            processo
+        ).strip()
+
+        encontrados: List[str] = []
+
+        for linha in range(
+            2,
+            ws.max_row + 1,
+        ):
+            valor_processo = str(
+                ws.cell(
+                    row=linha,
+                    column=col_processo,
+                ).value
+                or ""
+            ).strip()
+
+            if valor_processo != alvo:
+                continue
+
+            for coluna in colunas_percentual:
+                valor = str(
+                    ws.cell(
+                        row=linha,
+                        column=coluna,
+                    ).value
+                    or ""
+                ).strip()
+
+                if (
+                    valor
+                    and valor not in encontrados
+                ):
+                    encontrados.append(
+                        valor
+                    )
+
+        return encontrados
+
+    finally:
+        wb.close()
+
+
+def processo_ja_marcado_planilha(
+    processo: str,
+) -> bool:
+    """
+    Trava forte de anti-duplicidade baseada no arquivo Excel atual.
+    Qualquer percentual preenchido impede execução automática.
+    """
+    return bool(
+        valores_percentuais_processo_planilha(
+            processo
+        )
+    )
+
+
 def marco_da_etapa(
     etapa: str,
 ):
