@@ -26,6 +26,7 @@ import page_dados_adicionais
 import page_dados_basicos
 import page_dados_iniciais
 import page_itens
+import page_anexos
 import page_localizar_processo
 
 from driver import get_driver
