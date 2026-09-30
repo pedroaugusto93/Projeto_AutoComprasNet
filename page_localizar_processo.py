@@ -37,7 +37,7 @@ import config
 from app_selectors import S, XPATHS
 from logger import get_logger
 from models import ItemContratacao
-from utils_dom import wait_dom_stable, wclick
+from utils_dom import wait_dom_stable, wait_spinner_sumir, wclick
 
 
 log = get_logger(__name__)
@@ -224,6 +224,11 @@ def selecionar_pca(
         timeout,
     )
 
+    wait_spinner_sumir(
+        driver,
+        timeout,
+    )
+
     wait_dom_stable(
         driver
     )
@@ -266,6 +271,11 @@ def abrir_aba_minhas_uasg(
         timeout,
     )
 
+    wait_spinner_sumir(
+        driver,
+        timeout,
+    )
+
     wait_dom_stable(
         driver
     )
@@ -283,6 +293,11 @@ def localizar_contratacao(
     timeout = (
         timeout
         or config.TIMEOUT
+    )
+
+    wait_spinner_sumir(
+        driver,
+        timeout,
     )
 
     WebDriverWait(
