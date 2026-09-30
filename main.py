@@ -21,6 +21,7 @@ import time
 from typing import Callable, Dict, List, Tuple
 
 import config
+import pncp_status
 
 import page_dados_adicionais
 import page_dados_basicos
@@ -349,6 +350,18 @@ def executar_processo(
             itens_processo,
         )
 
+        percentual = pncp_status.registrar_etapa_concluida(
+            numero_processo,
+            nome_etapa,
+        )
+
+        if percentual is not None:
+            log.info(
+                "✓ PROGRESSO PNCP: %s -> %d%%",
+                numero_processo,
+                percentual,
+            )
+
         log.info(
             "✓ ETAPA CONCLUÍDA: %s | %.1fs",
             nome_etapa,
@@ -432,6 +445,56 @@ def main() -> int:
         if etapas_ligadas
         else "(nenhuma)",
     )
+
+    # =================================================================
+    # PROCESSOS COM PNCP_PERC_Conclusao
+    # =================================================================
+    #
+    # Regra temporária e conservadora:
+    # qualquer percentual preenchido = NÃO executar automaticamente.
+    #
+    # No futuro, este ponto será substituído pela retomada inteligente
+    # conforme o marco registrado.
+    #
+    grupos_pendentes = []
+
+    for processo, linhas in grupos:
+
+        valores_perc = pncp_status.valores_percentuais_grupo(
+            linhas
+        )
+
+        if valores_perc:
+            log.warning(
+                "⏭ PROCESSO IGNORADO | %s | PNCP_PERC_Conclusao=%s",
+                processo,
+                ", ".join(
+                    valores_perc
+                ),
+            )
+            continue
+
+        grupos_pendentes.append(
+            (
+                processo,
+                linhas,
+            )
+        )
+
+    grupos = grupos_pendentes
+
+    log.info(
+        "Processos pendentes após filtro PNCP: %d.",
+        len(
+            grupos
+        ),
+    )
+
+    if not grupos:
+        log.info(
+            "Nenhum processo pendente para execução."
+        )
+        return 0
 
     if PROCESSAR_APENAS_PRIMEIRO_PROCESSO:
 
