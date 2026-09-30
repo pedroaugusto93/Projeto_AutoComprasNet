@@ -47,6 +47,14 @@ log = get_logger(__name__)
 COLUNA_PROCESSO = "PROCESSO"
 COLUNA_PERCENTUAL = "PNCP_PERC_Conclusao"
 
+# Aceita também nomes usados em versões/testes anteriores da planilha.
+# A comparação dos títulos é case-insensitive por causa de _normalizar_titulo().
+COLUNAS_PERCENTUAL_ACEITAS = (
+    COLUNA_PERCENTUAL,
+    "PNCP_PERC_concl",
+    "PNCP_PERC_conclusao",
+)
+
 PESOS_ETAPAS = {
     "dados_iniciais": 10,
     "dados_basicos": 15,
@@ -128,6 +136,33 @@ def _coluna_por_titulo_ou_cria(
     return nova
 
 
+def _coluna_percentual_ou_cria(
+    ws,
+    header_row: int = 1,
+):
+    """
+    Reaproveita a coluna de progresso já existente, inclusive aliases antigos.
+
+    Evita criar uma segunda coluna quando a planilha já possui, por exemplo,
+    PNCP_PERC_concl preenchida manualmente.
+    """
+    for titulo in COLUNAS_PERCENTUAL_ACEITAS:
+        coluna = _coluna_por_titulo(
+            ws,
+            titulo,
+            header_row,
+        )
+
+        if coluna is not None:
+            return coluna
+
+    return _coluna_por_titulo_ou_cria(
+        ws,
+        COLUNA_PERCENTUAL,
+        header_row,
+    )
+
+
 def _percentual_numerico(
     valor,
 ):
@@ -191,6 +226,56 @@ def _percentual_numerico(
     )
 
 
+def _valor_percentual_item(
+    item: ItemContratacao,
+):
+    """
+    Obtém o progresso PNCP da linha, aceitando o cabeçalho atual e aliases.
+
+    Cabeçalhos desconhecidos pelo modelo ficam em extras; por isso uma coluna
+    antiga como PNCP_PERC_concl também precisa funcionar como trava.
+    """
+    for titulo in COLUNAS_PERCENTUAL_ACEITAS:
+        valor = getattr(
+            item,
+            titulo,
+            "",
+        )
+
+        if str(
+            valor
+            or ""
+        ).strip():
+            return valor
+
+    extras = getattr(
+        item,
+        "extras",
+        {},
+    ) or {}
+
+    titulos_aceitos = {
+        _normalizar_titulo(
+            titulo
+        )
+        for titulo in COLUNAS_PERCENTUAL_ACEITAS
+    }
+
+    for chave, valor in extras.items():
+        if (
+            _normalizar_titulo(
+                chave
+            ) in titulos_aceitos
+            and str(
+                valor
+                or ""
+            ).strip()
+        ):
+            return valor
+
+    return ""
+
+
 def valores_percentuais_grupo(
     itens_processo: Iterable[ItemContratacao],
 ) -> List[str]:
@@ -201,10 +286,8 @@ def valores_percentuais_grupo(
 
     for item in itens_processo:
         valor = str(
-            getattr(
-                item,
-                "PNCP_PERC_Conclusao",
-                "",
+            _valor_percentual_item(
+                item
             )
             or ""
         ).strip()
@@ -303,9 +386,8 @@ def registrar_etapa_concluida(
                     f"Coluna {COLUNA_PROCESSO!r} não encontrada na planilha."
                 )
 
-            col_perc = _coluna_por_titulo_ou_cria(
-                ws,
-                COLUNA_PERCENTUAL,
+            col_perc = _coluna_percentual_ou_cria(
+                ws
             )
 
             alvo = str(
