@@ -1,32 +1,19 @@
 # pncp_status.py
 """
-Controle simples de progresso do cadastro PNCP/ComprasNet.
+Controle de status do cadastro PNCP/ComprasNet.
 
-Objetivos desta primeira versão:
-  1. registrar na planilha o avanço do processo em PNCP_PERC_Conclusao;
-  2. gravar o MESMO percentual em todas as linhas do mesmo PROCESSO;
-  3. nunca reduzir um percentual já gravado;
-  4. permitir que main.py ignore processos que já tenham qualquer percentual;
-  5. concentrar os marcos em um único lugar para uma futura retomada por etapa.
+Regra operacional ATUAL:
+  - 100% = processo concluído do início ao fim; não executar novamente;
+  - vazio = processo novo; executar o fluxo completo;
+  - 10% = marcador legado temporário criado durante testes de pré-cadastro.
+    Ele serve somente para recuperar esses processos sem recriar o cadastro
+    inicial e será substituído futuramente pelo controle formal por etapas.
 
-IMPORTANTE:
-Nesta versão, qualquer PNCP_PERC_Conclusao preenchido significa:
-    "não executar automaticamente este processo".
+Nesta fase, o fluxo NÃO grava percentuais intermediários (10%, 25%, 40%...).
+Somente após TODAS as etapas concluírem com sucesso o processo recebe 100%.
 
-No futuro, essa regra poderá ser trocada por:
-    "ler o percentual e retomar da etapa seguinte".
-
-Distribuição lógica:
-  - dados_iniciais:     10%
-  - dados_basicos:      +15% = 25%
-  - dados_adicionais:   +15% = 40%
-  - itens:              +25% = 65%
-  - anexos:             +15% = 80%
-  - responsaveis:       +10% = 90%
-  - publicacao:         +10% = 100%
-
-'localizar_processo' não recebe percentual porque é navegação/retomada,
-não conteúdo cadastrado.
+Os marcos intermediários permanecem neste módulo apenas como base para a
+funcionalidade futura de retomada inteligente.
 """
 
 from __future__ import annotations
