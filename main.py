@@ -58,21 +58,26 @@ Etapa = Tuple[
 #
 # ALTERE SOMENTE ESTE BLOCO DURANTE OS TESTES.
 #
-# Estado atual de teste:
-#   - contratação já existe;
-#   - Dados Básicos, Dados Adicionais e Itens já estão preenchidos;
-#   - localizar_processo abre a contratação existente em edição;
-#   - queremos testar somente a nova etapa "5. Responsáveis".
+# FASE ATUAL:
+#   - criar somente o cadastro inicial das contratações ainda não marcadas;
+#   - NÃO localizar a contratação após a criação nesta execução;
+#   - NÃO preencher as demais abas ainda;
+#   - ao concluir dados_iniciais, registrar 10% como trava anti-duplicidade.
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
-    "dados_iniciais": False,
-    "localizar_processo": True,
+    # FASE ATUAL: somente o cadastro inicial da contratação.
+    #
+    # Depois que esta etapa conclui, o PNCP_PERC_Conclusao recebe 10%.
+    # Como a regra atual ignora qualquer processo já marcado, uma nova
+    # execução não recria a mesma contratação.
+    "dados_iniciais": True,
+    "localizar_processo": False,
     "dados_basicos": False,
     "dados_adicionais": False,
     "itens": False,
     "anexos": False,
-    "responsaveis": True,
-    "publicacao": True,
+    "responsaveis": False,
+    "publicacao": False,
 }
 
 
