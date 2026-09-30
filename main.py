@@ -76,9 +76,9 @@ ETAPAS_ATIVAS: Dict[str, bool] = {
 }
 
 
-# Durante o desenvolvimento:
-# executa somente o primeiro processo da planilha.
-PROCESSAR_APENAS_PRIMEIRO_PROCESSO = True
+# Durante testes pontuais, altere para True para executar somente
+# o primeiro processo pendente. Em operação normal, deixe False.
+PROCESSAR_APENAS_PRIMEIRO_PROCESSO = False
 
 
 # =====================================================================
@@ -523,57 +523,60 @@ def main() -> int:
             "MODO TESTE: somente o primeiro processo será executado."
         )
 
-    try:
+    sucessos = 0
+    falhas = 0
 
-        for indice, (
-            processo,
-            linhas,
-        ) in enumerate(
-            grupos,
-            start=1,
-        ):
+    for indice, (
+        processo,
+        linhas,
+    ) in enumerate(
+        grupos,
+        start=1,
+    ):
 
-            log.info(
-                "Processo %d/%d",
-                indice,
-                len(
-                    grupos
-                ),
-            )
+        log.info(
+            "Processo %d/%d",
+            indice,
+            len(
+                grupos
+            ),
+        )
 
+        try:
             executar_processo(
                 driver,
                 processo,
                 linhas,
             )
 
-    except Exception:
+            sucessos += 1
 
-        log.exception(
-            "Falha na execução do fluxo."
-        )
+        except Exception:
+            falhas += 1
 
-        log.info(
-            "Tempo até a falha: %.1fs",
-            time.time() - inicio_total,
-        )
+            log.exception(
+                "✗ PROCESSO COM FALHA | %s | seguindo para o próximo.",
+                processo,
+            )
 
-        return 1
+            continue
 
     log.info(
         "=" * 72
     )
 
     log.info(
-        "✓ EXECUÇÃO FINALIZADA | %.1fs",
+        "✓ EXECUÇÃO FINALIZADA | %.1fs | sucessos=%d | falhas=%d",
         time.time() - inicio_total,
+        sucessos,
+        falhas,
     )
 
     log.info(
         "=" * 72
     )
 
-    return 0
+    return 1 if falhas else 0
 
 
 if __name__ == "__main__":
