@@ -44,6 +44,16 @@ log = get_logger(__name__)
 K = config.Constantes
 
 
+class ContratacaoNaoLocalizada(TimeoutError):
+    """
+    Resultado normal de varredura em modo de retomada.
+
+    Diferente de uma falha técnica: significa apenas que o processo
+    testado não está presente na grade atual do PCA.
+    """
+    pass
+
+
 # -----------------------------------------------------------------------
 # Helpers
 # -----------------------------------------------------------------------
@@ -200,6 +210,33 @@ def selecionar_pca(
     label = (
         f"PCA {ano} - {K.PCA_STATUS}"
     )
+
+    # Evita reselecionar o mesmo PCA a cada processo durante a varredura.
+    try:
+        combo = driver.find_element(
+            By.CSS_SELECTOR,
+            S.PCA_COMBO,
+        )
+
+        texto_atual = " ".join(
+            (
+                combo.text
+                or combo.get_attribute("innerText")
+                or combo.get_attribute("aria-label")
+                or combo.get_attribute("title")
+                or ""
+            ).split()
+        )
+
+        if _normalizar(label) in _normalizar(texto_atual):
+            log.info(
+                "PCA já selecionado: %s",
+                label,
+            )
+            return
+
+    except Exception:
+        pass
 
     log.info(
         "Selecionando PCA: %s",
@@ -393,7 +430,7 @@ def localizar_contratacao(
                 "clicked_link": True,
             }
 
-    raise TimeoutError(
+    raise ContratacaoNaoLocalizada(
         "Contratação não localizada: "
         f"{item.titulo} | "
         f"{alvo_inicio} | "
