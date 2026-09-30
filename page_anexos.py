@@ -68,6 +68,11 @@ BTN_SELECIONAR_ARQUIVO = (
     "bt_anexarPdf",
 )
 
+BTN_SALVAR_ANEXO = (
+    By.ID,
+    "salvar-anexo",
+)
+
 
 def _wait(driver, timeout: int | None = None) -> WebDriverWait:
     return WebDriverWait(
@@ -567,6 +572,30 @@ def _anexar_arquivo(
     )
 
 
+def _salvar_anexo(
+    driver,
+) -> None:
+    """
+    Confirma o envio do anexo clicando no botão final "Anexar".
+    """
+    log.info(
+        "Confirmando inclusão do anexo..."
+    )
+
+    _click(
+        driver,
+        BTN_SALVAR_ANEXO,
+    )
+
+    wait_dom_stable(
+        driver
+    )
+
+    log.info(
+        "Botão final 'Anexar' acionado."
+    )
+
+
 def executar_processo(
     driver,
     itens_processo: List[ItemContratacao],
@@ -574,9 +603,8 @@ def executar_processo(
     """
     Executa a etapa Anexos para UM ÚNICO processo.
 
-    Esta versão para logo após selecionar o arquivo. Qualquer botão posterior
-    de salvar/incluir será implementado quando o HTML dessa próxima ação for
-    confirmado, evitando inventar seletor ou gravar algo indevido.
+    Após selecionar o arquivo, confirma a inclusão clicando no botão
+    final "Anexar" (#salvar-anexo).
     """
     if not itens_processo:
         raise ValueError(
@@ -640,7 +668,11 @@ def executar_processo(
         arquivo,
     )
 
+    _salvar_anexo(
+        driver
+    )
+
     log.info(
-        "✓ Etapa Anexos chegou até a seleção do arquivo para o processo %s.",
+        "✓ Anexo incluído para o processo %s.",
         processo,
     )
