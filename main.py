@@ -59,7 +59,7 @@ Etapa = Tuple[
 #   - contratação já existe;
 #   - Dados Básicos, Dados Adicionais e Itens já estão preenchidos;
 #   - localizar_processo abre a contratação existente em edição;
-#   - queremos testar somente a nova etapa "4. Anexos".
+#   - queremos testar somente a nova etapa "5. Responsáveis".
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
     "dados_iniciais": False,
@@ -213,6 +213,17 @@ def _etapa_anexos(
     )
 
 
+def _etapa_responsaveis(
+    driver,
+    itens_processo: List[ItemContratacao],
+) -> None:
+
+    page_responsaveis.executar_processo(
+        driver,
+        itens_processo,
+    )
+
+
 # =====================================================================
 # ORDEM OFICIAL DO CADASTRO
 # =====================================================================
@@ -230,6 +241,8 @@ def _etapa_anexos(
 #   Itens
 #       ↓
 #   Anexos
+#       ↓
+#   Responsáveis
 #
 FLUXO: List[Etapa] = [
     (
@@ -255,6 +268,10 @@ FLUXO: List[Etapa] = [
     (
         "anexos",
         _etapa_anexos,
+    ),
+    (
+        "responsaveis",
+        _etapa_responsaveis,
     ),
 ]
 
