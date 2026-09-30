@@ -46,7 +46,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 import config
-from helpers import carregar_itens
 from logger import get_logger
 from models import ItemContratacao
 from utils_dom import cur4, wait_dom_stable
@@ -315,57 +314,6 @@ def _abrir_aba_itens(driver) -> None:
     log.info("Aba '3. Itens/Grupos' aberta.")
 
 
-def abrir_itens_e_bucketizar(
-    driver,
-    itens: List[ItemContratacao],
-) -> List[Bucket]:
-    """
-    Abre a aba Itens/Grupos e agrupa TODAS as linhas pelo número do processo.
-
-    Importante:
-    - linhas do mesmo processo não precisam estar consecutivas na planilha;
-    - a ordem dos processos é a ordem da primeira aparição;
-    - a ordem das linhas dentro de cada processo é preservada.
-    """
-    _abrir_aba_itens(driver)
-
-    grupos: dict[str, List[ItemContratacao]] = {}
-    ordem: List[str] = []
-
-    for item in itens:
-        proc = _processo_do_item(item)
-
-        if not proc:
-            raise RuntimeError(
-                "Foi encontrada uma linha da planilha sem número de processo."
-            )
-
-        if proc not in grupos:
-            grupos[proc] = []
-            ordem.append(proc)
-
-        grupos[proc].append(item)
-
-    buckets: List[Bucket] = [
-        (proc, grupos[proc])
-        for proc in ordem
-    ]
-
-    log.info(
-        "Processos únicos encontrados na planilha: %d.",
-        len(buckets),
-    )
-
-    for proc, linhas in buckets:
-        log.info(
-            "  Processo %s -> %d registro(s).",
-            proc,
-            len(linhas),
-        )
-
-    return buckets
-
-
 def executar_processo(
     driver,
     itens_processo: List[ItemContratacao],
@@ -405,6 +353,10 @@ def executar_processo(
         num_processo,
         len(itens_processo),
     )
+
+    # A page cuida apenas da própria tela; quem decide QUANDO executá-la
+    # e QUAL processo executar é exclusivamente o main.py.
+    _abrir_aba_itens(driver)
 
     # Pré-validação dos dados que serão usados em Resultado.
     _validar_dados_resultado(
@@ -1414,62 +1366,3 @@ def preencher_resultados(
 # Nome antigo mantido para compatibilidade com qualquer chamada já existente.
 def localizar_e_casar_no_dc(driver, bucket: Bucket) -> None:
     enviar_itens_ao_dc(driver, bucket)
-
-
-# ======================= ORQUESTRAÇÃO ======================= #
-
-def executar(
-    driver,
-    itens: List[ItemContratacao],
-) -> None:
-    """
-    MODO SEGURO / TESTE ISOLADO.
-
-    Recebe a planilha inteira, mas executa SOMENTE o primeiro processo.
-    Nunca passa automaticamente ao segundo processo.
-
-    Isso é intencional: a troca de processo pertence ao main.py e só deverá
-    ocorrer depois que TODO o fluxo do processo atual estiver concluído
-    (publicação, comprovante, print etc.).
-    """
-    buckets = abrir_itens_e_bucketizar(
-        driver,
-        itens,
-    )
-
-    if not buckets:
-        log.warning("Nenhum processo encontrado na planilha.")
-        return
-
-    num_processo, linhas = buckets[0]
-
-    if len(buckets) > 1:
-        log.warning(
-            "MODO SEGURO: existem %d processos na planilha, mas somente "
-            "o processo atual %s será executado agora. "
-            "Os outros %d processo(s) NÃO serão tocados.",
-            len(buckets),
-            num_processo,
-            len(buckets) - 1,
-        )
-
-    executar_processo(
-        driver,
-        linhas,
-    )
-
-    log.info(
-        "Execução interrompida intencionalmente após o processo %s. "
-        "O próximo processo só poderá ser iniciado pelo fluxo principal "
-        "depois da conclusão total do processo atual.",
-        num_processo,
-    )
-
-
-def run(driver) -> None:
-    """Wrapper chamado pelo main.py no modo isolado."""
-    executar(
-        driver,
-        carregar_itens(),
-    )
-

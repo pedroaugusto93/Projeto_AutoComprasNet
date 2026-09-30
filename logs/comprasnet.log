@@ -1157,3 +1157,194 @@ selenium.common.exceptions.TimeoutException: Message:
 15:55:47 | INFO    | comprasnet.main | Tempo total: 65.4s
 15:55:47 | INFO    | comprasnet.main | Evidências/Logs: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\logs
 15:55:47 | INFO    | comprasnet.main | ====================================================
+16:30:14 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+16:30:14 | INFO    | comprasnet.main | Tela atual preservada.
+16:30:15 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/edit?id=597616
+16:30:15 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+16:30:15 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+16:30:15 | INFO    | comprasnet.main | Processos encontrados: 9.
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0056698.2026-15 -> 9 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0061423.2026-92 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0063114.2026-25 -> 2 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0063449.2026-98 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0063481.2026-10 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0063482.2026-80 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0062700.2026-48 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0062847.2026-56 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main |   20.22.0001.0062856.2026-07 -> 1 registro(s)
+16:30:15 | INFO    | comprasnet.main | Etapas ativas: dados_adicionais
+16:30:15 | WARNING | comprasnet.main | MODO TESTE: somente o primeiro processo será executado.
+16:30:15 | INFO    | comprasnet.main | Processo 1/1
+16:30:15 | INFO    | comprasnet.main | ========================================================================
+16:30:15 | INFO    | comprasnet.main | ▶ PROCESSO: 20.22.0001.0056698.2026-15 | 9 registro(s)
+16:30:15 | INFO    | comprasnet.main | ========================================================================
+16:30:15 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: dados_iniciais
+16:30:15 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: localizar_processo
+16:30:15 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: dados_basicos
+16:30:15 | INFO    | comprasnet.main | ▶ ETAPA: dados_adicionais
+16:30:15 | INFO    | comprasnet.page_dados_adicionais | ▶ DADOS ADICIONAIS | processo=20.22.0001.0056698.2026-15
+16:30:15 | INFO    | comprasnet.page_dados_adicionais | Abrindo aba '2. Dados adicionais da contratação'...
+16:30:16 | INFO    | comprasnet.page_dados_adicionais | Aba '2. Dados adicionais da contratação' aberta.
+16:30:16 | INFO    | comprasnet.page_dados_adicionais | Bloco 'Endereço do Processo Eletrônico' aberto.
+16:30:16 | INFO    | comprasnet.page_dados_adicionais | Marcando 'Sim' para processo eletrônico...
+16:30:16 | INFO    | comprasnet.page_dados_adicionais | Preenchendo link do processo eletrônico...
+16:30:19 | INFO    | comprasnet.page_dados_adicionais | Link do processo eletrônico preenchido.
+16:30:19 | INFO    | comprasnet.page_dados_adicionais | Bloco 'Recurso Orçamentário da Contratação' aberto.
+16:30:19 | INFO    | comprasnet.page_dados_adicionais | Selecionando Tipo de Recurso: Estadual...
+16:30:20 | INFO    | comprasnet.page_dados_adicionais | Tipo de Recurso 'Estadual' confirmado.
+16:30:20 | INFO    | comprasnet.page_dados_adicionais | ✓ Dados adicionais concluídos para o processo 20.22.0001.0056698.2026-15.
+16:30:20 | INFO    | comprasnet.main | ✓ ETAPA CONCLUÍDA: dados_adicionais | 4.8s
+16:30:20 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: itens
+16:30:20 | INFO    | comprasnet.main | ✓ Fim das etapas ativas do processo 20.22.0001.0056698.2026-15.
+16:30:20 | INFO    | comprasnet.main | ========================================================================
+16:30:20 | INFO    | comprasnet.main | ✓ EXECUÇÃO FINALIZADA | 7.6s
+16:30:20 | INFO    | comprasnet.main | ========================================================================
+16:31:39 | INFO    | comprasnet.driver | Conectado ao Chrome em 127.0.0.1:9222
+16:31:39 | INFO    | comprasnet.main | Tela atual preservada.
+16:31:39 | INFO    | comprasnet.main | URL atual: https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-artefatos-web/execucao/list
+16:31:39 | INFO    | comprasnet.helpers | Lendo planilha: C:\Users\pedro.naia\OneDrive - MPRJ\Documentos\Projeto_AutoComprasNet\cadastro.xlsx | aba: Sheet1
+16:31:39 | INFO    | comprasnet.helpers | Linhas carregadas: 18
+16:31:39 | INFO    | comprasnet.main | Processos encontrados: 9.
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0056698.2026-15 -> 9 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0061423.2026-92 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0063114.2026-25 -> 2 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0063449.2026-98 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0063481.2026-10 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0063482.2026-80 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0062700.2026-48 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0062847.2026-56 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main |   20.22.0001.0062856.2026-07 -> 1 registro(s)
+16:31:39 | INFO    | comprasnet.main | Etapas ativas: localizar_processo, dados_adicionais, itens
+16:31:39 | WARNING | comprasnet.main | MODO TESTE: somente o primeiro processo será executado.
+16:31:39 | INFO    | comprasnet.main | Processo 1/1
+16:31:39 | INFO    | comprasnet.main | ========================================================================
+16:31:39 | INFO    | comprasnet.main | ▶ PROCESSO: 20.22.0001.0056698.2026-15 | 9 registro(s)
+16:31:39 | INFO    | comprasnet.main | ========================================================================
+16:31:39 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: dados_iniciais
+16:31:39 | INFO    | comprasnet.main | ▶ ETAPA: localizar_processo
+16:31:39 | INFO    | comprasnet.page_localizar_processo | ▶ LOCALIZAR PROCESSO | processo=20.22.0001.0056698.2026-15
+16:31:39 | INFO    | comprasnet.page_localizar_processo | Selecionando PCA: PCA 2026 - Em Execução
+16:31:40 | INFO    | comprasnet.page_localizar_processo | Aba 'Contratações Minhas UASG' já está aberta.
+16:31:40 | INFO    | comprasnet.page_localizar_processo | Localizando contratação: título='Modalidade Lotérica de Apostas de Quota Fixa – Bets' | início=14/08/2026 | conclusão=17/08/2026
+16:31:40 | INFO    | comprasnet.page_localizar_processo | Contratação localizada (contratacao-597616).
+16:31:40 | INFO    | comprasnet.page_localizar_processo | Abrindo edição da contratação...
+16:31:42 | INFO    | comprasnet.page_localizar_processo | ✓ Contratação localizada e aberta para edição: 20.22.0001.0056698.2026-15.
+16:31:42 | INFO    | comprasnet.main | ✓ ETAPA CONCLUÍDA: localizar_processo | 2.5s
+16:31:42 | INFO    | comprasnet.main | ⏭ ETAPA IGNORADA: dados_basicos
+16:31:42 | INFO    | comprasnet.main | ▶ ETAPA: dados_adicionais
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | ▶ DADOS ADICIONAIS | processo=20.22.0001.0056698.2026-15
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | Abrindo aba '2. Dados adicionais da contratação'...
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | Aba '2. Dados adicionais da contratação' aberta.
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | Bloco 'Endereço do Processo Eletrônico' aberto.
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | Marcando 'Sim' para processo eletrônico...
+16:31:42 | INFO    | comprasnet.page_dados_adicionais | Preenchendo link do processo eletrônico...
+16:31:45 | INFO    | comprasnet.page_dados_adicionais | Link do processo eletrônico preenchido.
+16:31:45 | INFO    | comprasnet.page_dados_adicionais | Bloco 'Recurso Orçamentário da Contratação' aberto.
+16:31:45 | INFO    | comprasnet.page_dados_adicionais | Selecionando Tipo de Recurso: Estadual...
+16:31:46 | INFO    | comprasnet.page_dados_adicionais | Tipo de Recurso 'Estadual' confirmado.
+16:31:46 | INFO    | comprasnet.page_dados_adicionais | ✓ Dados adicionais concluídos para o processo 20.22.0001.0056698.2026-15.
+16:31:46 | INFO    | comprasnet.main | ✓ ETAPA CONCLUÍDA: dados_adicionais | 4.1s
+16:31:46 | INFO    | comprasnet.main | ▶ ETAPA: itens
+16:31:46 | INFO    | comprasnet.page_itens | ▶ PROCESSO ATUAL: 20.22.0001.0056698.2026-15 | 9 registro(s)
+16:31:46 | INFO    | comprasnet.page_itens | Abrindo aba '3. Itens/Grupos'...
+16:31:46 | INFO    | comprasnet.page_itens | Aba '3. Itens/Grupos' aberta.
+16:31:51 | INFO    | comprasnet.page_itens | Cadastrando 9 item(ns) do processo 20.22.0001.0056698.2026-15...
+16:31:51 | INFO    | comprasnet.page_itens | Abrindo catálogo de material/serviço...
+16:31:52 | INFO    | comprasnet.page_itens | Pesquisando serviço pelo código/termo: 21172
+16:31:52 | INFO    | comprasnet.page_itens | Clicando no botão 'Pesquisar palavra'...
+16:31:52 | INFO    | comprasnet.page_itens | Pesquisa acionada.
+16:31:53 | INFO    | comprasnet.page_itens | Serviço localizado no catálogo.
+16:31:53 | INFO    | comprasnet.page_itens | Item 1/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+16:31:54 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+16:31:55 | INFO    | comprasnet.page_itens | Item 1/9 salvo.
+16:31:55 | INFO    | comprasnet.page_itens | Item 2/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+16:31:56 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+16:31:56 | INFO    | comprasnet.page_itens | Item 2/9 salvo.
+16:31:56 | INFO    | comprasnet.page_itens | Item 3/9 | processo=20.22.0001.0056698.2026-15 | valor=616,1800
+16:31:57 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=616,1800 | tela=616,1800
+16:31:58 | INFO    | comprasnet.page_itens | Item 3/9 salvo.
+16:31:58 | INFO    | comprasnet.page_itens | Item 4/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+16:31:59 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+16:32:00 | INFO    | comprasnet.page_itens | Item 4/9 salvo.
+16:32:00 | INFO    | comprasnet.page_itens | Item 5/9 | processo=20.22.0001.0056698.2026-15 | valor=924,2700
+16:32:01 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=924,2700 | tela=924,2700
+16:32:01 | INFO    | comprasnet.page_itens | Item 5/9 salvo.
+16:32:01 | INFO    | comprasnet.page_itens | Item 6/9 | processo=20.22.0001.0056698.2026-15 | valor=831,8600
+16:32:02 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=831,8600 | tela=831,8600
+16:32:03 | INFO    | comprasnet.page_itens | Item 6/9 salvo.
+16:32:03 | INFO    | comprasnet.page_itens | Item 7/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+16:32:04 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+16:32:05 | INFO    | comprasnet.page_itens | Item 7/9 salvo.
+16:32:05 | INFO    | comprasnet.page_itens | Item 8/9 | processo=20.22.0001.0056698.2026-15 | valor=1.016,7000
+16:32:06 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=1.016,7000 | tela=1.016,7000
+16:32:07 | INFO    | comprasnet.page_itens | Item 8/9 salvo.
+16:32:07 | INFO    | comprasnet.page_itens | Item 9/9 | processo=20.22.0001.0056698.2026-15 | valor=554,5700
+16:32:08 | INFO    | comprasnet.page_itens | Valor unitário preenchido: solicitado=554,5700 | tela=554,5700
+16:32:08 | INFO    | comprasnet.page_itens | Item 9/9 salvo.
+16:32:08 | INFO    | comprasnet.page_itens | Todos os 9 item(ns) foram cadastrados no processo 20.22.0001.0056698.2026-15.
+16:32:08 | INFO    | comprasnet.page_itens | Finalizando itens do processo 20.22.0001.0056698.2026-15: carrinho -> DC -> confirmar...
+16:32:12 | INFO    | comprasnet.page_itens | Itens do processo 20.22.0001.0056698.2026-15 adicionados ao DC. Execução da etapa de Itens encerrada aqui.
+16:32:12 | INFO    | comprasnet.page_itens | Adicionando local de entrega em lote para 9 item(ns)...
+16:32:13 | INFO    | comprasnet.page_itens | Local de entrega 1/9 -> quantidade=1
+16:32:13 | INFO    | comprasnet.page_itens | Local de entrega 2/9 -> quantidade=1
+16:32:14 | INFO    | comprasnet.page_itens | Local de entrega 3/9 -> quantidade=1
+16:32:14 | INFO    | comprasnet.page_itens | Local de entrega 4/9 -> quantidade=1
+16:32:14 | INFO    | comprasnet.page_itens | Local de entrega 5/9 -> quantidade=1
+16:32:15 | INFO    | comprasnet.page_itens | Local de entrega 6/9 -> quantidade=1
+16:32:15 | INFO    | comprasnet.page_itens | Local de entrega 7/9 -> quantidade=1
+16:32:15 | INFO    | comprasnet.page_itens | Local de entrega 8/9 -> quantidade=1
+16:32:15 | INFO    | comprasnet.page_itens | Local de entrega 9/9 -> quantidade=1
+16:32:18 | INFO    | comprasnet.page_itens | Local de entrega salvo com quantidade 1 para 9 item(ns).
+16:32:18 | INFO    | comprasnet.page_itens | Preenchendo Resultado individual de 9 item(ns)...
+16:32:18 | INFO    | comprasnet.page_itens | Resultado 1/9 | card=3445821 | preparando fornecedor=Emerson Luiz Gazzoli | doc=*******5845 | valor=616,1800
+16:32:18 | INFO    | comprasnet.page_itens | Item 3445821: clicando diretamente na aba Resultado...
+16:32:18 | INFO    | comprasnet.page_itens | Item 3445821: aba Resultado aberta.
+16:32:20 | INFO    | comprasnet.page_itens | Resultado 1/9 | fornecedor=Emerson Luiz Gazzoli | doc=*******5845 | valor=616,1800 | qtd=1
+16:32:21 | INFO    | comprasnet.page_itens | Resultado 1/9 salvo.
+16:32:21 | INFO    | comprasnet.page_itens | Resultado 2/9 | card=3445822 | preparando fornecedor=Fernanda Vilela Oliveira | doc=*******0187 | valor=616,1800
+16:32:21 | INFO    | comprasnet.page_itens | Item 3445822: clicando diretamente na aba Resultado...
+16:32:22 | INFO    | comprasnet.page_itens | Item 3445822: aba Resultado aberta.
+16:32:24 | INFO    | comprasnet.page_itens | Resultado 2/9 | fornecedor=Fernanda Vilela Oliveira | doc=*******0187 | valor=616,1800 | qtd=1
+16:32:25 | INFO    | comprasnet.page_itens | Resultado 2/9 salvo.
+16:32:25 | INFO    | comprasnet.page_itens | Resultado 3/9 | card=3445823 | preparando fornecedor=ANDRÉ LUIZ GONÇALVES GARCIA | doc=*******0125 | valor=616,1800
+16:32:25 | INFO    | comprasnet.page_itens | Item 3445823: clicando diretamente na aba Resultado...
+16:32:25 | INFO    | comprasnet.page_itens | Item 3445823: aba Resultado aberta.
+16:32:27 | INFO    | comprasnet.page_itens | Resultado 3/9 | fornecedor=ANDRÉ LUIZ GONÇALVES GARCIA | doc=*******0125 | valor=616,1800 | qtd=1
+16:32:28 | INFO    | comprasnet.page_itens | Resultado 3/9 salvo.
+16:32:28 | INFO    | comprasnet.page_itens | Resultado 4/9 | card=3445824 | preparando fornecedor=Carlos Renato Xavier de Resende | doc=*******7153 | valor=554,5700
+16:32:29 | INFO    | comprasnet.page_itens | Item 3445824: clicando diretamente na aba Resultado...
+16:32:29 | INFO    | comprasnet.page_itens | Item 3445824: aba Resultado aberta.
+16:32:31 | INFO    | comprasnet.page_itens | Resultado 4/9 | fornecedor=Carlos Renato Xavier de Resende | doc=*******7153 | valor=554,5700 | qtd=1
+16:32:32 | INFO    | comprasnet.page_itens | Resultado 4/9 salvo.
+16:32:32 | INFO    | comprasnet.page_itens | Resultado 5/9 | card=3445825 | preparando fornecedor=Chantal Correia de Castro | doc=*******3950 | valor=924,2700
+16:32:32 | INFO    | comprasnet.page_itens | Item 3445825: clicando diretamente na aba Resultado...
+16:32:32 | INFO    | comprasnet.page_itens | Item 3445825: aba Resultado aberta.
+16:32:35 | INFO    | comprasnet.page_itens | Resultado 5/9 | fornecedor=Chantal Correia de Castro | doc=*******3950 | valor=924,2700 | qtd=1
+16:32:36 | INFO    | comprasnet.page_itens | Resultado 5/9 salvo.
+16:32:36 | INFO    | comprasnet.page_itens | Resultado 6/9 | card=3445826 | preparando fornecedor=ANDIARA MARIA BRAGA MARANHÃO | doc=*******6172 | valor=831,8600
+16:32:36 | INFO    | comprasnet.page_itens | Item 3445826: clicando diretamente na aba Resultado...
+16:32:36 | INFO    | comprasnet.page_itens | Item 3445826: aba Resultado aberta.
+16:32:38 | INFO    | comprasnet.page_itens | Resultado 6/9 | fornecedor=ANDIARA MARIA BRAGA MARANHÃO | doc=*******6172 | valor=831,8600 | qtd=1
+16:32:40 | INFO    | comprasnet.page_itens | Resultado 6/9 salvo.
+16:32:40 | INFO    | comprasnet.page_itens | Resultado 7/9 | card=3445827 | preparando fornecedor=Renato Perez Pucci | doc=*******5110 | valor=554,5700
+16:32:40 | INFO    | comprasnet.page_itens | Item 3445827: clicando diretamente na aba Resultado...
+16:32:40 | INFO    | comprasnet.page_itens | Item 3445827: aba Resultado aberta.
+16:32:42 | INFO    | comprasnet.page_itens | Resultado 7/9 | fornecedor=Renato Perez Pucci | doc=*******5110 | valor=554,5700 | qtd=1
+16:32:43 | INFO    | comprasnet.page_itens | Resultado 7/9 salvo.
+16:32:43 | INFO    | comprasnet.page_itens | Resultado 8/9 | card=3445828 | preparando fornecedor=465 - FR2J CENTRO DE ESTUDOS LTDA | doc=**********0118 | valor=1.016,7000
+16:32:43 | INFO    | comprasnet.page_itens | Item 3445828: clicando diretamente na aba Resultado...
+16:32:44 | INFO    | comprasnet.page_itens | Item 3445828: aba Resultado aberta.
+16:32:46 | INFO    | comprasnet.page_itens | Resultado 8/9 | fornecedor=465 - FR2J CENTRO DE ESTUDOS LTDA | doc=**********0118 | valor=1.016,7000 | qtd=1
+16:32:47 | INFO    | comprasnet.page_itens | Resultado 8/9 salvo.
+16:32:47 | INFO    | comprasnet.page_itens | Resultado 9/9 | card=3445829 | preparando fornecedor=Kelma Helane Amorim de Souza | doc=*******3234 | valor=554,5700
+16:32:47 | INFO    | comprasnet.page_itens | Item 3445829: clicando diretamente na aba Resultado...
+16:32:48 | INFO    | comprasnet.page_itens | Item 3445829: aba Resultado aberta.
+16:32:50 | INFO    | comprasnet.page_itens | Resultado 9/9 | fornecedor=Kelma Helane Amorim de Souza | doc=*******3234 | valor=554,5700 | qtd=1
+16:32:51 | INFO    | comprasnet.page_itens | Resultado 9/9 salvo.
+16:32:51 | INFO    | comprasnet.page_itens | Resultados preenchidos para todos os itens do processo.
+16:32:51 | INFO    | comprasnet.page_itens | ✓ Itens, Local de Entrega e Resultado concluídos para o processo 20.22.0001.0056698.2026-15.
+16:32:51 | INFO    | comprasnet.main | ✓ ETAPA CONCLUÍDA: itens | 65.5s
+16:32:51 | INFO    | comprasnet.main | ✓ Fim das etapas ativas do processo 20.22.0001.0056698.2026-15.
+16:32:51 | INFO    | comprasnet.main | ========================================================================
+16:32:51 | INFO    | comprasnet.main | ✓ EXECUÇÃO FINALIZADA | 73.0s
+16:32:51 | INFO    | comprasnet.main | ========================================================================
