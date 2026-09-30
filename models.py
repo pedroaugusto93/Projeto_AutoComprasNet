@@ -46,6 +46,7 @@ class ItemContratacao:
     STATUS: str = ""
     PERC_CONCLUSAO: str = ""
     DISPENSA_SIGFIS: str = ""
+    PNCP_PERC_Conclusao: str = ""
     FUNDAMENTO_VALUE: str = ""
     NUM_ITEM: str = ""
     QTD_ITEM: str = ""
