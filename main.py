@@ -67,7 +67,7 @@ Etapa = Tuple[
 #   - não gravar percentuais intermediários nesta fase do projeto.
 #
 ETAPAS_ATIVAS: Dict[str, bool] = {
-    "dados_iniciais": False,
+    "dados_iniciais": True,
     "localizar_processo": True,
     "dados_basicos": True,
     "dados_adicionais": True,
