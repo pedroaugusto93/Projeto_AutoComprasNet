@@ -324,7 +324,7 @@ def valores_percentuais_processo_planilha(
     wb = openpyxl.load_workbook(
         caminho,
         data_only=False,
-        read_only=True,
+        read_only=False,
     )
 
     try:
