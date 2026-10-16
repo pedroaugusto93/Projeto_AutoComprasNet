@@ -437,6 +437,7 @@ def executar_processo(
 
 def main() -> int:
 
+    config.solicitar_caminhos()
     config.garantir_diretorios()
 
     inicio_total = time.time()
