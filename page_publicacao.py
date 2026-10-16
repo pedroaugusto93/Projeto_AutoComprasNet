@@ -6,7 +6,7 @@ Fluxo:
   1. Clica em #concluir-contratacao ("Concluir").
   2. Aguarda a confirmação e clica em "Divulgar a contratação".
   3. Aguarda a tela/modal de recibo.
-  4. Salva a página de recibo em ./recibos/<numero_processo>.pdf.
+  4. Salva o recibo em PNCP - PROCESSO - FORNECEDOR.pdf na pasta informada.
   5. Clica em "FECHAR".
   6. Retorna ao main.py, que pode seguir para o próximo processo.
 
@@ -140,59 +140,57 @@ def _processo_do_item(
     ).strip()
 
 
-def _nome_seguro(
-    processo: str,
-) -> str:
-    nome = re.sub(
-        r'[\\/:*?"<>|]+',
-        "-",
-        processo.strip(),
-    )
-
-    nome = re.sub(
-        r"\s+",
-        "_",
-        nome,
-    )
-
-    return nome or "processo"
+def _nome_seguro(valor: str) -> str:
+    """Substitui só caracteres proibidos pelo Windows."""
+    return re.sub(r'[<>:"/\\|?*\x00-\x1f]', "-", valor.strip()).rstrip(" .")
 
 
-def _caminho_recibo(
-    processo: str,
-) -> Path:
+def _fornecedor_do_processo(itens_processo: List[ItemContratacao]) -> str:
+    """Exige identificação inequívoca antes de divulgar a contratação."""
+    nomes = {
+        item.NOME_FORNECEDOR.strip()
+        for item in itens_processo
+        if item.NOME_FORNECEDOR and item.NOME_FORNECEDOR.strip()
+    }
+
+    if not nomes:
+        raise RuntimeError(
+            "Fornecedor não identificado em NOME_FORNECEDOR. "
+            "Publicação interrompida antes de Concluir/Divulgar."
+        )
+    if len(nomes) != 1:
+        raise RuntimeError(
+            "Há fornecedores diferentes para o mesmo processo: "
+            + "; ".join(sorted(nomes))
+            + ". Publicação interrompida antes de Concluir/Divulgar."
+        )
+    return next(iter(nomes))
+
+
+def _caminho_recibo(processo: str, fornecedor: str) -> Path:
+    numero = _nome_seguro(processo)
+    nome_fornecedor = _nome_seguro(fornecedor)
+    if not numero or not nome_fornecedor:
+        raise RuntimeError("Número do processo ou nome do fornecedor inválido.")
+
+    nome_arquivo = f"PNCP - {numero} - {nome_fornecedor}.pdf"
+
+    # O Windows limita cada componente do caminho a 255 caracteres UTF-16.
+    if len(nome_arquivo.encode("utf-16-le")) // 2 > 255:
+        raise RuntimeError(
+            "Nome de recibo excede 255 caracteres. "
+            "Corrija a identificação na origem antes da publicação."
+        )
+
+    return config.pasta_recibos() / nome_arquivo
+
+
+def _salvar_pdf_recibo(driver, destino: Path) -> Path:
     """
-    Um recibo por processo, usando o próprio número do processo
-    como nome do arquivo.
+    Gera o PDF diretamente pelo Chrome DevTools, sem janela nativa do Windows.
+    O modo 'xb' impede sobrescrita, inclusive em situações concorrentes.
     """
-    config.RECIBOS_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    return config.RECIBOS_DIR / (
-        f"{_nome_seguro(processo)}.pdf"
-    )
-
-
-def _salvar_pdf_recibo(
-    driver,
-    processo: str,
-) -> Path:
-    """
-    Gera o PDF diretamente pelo Chrome DevTools.
-
-    Isso evita a janela nativa aberta por Ctrl+P, que não é controlada
-    pelo Selenium e poderia interromper o fluxo automático.
-    """
-    destino = _caminho_recibo(
-        processo
-    )
-
-    log.info(
-        "Gerando PDF do recibo: %s",
-        destino,
-    )
+    log.info("Gerando PDF do recibo: %s", destino)
 
     resultado = driver.execute_cdp_cmd(
         "Page.printToPDF",
@@ -202,35 +200,20 @@ def _salvar_pdf_recibo(
         },
     )
 
-    dados_base64 = resultado.get(
-        "data",
-        "",
-    )
-
+    dados_base64 = resultado.get("data", "")
     if not dados_base64:
-        raise RuntimeError(
-            "O Chrome não retornou os dados do PDF do recibo."
-        )
+        raise RuntimeError("O Chrome não retornou os dados do PDF do recibo.")
 
-    dados = base64.b64decode(
-        dados_base64
-    )
+    dados = base64.b64decode(dados_base64)
+    if not dados.startswith(b"%PDF"):
+        raise RuntimeError("O conteúdo retornado pelo Chrome não é um PDF válido.")
 
-    if not dados.startswith(
-        b"%PDF"
-    ):
-        raise RuntimeError(
-            "O conteúdo retornado pelo Chrome não é um PDF válido."
-        )
+    # Exclusividade de criação: não substitui recibos TCE ou PNCP existentes.
+    with destino.open("xb") as arquivo:
+        arquivo.write(dados)
 
-    destino.write_bytes(
-        dados
-    )
-
-    if not destino.exists() or destino.stat().st_size == 0:
-        raise RuntimeError(
-            f"O recibo não foi gravado corretamente em: {destino}"
-        )
+    if destino.stat().st_size == 0:
+        raise RuntimeError(f"O recibo não foi gravado corretamente em: {destino}")
 
     log.info(
         "✓ Recibo salvo: %s | %.1f KB",
@@ -346,9 +329,19 @@ def executar_processo(
         )
     )
 
+    # Verifica a identificação e a existência do recibo ANTES de divulgar.
+    fornecedor = _fornecedor_do_processo(itens_processo)
+    destino = _caminho_recibo(processo, fornecedor)
+    if destino.exists():
+        raise FileExistsError(
+            f"Já existe recibo PNCP para este processo e fornecedor: {destino}. "
+            "Confira o estado no PNCP antes de tentar publicar novamente."
+        )
+
     log.info(
-        "▶ PUBLICAÇÃO | processo=%s",
+        "▶ PUBLICAÇÃO | processo=%s | fornecedor=%s",
         processo,
+        fornecedor,
     )
 
     log.info(
@@ -396,7 +389,7 @@ def executar_processo(
 
     recibo = _salvar_pdf_recibo(
         driver,
-        processo,
+        destino,
     )
 
     _fechar_recibo(
