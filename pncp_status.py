@@ -19,7 +19,6 @@ funcionalidade futura de retomada inteligente.
 from __future__ import annotations
 
 import time
-from pathlib import Path
 from typing import Iterable, List
 
 import openpyxl
@@ -317,9 +316,7 @@ def valores_percentuais_processo_planilha(
     Esta leitura é deliberadamente independente dos objetos já carregados
     em memória: funciona como segunda trava contra recadastro acidental.
     """
-    caminho = Path(
-        config.PLANILHA_PATH
-    )
+    caminho = config.caminho_planilha()
 
     wb = openpyxl.load_workbook(
         caminho,
@@ -494,9 +491,7 @@ def registrar_etapa_concluida(
     if percentual is None:
         return None
 
-    caminho = Path(
-        config.PLANILHA_PATH
-    )
+    caminho = config.caminho_planilha()
 
     ultimo_erro = None
 
