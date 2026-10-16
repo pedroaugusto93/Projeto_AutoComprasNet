@@ -2,7 +2,7 @@
 """
 Configuração centralizada do Projeto AutoComprasNet.
 
-Caminhos, navegador, tempos, URLs e — importante — as CONSTANTES de negócio
+Caminhos de execução, navegador, tempos, URLs e CONSTANTES de negócio
 (as poucas coisas que não variam por linha da planilha). Todo o resto vem de
 cadastro.xlsx, a mesma planilha do AutoSIGFIS (ver models.ItemContratacao).
 """
@@ -10,7 +10,10 @@ cadastro.xlsx, a mesma planilha do AutoSIGFIS (ver models.ItemContratacao).
 from __future__ import annotations
 
 import os
+import tempfile
 from pathlib import Path
+
+from openpyxl import load_workbook
 
 # --------------------------------------------------------------------------- #
 # CAMINHOS
@@ -18,13 +21,114 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent          # .../Projeto_AutoComprasNet/src
 PROJECT_DIR = BASE_DIR.parent
 
-# Mesma planilha do AutoSIGFIS. Pode ser apontada por env var.
-PLANILHA_PATH = Path(os.getenv("COMPRASNET_PLANILHA", BASE_DIR / "cadastro.xlsx"))
+# Definidos obrigatoriamente pelo terminal, uma vez por execução.
+PLANILHA_PATH: Path | None = None
 SHEET_NAME = os.getenv("COMPRASNET_SHEET", "Sheet1")
 
 LOGS_DIR = Path(os.getenv("COMPRASNET_LOGS", BASE_DIR / "logs"))
 SHOTS_DIR = LOGS_DIR / "shots"
-RECIBOS_DIR = Path(os.getenv("COMPRASNET_RECIBOS", BASE_DIR / "recibos"))
+RECIBOS_DIR: Path | None = None
+
+
+def _limpar_caminho_informado(valor: str) -> Path:
+    """Remove somente espaços excedentes e um par de aspas externas."""
+    texto = valor.strip()
+    if texto.startswith('"') and texto.endswith('"') and len(texto) >= 2:
+        texto = texto[1:-1].strip()
+    if not texto:
+        raise ValueError("O caminho não pode estar vazio.")
+    return Path(texto).expanduser()
+
+
+def _validar_planilha(caminho: Path) -> None:
+    if not caminho.is_file():
+        raise ValueError(f"Arquivo não encontrado: {caminho}")
+    if caminho.suffix.lower() != ".xlsx":
+        raise ValueError("Informe uma planilha .xlsx (compatível com o controle PNCP).")
+
+    try:
+        wb = load_workbook(caminho, read_only=True, data_only=False)
+    except Exception as exc:
+        raise ValueError(f"Não foi possível abrir a planilha .xlsx: {exc}") from exc
+
+    try:
+        if SHEET_NAME not in wb.sheetnames:
+            raise ValueError(f"A aba {SHEET_NAME!r} não existe na planilha.")
+
+        cabecalhos = {
+            str(celula.value or "").strip().casefold()
+            for celula in next(
+                wb[SHEET_NAME].iter_rows(min_row=1, max_row=1),
+                (),
+            )
+        }
+        obrigatorias = {"processo", "nome_fornecedor"}
+        ausentes = obrigatorias - cabecalhos
+        if ausentes:
+            raise ValueError(
+                "Coluna(s) obrigatória(s) ausente(s): "
+                + ", ".join(sorted(ausentes))
+            )
+    finally:
+        wb.close()
+
+
+def _validar_pasta_recibos(caminho: Path) -> None:
+    if not caminho.is_dir():
+        raise ValueError(f"Pasta não encontrada: {caminho}")
+
+    try:
+        # Verifica a gravação real (inclusive em pastas de rede/OneDrive).
+        with tempfile.NamedTemporaryFile(
+            mode="wb", prefix=".pncp_teste_", dir=caminho, delete=True
+        ) as arquivo:
+            arquivo.write(b"teste")
+            arquivo.flush()
+    except OSError as exc:
+        raise ValueError(f"Sem permissão para gravar nesta pasta: {exc}") from exc
+
+
+def solicitar_caminhos() -> None:
+    """Solicita e valida os dois caminhos antes de qualquer processamento."""
+    global PLANILHA_PATH, RECIBOS_DIR
+
+    while True:
+        try:
+            planilha = _limpar_caminho_informado(
+                input("Informe o caminho completo da planilha de cadastro: ")
+            )
+            _validar_planilha(planilha)
+        except ValueError as exc:
+            print(f"Caminho da planilha inválido: {exc}")
+            continue
+        break
+
+    while True:
+        try:
+            recibos = _limpar_caminho_informado(
+                input("Informe o caminho da pasta onde os recibos serão salvos: ")
+            )
+            _validar_pasta_recibos(recibos)
+        except ValueError as exc:
+            print(f"Caminho da pasta de recibos inválido: {exc}")
+            continue
+        break
+
+    # Somente disponibiliza a configuração depois das duas validações.
+    PLANILHA_PATH = planilha
+    RECIBOS_DIR = recibos
+
+
+def caminho_planilha() -> Path:
+    if PLANILHA_PATH is None:
+        raise RuntimeError("Informe os caminhos ao iniciar main.py.")
+    return PLANILHA_PATH
+
+
+def pasta_recibos() -> Path:
+    if RECIBOS_DIR is None:
+        raise RuntimeError("Informe os caminhos ao iniciar main.py.")
+    return RECIBOS_DIR
 
 # --------------------------------------------------------------------------- #
 # NAVEGADOR (Chrome em modo Remote Debugging)
@@ -99,4 +203,3 @@ def garantir_diretorios() -> None:
     """Cria as pastas de saída (logs/shots) se ainda não existirem."""
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     SHOTS_DIR.mkdir(parents=True, exist_ok=True)
-    RECIBOS_DIR.mkdir(parents=True, exist_ok=True)

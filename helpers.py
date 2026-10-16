@@ -22,7 +22,7 @@ log = get_logger(__name__)
 
 def carregar_itens() -> List[ItemContratacao]:
     """Lê a planilha e devolve uma lista de itens (um por linha)."""
-    caminho = config.PLANILHA_PATH
+    caminho = config.caminho_planilha()
     log.info("Lendo planilha: %s | aba: %s", caminho, config.SHEET_NAME)
 
     if not caminho.exists():

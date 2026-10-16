@@ -23,6 +23,7 @@ log = get_logger(__name__)
 
 
 def main() -> int:
+    config.solicitar_caminhos()
     config.garantir_diretorios()
     inicio = time.time()
 

@@ -49,19 +49,38 @@ cd src
 python main.py
 ```
 
+## Caminhos informados ao iniciar
+
+Antes de abrir o navegador e de ler a planilha, o terminal solicita, nesta ordem:
+
+1. `Informe o caminho completo da planilha de cadastro:`
+2. `Informe o caminho da pasta onde os recibos serão salvos:`
+
+Cole os caminhos entre aspas duplas. A validação de cada campo ocorre antes do próximo input. A planilha deve ser `.xlsx` e conter a aba configurada (`Sheet1` por padrão), com colunas `PROCESSO` e `NOME_FORNECEDOR`. A pasta de recibos deve existir e permitir escrita. O programa não cria cópias nem salva esses caminhos para próximas execuções. Os dois projetos (AutoComprasNet e AutoSIGFIS) podem utilizar a mesma planilha e pasta; evite gravações simultâneas na planilha.
+
+Os recibos são gravados como `PNCP - PROCESSO - EMPRESA OU FORNECEDOR.pdf`. Um arquivo já existente jamais é substituído automaticamente. Sem fornecedor identificado, ou com nomes conflitantes para o mesmo processo, a etapa de publicação é interrompida antes do clique em Concluir/Divulgar.
+
 ## Configuração por ambiente (opcional)
 
-Sem editar código, é possível sobrescrever via variáveis de ambiente:
+Somente as outras opções continuam disponíveis por variáveis de ambiente:
 
 | Variável               | Default                          |
 |------------------------|----------------------------------|
-| `COMPRASNET_PLANILHA`  | `src/cadastro.xlsx`              |
 | `COMPRASNET_SHEET`     | `Sheet1`                         |
 | `CHROME_DEBUG_HOST`    | `127.0.0.1`                      |
 | `CHROME_DEBUG_PORT`    | `9222`                           |
 | `TIMEOUT_SECONDS`      | `30`                             |
 | `COMPRASNET_URL`       | URL de execução do ComprasNet    |
 | `COMPRASNET_CODIGO_ITEM` | `21172`                        |
+
+## Testes de regressão
+
+Os testes não acessam nem publicam no ComprasNet:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
 
 ## Logs e evidências
 
